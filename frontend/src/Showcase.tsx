@@ -36,7 +36,8 @@ interface ShowcaseState {
 }
 
 interface ShowcaseProps {
-
+    pageHeader: string
+    troveUrl: string
 }
 
 class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
@@ -60,7 +61,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     }
 
     fetchTrove() {
-        return fetch(`https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince`)
+        return fetch(this.props.troveUrl)
             .then(res => {
                 return res.json() as Promise<Trove>
             })
@@ -68,40 +69,47 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
     render() {
         return (
-            <span>
-                <div>
-                    <div style={{display: "flex"}}>
-                        <div style={{width: "60%"}}>
-                            <input
-                                style={{width: "100%"}}
-                                value={this.state.searchText}
-                                onChange={e => this.onSearchTextChanged(e)}
-                                placeholder="Search by language, country, or title"
-                            />
-                        </div>
-                        <div style={{marginLeft: "20px"}}>
-                            <div style={{float: "left"}}>
-                                <input type="checkbox"
-                                       onChange={e => this.onOnlyDuplicatesChanged(e)}
-                                       checked={this.state.onlyDuplicates}>
-                                </input>
-                            </div>
-                            <label>Show only copies for which I have duplicates (want to make a deal?)</label>
-                        </div>
-                    </div>
-                </div>
+            <div id="main_content_wrap" className="outer">
+                <div id="main_content" className="inner">
+                    <h1>{this.props.pageHeader}</h1>
+                    <p>My collection, painstakingly acquired over the years.</p>
 
-                <section>
-                    Showing {this.state.displayedTroveItems.length} of {this.state.troveItems.length} editions of The Little Prince
-                </section>
-                <section className="column">
-                    {
-                        this.state.displayedTroveItems.map((troveItem, index) => {
-                            return this.renderTroveItem(troveItem, index)
-                        })
-                    }
-                </section>
-            </span>
+                    <span>
+                        <div>
+                            <div style={{display: "flex"}}>
+                                <div style={{width: "60%"}}>
+                                    <input
+                                        style={{width: "100%"}}
+                                        value={this.state.searchText}
+                                        onChange={e => this.onSearchTextChanged(e)}
+                                        placeholder="Search by language, country, or title"
+                                    />
+                                </div>
+                                <div style={{marginLeft: "20px"}}>
+                                    <div style={{float: "left"}}>
+                                        <input type="checkbox"
+                                               onChange={e => this.onOnlyDuplicatesChanged(e)}
+                                               checked={this.state.onlyDuplicates}>
+                                        </input>
+                                    </div>
+                                    <label>Show only copies for which I have duplicates (want to make a deal?)</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <section>
+                            Showing {this.state.displayedTroveItems.length} of {this.state.troveItems.length} editions of The Little Prince
+                        </section>
+                        <section className="column">
+                            {
+                                this.state.displayedTroveItems.map((troveItem, index) => {
+                                    return this.renderTroveItem(troveItem, index)
+                                })
+                            }
+                        </section>
+                    </span>
+                </div>
+            </div>
         );
     }
 

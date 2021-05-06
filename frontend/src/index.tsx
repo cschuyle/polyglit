@@ -7,33 +7,54 @@ import './css/image-grid.css';
 import './css/polyglit.css';
 import './css/Showcase.css';
 
+import {BrowserRouter, Route, Switch} from "react-router-dom";
+
 import Showcase from './Showcase';
+import HomePage from './HomePage';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <React.StrictMode>
-      <div id="header_wrap" className="outer">
-          <header className="inner">
-              <h1 id="project_title">polyglit</h1>
-              <h2 id="project_tagline">A collection of literary works in Lots of Languages</h2>
-          </header>
-      </div>
-      <div id="main_content_wrap" className="outer">
-      <div id="main_content" className="inner">
-          <h1>The Little Prince</h1>
-          <p>My collection, painstakingly acquired over the years.</p>
-          <Showcase />
-      </div>
-      </div>
+    <React.StrictMode>
+        <div id="header_wrap" className="outer">
+            <header className="inner">
+                <h1 id="project_title">polyglit</h1>
+                <h2 id="project_tagline">A collection of literary works in Lots of Languages</h2>
+            </header>
+        </div>
 
-      <div id="footer_wrap" className="outer">
-          <footer className="inner">
-              <p style={{textAlign: "center"}}>polyglit maintained by <a href="https://dragnon.com">Carlton Schuyler</a></p>
-          </footer>
-      </div>
+        <BrowserRouter>
+            <Switch>
+                <Route path="/" exact component={() => <HomePage/>}/>
+                <Route path="/the-little-prince" exact component={() =>
+                    <Showcase
+                        pageHeader="The Little Prince"
+                        troveUrl={"https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince"}
+                    />}
+                />
+                <Route path="/the-hobbit" exact component={() =>
+                    <Showcase
+                        pageHeader="The Hobbit"
+                        troveUrl={"https://moocho-test.s3-us-west-2.amazonaws.com/public/hobbit"}
+                    />}
+                />
+                <Route path="/alice-in-wonderland" exact component={() =>
+                    <Showcase
+                        pageHeader="Alice in Wonderland"
+                        troveUrl={"https://moocho-test.s3-us-west-2.amazonaws.com/public/alice-in-wonderland"}
+                    />}
+                />
+            </Switch>
+        </BrowserRouter>
 
-  </React.StrictMode>,
-  document.getElementById('root')
+        <div id="footer_wrap" className="outer">
+            <footer className="inner">
+                <p style={{textAlign: "center"}}>polyglit maintained by <a href="https://dragnon.com">Carlton
+                    Schuyler</a></p>
+            </footer>
+        </div>
+
+    </React.StrictMode>,
+    document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
