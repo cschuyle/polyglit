@@ -1,4 +1,5 @@
 import React from 'react';
+import popoutFlat from "./images/popout-flat.png"
 
 interface TroveItem {
     littlePrinceItem: {
@@ -16,6 +17,7 @@ interface TroveItem {
         quantity?: number,
         translator?: string,
         year?: string,
+        files?: string[]
     }
 }
 
@@ -154,8 +156,40 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                          alt={troveItem.littlePrinceItem.title}
                     />
                     <div className="caption">{troveItem.littlePrinceItem.language}</div>
+                    {
+                        troveItem.littlePrinceItem.files?.map(file => {
+                            return this.renderExtraFile(file)
+                        })
+                    }
                 </div>
             </a>
+        </div>
+    }
+
+    private renderExtraFile(file: string) {
+        return <div style={{
+            position: "absolute",
+            right: "0px",
+            margin: "-0.8em 1em 0px"
+        }}>
+
+            <span style={{bottom: "0px", right: "0px"}}>
+                <a href={file}
+                   target="_blank">
+                    <img src={popoutFlat}
+                         title="{`Open in new tab: ${file}`}"
+                         alt="Open"
+                         style={{
+                             height: "1.3em",
+                             width: "1.3em",
+                             padding: "0.2em",
+                             marginTop: "0.2em",
+                             float: "left",
+                             opacity: "0.6"
+                         }}
+                    />
+                </a>
+            </span>
         </div>
     }
 }
