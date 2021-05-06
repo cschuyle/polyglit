@@ -1,0 +1,34 @@
+.inner{
+    position: relative;
+    max-width: 640px;
+    padding: 20px 10px;
+    margin: 0 auto;
+}
+
+.thumbnail{
+    vertical-align:top;
+    display:inline-block;
+}
+div.thumbnail{
+    width: 150px;
+    margin: 5px 5px 10px 5px;
+}
+.thumbnail img{
+    horizontal-align:center;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+}
+.thumbnail .caption{
+    width: 150px;
+    margin: 0 20px 0 0;
+    horizontal-align:center;
+    text-align:center;
+    max-height: 90px;
+    margin-top: 10px;
+}
+.thumbnail a{
+    horizontal-align:center;
+    display:inline-block;
+    text-decoration:none;
+    color:black;
+}
