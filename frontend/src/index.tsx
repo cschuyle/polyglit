@@ -22,7 +22,7 @@ ReactDOM.render(
             </header>
         </div>
 
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
             <Switch>
                 <Route path="/" exact component={() => <HomePage/>}/>
                 <Route path="/the-little-prince" exact component={() =>
