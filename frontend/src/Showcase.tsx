@@ -121,37 +121,46 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     }
 
     private onOnlyDuplicatesChanged(e: React.ChangeEvent<HTMLInputElement>) {
-        console.log(`only duplicates value is ${e.target.checked}`)
+        console.log(`only duplicates value is ${e.currentTarget.checked}`)
         this.setState({
             searchText: this.state.searchText,
             onlyDuplicates: e.target.checked
         });
-        this.search(this.state.searchText, e.target.checked);
+        this.search(this.state.searchText, e.currentTarget.checked);
     }
 
     private search(searchText: string, onlyDuplicates: boolean) {
         this.setState({
-            displayedTroveItems: searchText
-                ? this.state.troveItems.filter(this.troveItemMatches(searchText, onlyDuplicates))
-                : this.state.troveItems
+            displayedTroveItems: this.state.troveItems.filter(this.troveItemMatches(searchText, onlyDuplicates))
         })
     }
 
     private troveItemMatches(searchText: string, onlyDuplicates: boolean) {
-        if (onlyDuplicates) {
-            return (troveItem: TroveItem) =>
-                (troveItem.littlePrinceItem.language.toLowerCase().includes(searchText.toLowerCase()) ||
+
+        let searchByText = (_: TroveItem) => {
+            return true
+        }
+
+        if (searchText) {
+            searchByText = (troveItem) => {
+                return (
+                    troveItem.littlePrinceItem.language.toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem.title.toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem["publication-country"]?.toLowerCase().includes(searchText.toLowerCase()) ||
-                    troveItem.littlePrinceItem["publication-location"]?.toLowerCase().includes(searchText.toLowerCase()))
-                && (troveItem.littlePrinceItem.quantity ?? 1) > 1
+                    troveItem.littlePrinceItem["publication-location"]?.toLowerCase().includes(searchText.toLowerCase())
+                ) || false
+            }
         }
-        return (troveItem: TroveItem) =>
-            troveItem.littlePrinceItem.language.toLowerCase().includes(searchText.toLowerCase()) ||
-            troveItem.littlePrinceItem.title.toLowerCase().includes(searchText.toLowerCase()) ||
-            troveItem.littlePrinceItem["publication-country"]?.toLowerCase().includes(searchText.toLowerCase()) ||
-            troveItem.littlePrinceItem["publication-location"]?.toLowerCase().includes(searchText.toLowerCase())
-            ;
+
+        let searchByDuplicates = searchByText
+
+        if (onlyDuplicates) {
+            searchByDuplicates = troveItem => {
+                return searchByText(troveItem) && (troveItem.littlePrinceItem.quantity ?? 1) > 1
+            }
+        }
+
+        return searchByDuplicates
     }
 
     private renderTroveItem(troveItem: TroveItem, key: any) {
