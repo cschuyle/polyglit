@@ -7,7 +7,7 @@ import './css/image-grid.css';
 import './css/polyglit.css';
 import './css/Showcase.css';
 
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 import Showcase from './Showcase';
 import HomePage from './HomePage';
@@ -22,7 +22,7 @@ ReactDOM.render(
             </header>
         </div>
 
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <Router basename={process.env.PUBLIC_URL}>
             <Switch>
                 <Route path="/" exact component={() => <HomePage/>}/>
                 <Route path="/the-little-prince" exact component={() =>
@@ -44,7 +44,7 @@ ReactDOM.render(
                     />}
                 />
             </Switch>
-        </BrowserRouter>
+        </Router>
 
         <div id="footer_wrap" className="outer">
             <footer className="inner">
