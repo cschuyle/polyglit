@@ -1,6 +1,6 @@
 {
-  "name": "polyglit-2",
-  "homepage": "https://cschuyle.github.io/polyglit-2",
+  "name": "polyglit",
+  "homepage": "https://cschuyle.github.io/polyglit",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
