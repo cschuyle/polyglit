@@ -183,9 +183,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
             <span style={{bottom: "0px", right: "0px"}}>
                 <a href={file}
-                   target="_blank">
+                   target="_blank"
+                   rel="noreferrer">
                     <img src={popoutFlat}
-                         title="{`Open in new tab: ${file}`}"
+                         title={`Open in new tab: ${file}`}
                          alt="Open"
                          style={{
                              height: "1.3em",
