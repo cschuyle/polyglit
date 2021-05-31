@@ -27,20 +27,23 @@ ReactDOM.render(
                 <Route path="/" exact component={() => <HomePage/>}/>
                 <Route path="/the-little-prince" exact component={() =>
                     <Showcase
-                        pageHeader="The Little Prince"
+                        pageHeader="The Little Prince (Le Petit Prince) by Antoine de Saint-Exupéry"
                         troveUrl={"https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince"}
+                        collectionTitle="The Little Prince"
                     />}
                 />
                 <Route path="/the-hobbit" exact component={() =>
                     <Showcase
-                        pageHeader="The Hobbit"
+                        pageHeader="The Hobbit, or There and Back Again - by J.R.R. Tolkien"
                         troveUrl={"https://moocho-test.s3-us-west-2.amazonaws.com/public/hobbit"}
+                        collectionTitle = "The Hobbit"
                     />}
                 />
                 <Route path="/alice-in-wonderland" exact component={() =>
                     <Showcase
-                        pageHeader="Alice in Wonderland"
+                        pageHeader="Alice's Adventures in Wonderland, by Lewis Carroll"
                         troveUrl={"https://moocho-test.s3-us-west-2.amazonaws.com/public/alice-in-wonderland"}
+                        collectionTitle = "Alice in Wonderland"
                     />}
                 />
             </Switch>

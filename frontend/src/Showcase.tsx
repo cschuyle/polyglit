@@ -45,6 +45,7 @@ interface ShowcaseState {
 interface ShowcaseProps {
     pageHeader: string
     troveUrl: string
+    collectionTitle: string
 }
 
 class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
@@ -105,7 +106,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         </div>
 
                         <section>
-                            Showing {this.state.displayedTroveItems.length} of {this.state.troveItems.length} editions of The Little Prince
+                            Showing {this.state.displayedTroveItems.length} of {this.state.troveItems.length} editions of {this.props.collectionTitle}
                         </section>
                         <section className="column">
                             {
