@@ -46,6 +46,13 @@ ReactDOM.render(
                         collectionTitle = "Alice in Wonderland"
                     />}
                 />
+                <Route path="/other-titles" exact component={() =>
+                    <Showcase
+                        pageHeader="Collection: Not originally in English"
+                        troveUrl={"https://moocho-test.s3-us-west-2.amazonaws.com/public/books"}
+                        collectionTitle = "opportunistically-acquired titles, either translated from, or in the original non-English text"
+                    />}
+                />
             </Switch>
         </Router>
 

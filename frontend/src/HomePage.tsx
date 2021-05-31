@@ -9,6 +9,7 @@ class HomePage extends React.Component {
 - [The Little Prince](./the-little-prince)
 - [The Hobbit](./the-hobbit)
 - [The Adventures of Alice in Wonderland](./alice-in-wonderland)
+- [Other titles](./other-titles)
 
 # What's a Polyglit??
 
@@ -44,7 +45,7 @@ I'll generally go for [The Hobbit](the-hobbit), or [Alice in Wonderland](alice-i
 Failing the above, I cast about for whatever I can find: Translations into local languages or local literature.
 I like to find children's books because it's easier to learn from them as a beginner.
 And of course, language learning materials.
-Here are the [foreign-language books](foreign-language-books) I've acquired.
+Here are some of the books [not originally in English](other-titles) that I've acquired.
 
 ## Non-dead-tree options
 
