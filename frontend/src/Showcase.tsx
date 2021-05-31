@@ -21,6 +21,13 @@ interface TroveItem {
     }
 }
 
+function compareTroveItem(a:TroveItem, b:TroveItem) {
+    if (a.littlePrinceItem.language >= b.littlePrinceItem.language) {
+        return 1
+    }
+    return -1
+}
+
 interface Trove {
     id: string,
     name: string,
@@ -55,7 +62,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     componentDidMount() {
         this.fetchTrove().then(trove => {
             console.log(`Got ${trove.items.length} Trove items`)
-            this.setState({troveItems: trove.items});
+            this.setState({troveItems: trove.items.sort(compareTroveItem)});
             this.search("", false)
         })
     }
