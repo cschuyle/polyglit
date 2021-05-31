@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/polyglit/static/css/main.38749f11.chunk.css",
-    "main.js": "/polyglit/static/js/main.77c8f715.chunk.js",
-    "main.js.map": "/polyglit/static/js/main.77c8f715.chunk.js.map",
+    "main.css": "/polyglit/static/css/main.38031fb2.chunk.css",
+    "main.js": "/polyglit/static/js/main.7ed59053.chunk.js",
+    "main.js.map": "/polyglit/static/js/main.7ed59053.chunk.js.map",
     "runtime-main.js": "/polyglit/static/js/runtime-main.7751a493.js",
     "runtime-main.js.map": "/polyglit/static/js/runtime-main.7751a493.js.map",
     "static/js/2.9baa771a.chunk.js": "/polyglit/static/js/2.9baa771a.chunk.js",
@@ -10,7 +10,7 @@
     "static/js/3.b167a1f3.chunk.js": "/polyglit/static/js/3.b167a1f3.chunk.js",
     "static/js/3.b167a1f3.chunk.js.map": "/polyglit/static/js/3.b167a1f3.chunk.js.map",
     "index.html": "/polyglit/index.html",
-    "static/css/main.38749f11.chunk.css.map": "/polyglit/static/css/main.38749f11.chunk.css.map",
+    "static/css/main.38031fb2.chunk.css.map": "/polyglit/static/css/main.38031fb2.chunk.css.map",
     "static/js/2.9baa771a.chunk.js.LICENSE.txt": "/polyglit/static/js/2.9baa771a.chunk.js.LICENSE.txt",
     "static/media/popout-flat.8676d87d.png": "/polyglit/static/media/popout-flat.8676d87d.png",
     "static/media/style.css": "/polyglit/static/media/sprite_download.f83d7342.png"
@@ -18,7 +18,7 @@
   "entrypoints": [
     "static/js/runtime-main.7751a493.js",
     "static/js/2.9baa771a.chunk.js",
-    "static/css/main.38749f11.chunk.css",
-    "static/js/main.77c8f715.chunk.js"
+    "static/css/main.38031fb2.chunk.css",
+    "static/js/main.7ed59053.chunk.js"
   ]
 }
