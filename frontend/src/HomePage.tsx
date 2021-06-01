@@ -46,17 +46,6 @@ Failing the above, I cast about for whatever I can find: Translations into local
 I like to find children's books because it's easier to learn from them as a beginner.
 And of course, language learning materials.
 Here are some of the books [not originally in English](other-titles) that I've acquired.
-
-## Non-dead-tree options
-
-I also "have" some electronic-only material:
-
-* [Alice in Wonderland in Lojban](http://alis.lojban.org/) (or, [archived locally](alice-in-wonderland-in-lojban))
-* [The Little Prince in Esperanto](https://drive.google.com/file/d/0B9qESZHpLQVvZGRQRDl3VzIzakk/view)  (or, [archived locally](the-little-prince-in-esperanto/La%20eta%20princo.pdf))
-* [The Little Prince in Tamashek](the-little-prince-in-amazigh/the%20little%20prince%20in%20amazigh.pdf)
-* Various [translations of The Little Prince](http://www.laetaprinco.org/), including but not limited to:
-   * [Mandarin](http://www.laetaprinco.org/index.php?page=0&lang=cn)
-   * [Arabic](http://www.laetaprinco.org/index.php?page=0&lang=ar) (although on my computer there is a small number of missing characters in my font set)
    
 ## Translations are boring
 
