@@ -76,7 +76,7 @@ So, here are some books I've acquired over the years in their original language:
         return (
             <div id="main_content_wrap" className="outer">
                 <section id="main_content" className="inner">
-                    <ReactMarkdown children={this.body}></ReactMarkdown>
+                    <ReactMarkdown children={this.body}/>
                 </section>
             </div>
         )
