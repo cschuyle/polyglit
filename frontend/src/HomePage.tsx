@@ -70,7 +70,7 @@ So, here are some books I've acquired over the years in their original language:
 * Βίος και Πολιτεία του Αλέξη Ζορμπά (Greek)
 * Örtlich Betäubt (German)
 * Marvirinstrato (Esperanto) 
-* Le capital au XXI<sup>e</sup> siècle`
+* Le capital au XXIe siècle`
 
     render() {
         return (
