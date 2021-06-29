@@ -1,5 +1,6 @@
 import React from 'react';
 import popoutFlat from "./images/popout-flat.png"
+import {Button, Checkbox, FormControlLabel, TextField, Tooltip} from "@material-ui/core";
 
 interface TroveItem {
     littlePrinceItem: {
@@ -85,8 +86,9 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     <span>
                         <div>
                             <div style={{display: "flex"}}>
-                                <div style={{width: "60%"}}>
-                                    <input
+                                <div style={{width: "90%"}}>
+                                    <TextField label="Search by language, country, or title"
+                                               type="search" variant="outlined"
                                         style={{width: "100%"}}
                                         value={this.state.searchText}
                                         onChange={e => this.onSearchTextChanged(e)}
@@ -95,19 +97,30 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                 </div>
                                 <div style={{marginLeft: "20px"}}>
                                     <div style={{float: "left"}}>
-                                        <input type="checkbox"
-                                               onChange={e => this.onOnlyDuplicatesChanged(e)}
-                                               checked={this.state.onlyDuplicates}>
-                                        </input>
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    checked={this.state.onlyDuplicates}
+                                                    onChange={e => this.onOnlyDuplicatesChanged(e)}
+                                                    color="default"
+                                                />
+                                            }
+                                            label={
+                                                <Tooltip title="Send me an email at carl@dragnon.com" arrow>
+                                                    <div>Show only copies for which I have duplicates (want to make a deal?)</div>
+                                                </Tooltip>
+                                            }
+
+                                        />
                                     </div>
-                                    <label>Show only copies for which I have duplicates (want to make a deal?)</label>
                                 </div>
                             </div>
                         </div>
-
+                        <p/>
                         <section>
                             Showing {this.state.displayedTroveItems.length} of {this.state.troveItems.length} editions of {this.props.collectionTitle}
                         </section>
+                        <p/>
                         <section className="column">
                             {
                                 this.state.displayedTroveItems.map((troveItem, index) => {
@@ -121,7 +134,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         );
     }
 
-    private onSearchTextChanged(e: React.ChangeEvent<HTMLInputElement>) {
+    private onSearchTextChanged(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
         this.setState({
             searchText: e.target.value
         });
