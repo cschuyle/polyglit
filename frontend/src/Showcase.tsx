@@ -61,17 +61,15 @@ const BigWhiteTooltip = withStyles({
         "&:before": {
             border: "1px solid #444444"
         },
-        color: "#f2f2f2"
+        color: "white"
     },
     tooltip: {
         fontSize: "1em",
-        backgroundColor: "#f2f2f2",
+        backgroundColor: "white",
         border: "1px solid #444444",
         color: "#444444",
         borderRadius: ".2em",
         boxShadow: "0 0 0.5em 0.5em #f2f2f2"
-        // filter: "blur(.1em)"
-        // boxShadow: "0 30px 40px rgba(0,0,0,.1)"
     }
 })(Tooltip);
 
