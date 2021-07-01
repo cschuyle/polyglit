@@ -25,28 +25,28 @@ ReactDOM.render(
         <Router basename={process.env.PUBLIC_URL}>
             <Switch>
                 <Route path="/" exact component={() => <HomePage/>}/>
-                <Route path="/the-little-prince" exact component={() =>
+                <Route path={["/the-little-prince", "/little-prince", "/littleprince"]} exact component={() =>
                     <Showcase
                         pageHeader="The Little Prince (Le Petit Prince) by Antoine de Saint-Exupéry"
                         troveUrl={"https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince"}
                         collectionTitle="The Little Prince"
                     />}
                 />
-                <Route path="/the-hobbit" exact component={() =>
+                <Route path={["/the-hobbit", "/hobbit", "/thehobbit"]} exact component={() =>
                     <Showcase
                         pageHeader="The Hobbit, or There and Back Again - by J.R.R. Tolkien"
                         troveUrl={"https://moocho-test.s3-us-west-2.amazonaws.com/public/hobbit"}
                         collectionTitle = "The Hobbit"
                     />}
                 />
-                <Route path="/alice-in-wonderland" exact component={() =>
+                <Route path={["/alice-in-wonderland", "/alice", "aliceinwonderland"]} exact component={() =>
                     <Showcase
                         pageHeader="Alice's Adventures in Wonderland, by Lewis Carroll"
                         troveUrl={"https://moocho-test.s3-us-west-2.amazonaws.com/public/alice-in-wonderland"}
                         collectionTitle = "Alice in Wonderland"
                     />}
                 />
-                <Route path="/other-titles" exact component={() =>
+                <Route path={["/other-titles", "/other", "/othertitles"]} exact component={() =>
                     <Showcase
                         pageHeader="Collection: Not originally in English"
                         troveUrl={"https://moocho-test.s3-us-west-2.amazonaws.com/public/books"}

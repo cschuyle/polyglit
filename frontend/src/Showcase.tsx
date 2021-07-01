@@ -314,8 +314,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         </div>
     }
 
-    private isPresent(e: any): Boolean {
-        return e != undefined && e != ''
+    private isPresent(value: any | null | undefined): value is null | undefined {
+        return !(value === null || value === undefined || value === '');
     }
 
     private constructTranslationTitle(troveItem: TroveItem) {
