@@ -48,6 +48,7 @@ interface ShowcaseState {
     displayedTroveItems: TroveItem[],
     searchText: string
     onlyDuplicates: boolean
+    onlyPdfs: boolean
 }
 
 interface ShowcaseProps {
@@ -80,7 +81,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             troveItems: [],
             displayedTroveItems: [],
             searchText: "",
-            onlyDuplicates: false
+            onlyDuplicates: false,
+            onlyPdfs: false
         }
     }
 
@@ -88,7 +90,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         this.fetchTrove().then(trove => {
             console.log(`Got ${trove.items.length} Trove items`)
             this.setState({troveItems: trove.items.sort(compareTroveItem)});
-            this.search("", false)
+            this.search("", false, false)
         })
     }
 
@@ -135,14 +137,23 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                                     arrow
                                                     interactive
                                                     placement="bottom-start">
-                                                    <div>Show only copies for which I have duplicates <i><strong>(want
-                                                        to make a
-                                                        deal?)</strong></i>
+                                                    <div>Show only copies for which I have duplicates
+                                                        <i><strong> (want to make a deal?)</strong></i>
                                                     </div>
                                                 </BigWhiteTooltip>
                                             }
                                         />
                                     </div>
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    checked={this.state.onlyPdfs}
+                                                    onChange={e => this.onOnlyPdfsChanged(e)}
+                                                    color="default"
+                                                />
+                                            }
+                                            label="Show only PDFs"
+                                        />
                                 </div>
                             </div>
                         </div>
@@ -168,25 +179,30 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         this.setState({
             searchText: e.target.value
         });
-        this.search(e.currentTarget.value, this.state.onlyDuplicates);
+        this.search(e.currentTarget.value, this.state.onlyDuplicates, this.state.onlyPdfs);
     }
 
     private onOnlyDuplicatesChanged(e: React.ChangeEvent<HTMLInputElement>) {
-        console.log(`only duplicates value is ${e.currentTarget.checked}`)
         this.setState({
-            searchText: this.state.searchText,
             onlyDuplicates: e.target.checked
         });
-        this.search(this.state.searchText, e.currentTarget.checked);
+        this.search(this.state.searchText, e.currentTarget.checked, this.state.onlyPdfs);
     }
 
-    private search(searchText: string, onlyDuplicates: boolean) {
+    private onOnlyPdfsChanged(e: React.ChangeEvent<HTMLInputElement>) {
         this.setState({
-            displayedTroveItems: this.state.troveItems.filter(this.troveItemMatches(searchText, onlyDuplicates))
+            onlyPdfs: e.target.checked
+        });
+        this.search(this.state.searchText, this.state.onlyDuplicates, e.currentTarget.checked);
+    }
+
+    private search(searchText: string, onlyDuplicates: boolean, onlyPdfs: boolean) {
+        this.setState({
+            displayedTroveItems: this.state.troveItems.filter(this.troveItemMatches(searchText, onlyDuplicates, onlyPdfs))
         })
     }
 
-    private troveItemMatches(searchText: string, onlyDuplicates: boolean) {
+    private troveItemMatches(searchText: string, onlyDuplicates: boolean, onlyPdfs: boolean) {
 
         let searchByText = (_: TroveItem) => {
             return true
@@ -215,7 +231,16 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             }
         }
 
-        return searchByDuplicates
+        let searchByPdf = searchByDuplicates
+
+        if (onlyPdfs) {
+            searchByPdf = troveItem => {
+                return searchByDuplicates(troveItem) &&
+                    (troveItem.littlePrinceItem.files != null && troveItem.littlePrinceItem.files.filter(file => file.toLowerCase().includes(".pdf")).length > 0)
+            }
+        }
+
+        return searchByPdf
     }
 
     private renderTroveItem(troveItem: TroveItem, key: any) {
