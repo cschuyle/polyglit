@@ -25,7 +25,9 @@ interface TroveItem {
         "language-spoken-in"?: string,
         "script"?: string,
         "tags"?: string[],
-        "comments"?: string
+        "comments"?: string,
+        "date-acquired"?: string,
+        "acquired-from"?: string
     }
 }
 
@@ -266,6 +268,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             'publisher',
             'publication-country',
             'publication-location',
+            'acquisition-blurb',
             "tags",
             "comments"
         ]
@@ -294,10 +297,12 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     return createRow("Published", this.constructPublicationBlurb(troveItem.littlePrinceItem))
                 case 'year':
                     return createRow("Publication year", troveItem.littlePrinceItem.year)
-                case 'comments':
-                    return createRow(null, troveItem.littlePrinceItem.comments)
                 case 'tags':
                     return createRow("Tags", this.constructTagsBlurb(troveItem.littlePrinceItem.tags))
+                case 'acquisition-blurb':
+                    return createRow("Acquired", this.constructAquisitionBlurb(troveItem.littlePrinceItem))
+                case 'comments':
+                    return createRow(null, troveItem.littlePrinceItem.comments)
             }
         }).filter(e => e != null && this.isPresent(e.value))
 
@@ -389,6 +394,24 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             return `by ${publisher} in ${publicationCountry}`
         }
         return `by ${publisher} in ${publicationLocation}, ${publicationCountry}`
+    }
+
+    // TODO make URLs into links, and format dates
+    private constructAquisitionBlurb(item: { "acquired-from"?: string, "date-acquired"?: string }) {
+        let acquiredFrom = item["acquired-from"]
+        let dateAcquired = item["date-acquired"]
+        if (!(this.isPresent(acquiredFrom) || this.isPresent(dateAcquired))) {
+            return null
+        }
+        if (this.isPresent(acquiredFrom) && this.isPresent(dateAcquired)) {
+            return `from ${acquiredFrom} on ${dateAcquired}`
+        }
+        if(!this.isPresent(dateAcquired)) {
+            return `from ${acquiredFrom}`
+        }
+        if(!this.isPresent(dateAcquired)) {
+            return `on ${dateAcquired}`
+        }
     }
 
     private constructTagsBlurb(tags: string[] | undefined): string | null {
