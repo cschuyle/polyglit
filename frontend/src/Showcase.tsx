@@ -246,8 +246,9 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             enterDelay={300}
             enterNextDelay={300}
         >
-            <a target="_blank" href={troveItem.littlePrinceItem.largeImageUrl}>
-                <div className="thumbnail" key={key}>
+
+            <div className="thumbnail" key={key}>
+                <a target="_blank" href={troveItem.littlePrinceItem.largeImageUrl}>
                     <div style={{position: "relative"}}>
                         <img width="150" height={"100%"}
                              src={troveItem.littlePrinceItem.smallImageUrl}
@@ -255,9 +256,9 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                              alt={troveItem.littlePrinceItem.title}
                         />
                     </div>
-                    <div className="caption">{troveItem.littlePrinceItem.language}</div>
-                </div>
-            </a>
+                </a>
+                <div className="caption">{troveItem.littlePrinceItem.language}</div>
+            </div>
         </BigWhiteTooltip>
     }
 
