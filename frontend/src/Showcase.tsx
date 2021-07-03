@@ -1,6 +1,11 @@
 import React from 'react';
 import popoutFlat from "./images/popout-flat.png"
-import {Checkbox, FormControlLabel, TextField, Tooltip, withStyles} from "@material-ui/core";
+import pdfIcon from "./images/pdf.png"
+import documentIcon from "./images/document.png"
+import closedBookIcon from "./images/closed-book.png"
+import audibookIcon from "./images/audiobook.png"
+
+import {Checkbox, FormControlLabel, Grid, TextField, Tooltip, withStyles} from "@material-ui/core";
 
 interface TroveItem {
     littlePrinceItem: {
@@ -71,7 +76,17 @@ const BigWhiteTooltip = withStyles({
         border: "1px solid #444444",
         color: "#444444",
         borderRadius: ".2em",
-        boxShadow: "0 0 0.5em 0.5em #f2f2f2"
+        boxShadow: "0 0 0.5em 0.5em #f2f2f2",
+        maxWidth: "none", // TODO this is not a good solution to the problem of the icons showing up after the rest of the text
+    }
+})(Tooltip);
+
+const SmallTooltip = withStyles({
+    tooltip: {
+        fontSize: "1em",
+        backgroundColor: "lightyellow",
+        color: "darkslategray",
+        border: "1px solid black",
     }
 })(Tooltip);
 
@@ -232,24 +247,16 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             enterNextDelay={300}
         >
             <div className="thumbnail" key={key}>
-                <a href={troveItem.littlePrinceItem.largeImageUrl}>
-                    <div style={{position: "relative"}}>
-                        <img width="150"
-                             src={troveItem.littlePrinceItem.smallImageUrl}
-                            // title={troveItem.littlePrinceItem.title}
-                             alt={troveItem.littlePrinceItem.title}
-                        />
-                        <div className="caption">{troveItem.littlePrinceItem.language}</div>
-                        {
-                            troveItem.littlePrinceItem.files?.map(file => {
-                                return this.renderExtraFile(file)
-                            })
-                        }
-                    </div>
-                </a>
+                <div style={{position: "relative"}}>
+                    <img width="150" height={"100%"}
+                         src={troveItem.littlePrinceItem.smallImageUrl}
+                        // title={troveItem.littlePrinceItem.title}
+                         alt={troveItem.littlePrinceItem.title}
+                    />
+                </div>
+                <div className="caption">{troveItem.littlePrinceItem.language}</div>
             </div>
         </BigWhiteTooltip>
-
     }
 
     private troveItemTooltipContents(troveItem: TroveItem) {
@@ -306,19 +313,37 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             }
         }).filter(e => e != null && this.isPresent(e.value))
 
-        return <div>
-            <strong><i>{troveItem.littlePrinceItem.title}</i></strong>
-            <p/>{
-            rows.map((row) => {
-                    if (row?.field != null) {
-                        return <span><strong>{row?.field}:</strong> {row?.value}
-                            <p/>
-                </span>
-                    }
-                    return <span>{row?.value}</span>
+        return <Grid container direction={"row"} spacing={2}>
+            <Grid item direction={"column"} justify={"center"}>
+                {
+                    <Grid item>
+                        {this.renderDocumentLink(troveItem.littlePrinceItem.largeImageUrl)}
+                    </Grid>
                 }
-            )}
-        </div>
+                {
+                    troveItem.littlePrinceItem.files?.map(filename => {
+                        return <Grid item>
+                            {this.renderDocumentLink(filename)}
+                        </Grid>
+                    })
+                }
+            </Grid>
+            <Grid item>
+                <div>
+                    <strong><i>{troveItem.littlePrinceItem.title}</i></strong>
+                    <p/>{
+                    rows.map((row) => {
+                            if (row?.field != null) {
+                                return <span><strong>{row?.field}:</strong> {row?.value}
+                                    <p/>
+                </span>
+                            }
+                            return <span>{row?.value}</span>
+                        }
+                    )}
+                </div>
+            </Grid>
+        </Grid>
     }
 
     private isPresent(value: any | null | undefined): value is null | undefined {
@@ -343,32 +368,19 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         return language;
     }
 
-    private renderExtraFile(file: string) {
-        return <div style={{
-            position: "absolute",
-            right: "0px",
-            margin: "-0.8em 1em 0px"
-        }}>
-
-            <span style={{bottom: "0px", right: "0px"}}>
-            <a href={file}
-               target="_blank"
-               rel="noreferrer">
-            <img src={popoutFlat}
-                 title={`Open in new tab: ${file}`}
-                 alt="Open"
-                 style={{
-                     height: "1.3em",
-                     width: "1.3em",
-                     padding: "0.2em",
-                     marginTop: "0.2em",
-                     float: "left",
-                     opacity: "0.6"
-                 }}
-            />
-            </a>
-            </span>
-        </div>
+    private renderDocumentLink(file: string) {
+        let [fileType, icon] = this.iconFor(file)
+        return <a href={file}
+                  target="_blank"
+                  rel="noreferrer">
+            <SmallTooltip title={`Open ${fileType} in new tab`} placement="left-end">
+                <img style={{'padding': 0, 'margin': 0, 'border': 0, 'boxShadow': '0', 'filter': "grayscale(50%)"}}
+                     src={icon}
+                     width={"32px"} height={"32px"}
+                     alt="Open"
+                />
+            </SmallTooltip>
+        </a>
     }
 
     private constructPublicationBlurb(item: { title: string; largeImageUrl: string; language: string; smallImageUrl: string; format?: string; illustrator?: string; isbn13?: string; narrator?: string; "publication-country"?: string; "publication-location"?: string; publisher?: string; quantity?: number; translator?: string; year?: string; files?: string[]; "translation-title"?: string; "translation-title-transliterated"?: string; "language-spoken-in"?: string; script?: string; tags?: string[]; comments?: string }) {
@@ -406,10 +418,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         if (this.isPresent(acquiredFrom) && this.isPresent(dateAcquired)) {
             return `from ${acquiredFrom} on ${dateAcquired}`
         }
-        if(!this.isPresent(dateAcquired)) {
+        if (!this.isPresent(dateAcquired)) {
             return `from ${acquiredFrom}`
         }
-        if(!this.isPresent(dateAcquired)) {
+        if (!this.isPresent(dateAcquired)) {
             return `on ${dateAcquired}`
         }
     }
@@ -419,6 +431,23 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             return null
         }
         return tags!!.join(", ")
+    }
+
+    private iconFor(filename: string) {
+        filename = filename.toLowerCase();
+        if (filename.endsWith(".png") || filename.endsWith(".gif") || filename.endsWith(".jpg") || filename.endsWith(".jpeg")) {
+            return ["cover image", closedBookIcon]
+        }
+        if (filename.endsWith(".pdf")) {
+            return ["PDF", pdfIcon]
+        }
+        if (filename.endsWith(".doc") || filename.endsWith(".docx")) {
+            return ["document", documentIcon]
+        }
+        if (filename.endsWith(".mp3")) {
+            return ["audio file", audibookIcon]
+        }
+        return ["file", popoutFlat]
     }
 }
 
