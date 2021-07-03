@@ -1,24 +1,28 @@
 {
   "files": {
     "main.css": "/polyglit/static/css/main.38749f11.chunk.css",
-    "main.js": "/polyglit/static/js/main.adbf7bd8.chunk.js",
-    "main.js.map": "/polyglit/static/js/main.adbf7bd8.chunk.js.map",
-    "runtime-main.js": "/polyglit/static/js/runtime-main.17c17b1c.js",
-    "runtime-main.js.map": "/polyglit/static/js/runtime-main.17c17b1c.js.map",
-    "static/js/2.b5596040.chunk.js": "/polyglit/static/js/2.b5596040.chunk.js",
-    "static/js/2.b5596040.chunk.js.map": "/polyglit/static/js/2.b5596040.chunk.js.map",
-    "static/js/3.624eb3de.chunk.js": "/polyglit/static/js/3.624eb3de.chunk.js",
-    "static/js/3.624eb3de.chunk.js.map": "/polyglit/static/js/3.624eb3de.chunk.js.map",
+    "main.js": "/polyglit/static/js/main.71f4a49a.chunk.js",
+    "main.js.map": "/polyglit/static/js/main.71f4a49a.chunk.js.map",
+    "runtime-main.js": "/polyglit/static/js/runtime-main.ceb2c5de.js",
+    "runtime-main.js.map": "/polyglit/static/js/runtime-main.ceb2c5de.js.map",
+    "static/js/2.f778d36d.chunk.js": "/polyglit/static/js/2.f778d36d.chunk.js",
+    "static/js/2.f778d36d.chunk.js.map": "/polyglit/static/js/2.f778d36d.chunk.js.map",
+    "static/js/3.72d18a21.chunk.js": "/polyglit/static/js/3.72d18a21.chunk.js",
+    "static/js/3.72d18a21.chunk.js.map": "/polyglit/static/js/3.72d18a21.chunk.js.map",
     "index.html": "/polyglit/index.html",
     "static/css/main.38749f11.chunk.css.map": "/polyglit/static/css/main.38749f11.chunk.css.map",
-    "static/js/2.b5596040.chunk.js.LICENSE.txt": "/polyglit/static/js/2.b5596040.chunk.js.LICENSE.txt",
+    "static/js/2.f778d36d.chunk.js.LICENSE.txt": "/polyglit/static/js/2.f778d36d.chunk.js.LICENSE.txt",
+    "static/media/audiobook.cd1398bf.png": "/polyglit/static/media/audiobook.cd1398bf.png",
+    "static/media/closed-book.7a0ef690.png": "/polyglit/static/media/closed-book.7a0ef690.png",
+    "static/media/document.2d3b7428.png": "/polyglit/static/media/document.2d3b7428.png",
+    "static/media/pdf.5a5d0ba1.png": "/polyglit/static/media/pdf.5a5d0ba1.png",
     "static/media/popout-flat.8676d87d.png": "/polyglit/static/media/popout-flat.8676d87d.png",
     "static/media/style.css": "/polyglit/static/media/sprite_download.f83d7342.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.17c17b1c.js",
-    "static/js/2.b5596040.chunk.js",
+    "static/js/runtime-main.ceb2c5de.js",
+    "static/js/2.f778d36d.chunk.js",
     "static/css/main.38749f11.chunk.css",
-    "static/js/main.adbf7bd8.chunk.js"
+    "static/js/main.71f4a49a.chunk.js"
   ]
 }
