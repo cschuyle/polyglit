@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/polyglit/static/css/main.38749f11.chunk.css",
-    "main.js": "/polyglit/static/js/main.71f4a49a.chunk.js",
-    "main.js.map": "/polyglit/static/js/main.71f4a49a.chunk.js.map",
+    "main.js": "/polyglit/static/js/main.6a2bc6a4.chunk.js",
+    "main.js.map": "/polyglit/static/js/main.6a2bc6a4.chunk.js.map",
     "runtime-main.js": "/polyglit/static/js/runtime-main.ceb2c5de.js",
     "runtime-main.js.map": "/polyglit/static/js/runtime-main.ceb2c5de.js.map",
     "static/js/2.f778d36d.chunk.js": "/polyglit/static/js/2.f778d36d.chunk.js",
@@ -13,8 +13,8 @@
     "static/css/main.38749f11.chunk.css.map": "/polyglit/static/css/main.38749f11.chunk.css.map",
     "static/js/2.f778d36d.chunk.js.LICENSE.txt": "/polyglit/static/js/2.f778d36d.chunk.js.LICENSE.txt",
     "static/media/audiobook.cd1398bf.png": "/polyglit/static/media/audiobook.cd1398bf.png",
-    "static/media/closed-book.7a0ef690.png": "/polyglit/static/media/closed-book.7a0ef690.png",
     "static/media/document.2d3b7428.png": "/polyglit/static/media/document.2d3b7428.png",
+    "static/media/lp-cover.94255a7e.jpg": "/polyglit/static/media/lp-cover.94255a7e.jpg",
     "static/media/pdf.5a5d0ba1.png": "/polyglit/static/media/pdf.5a5d0ba1.png",
     "static/media/popout-flat.8676d87d.png": "/polyglit/static/media/popout-flat.8676d87d.png",
     "static/media/style.css": "/polyglit/static/media/sprite_download.f83d7342.png"
@@ -23,6 +23,6 @@
     "static/js/runtime-main.ceb2c5de.js",
     "static/js/2.f778d36d.chunk.js",
     "static/css/main.38749f11.chunk.css",
-    "static/js/main.71f4a49a.chunk.js"
+    "static/js/main.6a2bc6a4.chunk.js"
   ]
 }
