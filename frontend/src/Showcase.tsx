@@ -2,7 +2,7 @@ import React from 'react';
 import popoutFlat from "./images/popout-flat.png"
 import pdfIcon from "./images/pdf.png"
 import documentIcon from "./images/document.png"
-import closedBookIcon from "./images/closed-book.png"
+import coverIcon from "./images/lp-cover.jpg"
 import audibookIcon from "./images/audiobook.png"
 
 import {Checkbox, FormControlLabel, Grid, TextField, Tooltip, withStyles} from "@material-ui/core";
@@ -436,7 +436,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     private iconFor(filename: string) {
         filename = filename.toLowerCase();
         if (filename.endsWith(".png") || filename.endsWith(".gif") || filename.endsWith(".jpg") || filename.endsWith(".jpeg")) {
-            return ["cover image", closedBookIcon]
+            return ["cover image", coverIcon]
         }
         if (filename.endsWith(".pdf")) {
             return ["PDF", pdfIcon]
