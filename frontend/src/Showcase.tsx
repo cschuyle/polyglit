@@ -393,6 +393,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         if (!(this.isPresent(publisher) || this.isPresent(publicationLocation) || this.isPresent(publicationCountry))) {
             return null
         }
+
         if (!this.isPresent(publisher) && !this.isPresent(publicationLocation)) {
             return `in ${publicationCountry}`
         }
@@ -402,12 +403,17 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         if (!this.isPresent(publicationLocation) && !this.isPresent(publicationCountry)) {
             return `by ${publisher}`
         }
-        if (this.isPresent(publisher) && !this.isPresent(publicationCountry)) {
-            return `by ${publisher} in ${publicationLocation}`
+
+        if (!this.isPresent(publisher)) {
+            return `in ${publicationLocation}, ${publicationCountry}`
         }
-        if (this.isPresent(publisher) && !this.isPresent(publicationLocation)) {
+        if (!this.isPresent(publicationLocation)) {
             return `by ${publisher} in ${publicationCountry}`
         }
+        if (!this.isPresent(publicationCountry)) {
+            return `by ${publisher} in ${publicationLocation}`
+        }
+
         return `by ${publisher} in ${publicationLocation}, ${publicationCountry}`
     }
 
