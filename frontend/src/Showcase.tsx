@@ -130,12 +130,12 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         <div>
                             <div style={{display: "flex"}}>
                                 <div style={{width: "90%"}}>
-                                    <TextField label="Search by language, country, or title"
+                                    <TextField label="language, country, title, script, format ..."
                                                type="search" variant="outlined"
                                                style={{width: "100%"}}
                                                value={this.state.searchText}
                                                onChange={e => this.onSearchTextChanged(e)}
-                                               placeholder="Search by language, country, or title"
+                                               placeholder="Enter search keywords"
                                     />
                                 </div>
                                 <div style={{marginLeft: "20px"}}>
@@ -219,6 +219,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     troveItem.littlePrinceItem.title.toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem.author?.toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem.script?.toLowerCase().includes(searchText.toLowerCase()) ||
+                    troveItem.littlePrinceItem.format?.toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem.translator?.toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem.narrator?.toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem.illustrator?.toLowerCase().includes(searchText.toLowerCase()) ||
