@@ -130,12 +130,12 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         <div>
                             <div style={{display: "flex"}}>
                                 <div style={{width: "90%"}}>
-                                    <TextField label="language, country, title, script, format ..."
+                                    <TextField label="Search keywords"
                                                type="search" variant="outlined"
                                                style={{width: "100%"}}
                                                value={this.state.searchText}
                                                onChange={e => this.onSearchTextChanged(e)}
-                                               placeholder="Enter search keywords"
+                                               placeholder="language, country, title, script, format ..."
                                     />
                                 </div>
                                 <div style={{marginLeft: "20px"}}>
