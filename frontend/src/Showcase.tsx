@@ -10,6 +10,7 @@ import {Checkbox, FormControlLabel, Grid, TextField, Tooltip, withStyles} from "
 interface TroveItem {
     littlePrinceItem: {
         title: string,
+        author?: string,
         largeImageUrl: string,
         language: string,
         smallImageUrl: string,
@@ -24,11 +25,11 @@ interface TroveItem {
         translator?: string,
         year?: string,
         files?: string[],
-
         "translation-title"?: string,
         "translation-title-transliterated"?: string,
         "language-spoken-in"?: string,
         "script"?: string,
+        "script-family"?: string,
         "tags"?: string[],
         "comments"?: string,
         "date-acquired"?: string,
@@ -216,7 +217,13 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 return (
                     troveItem.littlePrinceItem.language.toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem.title.toLowerCase().includes(searchText.toLowerCase()) ||
+                    troveItem.littlePrinceItem.author?.toLowerCase().includes(searchText.toLowerCase()) ||
+                    troveItem.littlePrinceItem.script?.toLowerCase().includes(searchText.toLowerCase()) ||
+                    troveItem.littlePrinceItem.translator?.toLowerCase().includes(searchText.toLowerCase()) ||
+                    troveItem.littlePrinceItem.narrator?.toLowerCase().includes(searchText.toLowerCase()) ||
+                    troveItem.littlePrinceItem.illustrator?.toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem["publication-country"]?.toLowerCase().includes(searchText.toLowerCase()) ||
+                    troveItem.littlePrinceItem["script-family"]?.toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem["publication-location"]?.toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem["tags"]?.join("/").toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem["translation-title"]?.toLowerCase().includes(searchText.toLowerCase()) ||
