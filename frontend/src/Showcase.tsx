@@ -223,9 +223,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     troveItem.littlePrinceItem.translator?.toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem.narrator?.toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem.illustrator?.toLowerCase().includes(searchText.toLowerCase()) ||
-                    troveItem.littlePrinceItem["publication-country"]?.toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem["script-family"]?.toLowerCase().includes(searchText.toLowerCase()) ||
-                    troveItem.littlePrinceItem["publication-location"]?.toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem["tags"]?.join("/").toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem["translation-title"]?.toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem["translation-title-transliterated"]?.toLowerCase().includes(searchText.toLowerCase()) ||
