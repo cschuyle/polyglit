@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/polyglit/static/css/main.38749f11.chunk.css",
-    "main.js": "/polyglit/static/js/main.6a0ebff8.chunk.js",
-    "main.js.map": "/polyglit/static/js/main.6a0ebff8.chunk.js.map",
+    "main.js": "/polyglit/static/js/main.f50527cf.chunk.js",
+    "main.js.map": "/polyglit/static/js/main.f50527cf.chunk.js.map",
     "runtime-main.js": "/polyglit/static/js/runtime-main.ceb2c5de.js",
     "runtime-main.js.map": "/polyglit/static/js/runtime-main.ceb2c5de.js.map",
     "static/js/2.f778d36d.chunk.js": "/polyglit/static/js/2.f778d36d.chunk.js",
@@ -23,6 +23,6 @@
     "static/js/runtime-main.ceb2c5de.js",
     "static/js/2.f778d36d.chunk.js",
     "static/css/main.38749f11.chunk.css",
-    "static/js/main.6a0ebff8.chunk.js"
+    "static/js/main.f50527cf.chunk.js"
   ]
 }
