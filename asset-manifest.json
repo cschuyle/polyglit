@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/polyglit/static/css/main.38749f11.chunk.css",
+    "main.css": "/polyglit/static/css/main.e6075137.chunk.css",
     "main.js": "/polyglit/static/js/main.c53c659f.chunk.js",
     "main.js.map": "/polyglit/static/js/main.c53c659f.chunk.js.map",
     "runtime-main.js": "/polyglit/static/js/runtime-main.ceb2c5de.js",
@@ -10,7 +10,7 @@
     "static/js/3.72d18a21.chunk.js": "/polyglit/static/js/3.72d18a21.chunk.js",
     "static/js/3.72d18a21.chunk.js.map": "/polyglit/static/js/3.72d18a21.chunk.js.map",
     "index.html": "/polyglit/index.html",
-    "static/css/main.38749f11.chunk.css.map": "/polyglit/static/css/main.38749f11.chunk.css.map",
+    "static/css/main.e6075137.chunk.css.map": "/polyglit/static/css/main.e6075137.chunk.css.map",
     "static/js/2.f778d36d.chunk.js.LICENSE.txt": "/polyglit/static/js/2.f778d36d.chunk.js.LICENSE.txt",
     "static/media/audiobook.cd1398bf.png": "/polyglit/static/media/audiobook.cd1398bf.png",
     "static/media/document.2d3b7428.png": "/polyglit/static/media/document.2d3b7428.png",
@@ -22,7 +22,7 @@
   "entrypoints": [
     "static/js/runtime-main.ceb2c5de.js",
     "static/js/2.f778d36d.chunk.js",
-    "static/css/main.38749f11.chunk.css",
+    "static/css/main.e6075137.chunk.css",
     "static/js/main.c53c659f.chunk.js"
   ]
 }
