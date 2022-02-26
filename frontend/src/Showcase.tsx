@@ -299,8 +299,6 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     return createRow("Language", this.constructLanguage(troveItem))
                 case 'translation-title':
                     return createRow("Title in translation", this.constructTranslationTitle(troveItem))
-                case 'translation-title-transliterated':
-                    return createRow("Title in translation", this.constructTranslationTitle(troveItem))
                 case 'script':
                     return createRow("Script", troveItem.littlePrinceItem.script)
                 case 'translator':
@@ -371,9 +369,12 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             return `${translationTitle} [${transliterated}]`;
         }
         if (this.isPresent(transliterated)) {
-            return `${translationTitle} [${transliterated}]`;
+            return `${transliterated}`;
         }
-        return troveItem.littlePrinceItem['translation-title'];
+        if (this.isPresent(translationTitle)) {
+            return `${translationTitle}`;
+        }
+        return null;
     }
 
     private constructLanguage(troveItem: TroveItem) {
