@@ -33,7 +33,8 @@ interface TroveItem {
         "tags"?: string[],
         "comments"?: string,
         "date-acquired"?: string,
-        "acquired-from"?: string
+        "acquired-from"?: string,
+        "search-words"?: string
     }
 }
 
@@ -227,7 +228,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     troveItem.littlePrinceItem["tags"]?.join("/").toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem["translation-title"]?.toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem["translation-title-transliterated"]?.toLowerCase().includes(searchText.toLowerCase()) ||
-                    troveItem.littlePrinceItem["language-spoken-in"]?.toLowerCase().includes(searchText.toLowerCase())
+                    troveItem.littlePrinceItem["language-spoken-in"]?.toLowerCase().includes(searchText.toLowerCase()) ||
+                    troveItem.littlePrinceItem["search-words"]?.toLowerCase().includes(searchText.toLowerCase())
                 ) || false
             }
         }
