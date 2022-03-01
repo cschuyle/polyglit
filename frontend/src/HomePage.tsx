@@ -7,10 +7,11 @@ class HomePage extends React.Component {
 # TL; DR
 
 - [The Little Prince](./the-little-prince)
-- [The Little Prince - Items I'm looking for](./the-little-prince-wanted)
 - [The Hobbit](./the-hobbit)
 - [The Adventures of Alice in Wonderland](./alice-in-wonderland)
 - [Other titles](./other-titles)
+
+- [The Little Prince - Items I'm looking for](./the-little-prince-wanted)
 
 # What's a Polyglit??
 

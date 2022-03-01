@@ -61,9 +61,6 @@ ReactDOM.render(
                         showDupsCheckbox={true}
                     />}
                 />
-
-                <p/>
-
                 <Route path={["/the-little-prince-wanted", "/little-prince-wanted", "/littleprincewanted"]} exact component={() =>
                     <Showcase
                         pageHeader="The Little Prince (Le Petit Prince) by Antoine de Saint-Exupéry"
