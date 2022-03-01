@@ -353,6 +353,12 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                     <p/>
                 </span>
                             }
+                            if (Array.isArray(row?.value)) {
+                                const items = row?.value.map((word, idx) => {
+                                    return <span key={idx}>{word}<p/></span>;
+                                });
+                                return items;
+                            }
                             return <span>{row?.value}</span>
                         }
                     )}
