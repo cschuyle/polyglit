@@ -28,29 +28,49 @@ ReactDOM.render(
                 <Route path={["/the-little-prince", "/little-prince", "/littleprince"]} exact component={() =>
                     <Showcase
                         pageHeader="The Little Prince (Le Petit Prince) by Antoine de Saint-Exupéry"
-                        troveUrl={"https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince"}
+                        pageSubtitle="My collection, painstakingly acquired over the years."
+                        troveUrl="https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince"
                         collectionTitle="The Little Prince"
+                        showDupsCheckbox={true}
                     />}
                 />
                 <Route path={["/the-hobbit", "/hobbit", "/thehobbit"]} exact component={() =>
                     <Showcase
                         pageHeader="The Hobbit, or There and Back Again - by J.R.R. Tolkien"
-                        troveUrl={"https://moocho-test.s3-us-west-2.amazonaws.com/public/hobbit"}
+                        pageSubtitle="My collection, painstakingly acquired over the years."
+                        troveUrl="https://moocho-test.s3-us-west-2.amazonaws.com/public/hobbit"
                         collectionTitle = "The Hobbit"
+                        showDupsCheckbox={true}
                     />}
                 />
                 <Route path={["/alice-in-wonderland", "/alice", "aliceinwonderland"]} exact component={() =>
                     <Showcase
                         pageHeader="Alice's Adventures in Wonderland, by Lewis Carroll"
-                        troveUrl={"https://moocho-test.s3-us-west-2.amazonaws.com/public/alice-in-wonderland"}
+                        pageSubtitle="My collection, painstakingly acquired over the years."
+                        troveUrl="https://moocho-test.s3-us-west-2.amazonaws.com/public/alice-in-wonderland"
                         collectionTitle = "Alice in Wonderland"
+                        showDupsCheckbox={true}
                     />}
                 />
                 <Route path={["/other-titles", "/other", "/othertitles"]} exact component={() =>
                     <Showcase
                         pageHeader="Collection: Not originally in English"
-                        troveUrl={"https://moocho-test.s3-us-west-2.amazonaws.com/public/books"}
+                        pageSubtitle="My collection, painstakingly acquired over the years."
+                        troveUrl="https://moocho-test.s3-us-west-2.amazonaws.com/public/books"
                         collectionTitle = "opportunistically-acquired titles, either translated from, or in the original non-English text"
+                        showDupsCheckbox={true}
+                    />}
+                />
+
+                <p/>
+
+                <Route path={["/the-little-prince-wanted", "/little-prince-wanted", "/littleprincewanted"]} exact component={() =>
+                    <Showcase
+                        pageHeader="The Little Prince (Le Petit Prince) by Antoine de Saint-Exupéry"
+                        pageSubtitle="Editions of The Little Prince which I am looking for"
+                        troveUrl="https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-wanted"
+                        collectionTitle="The Little Prince - Wanted Items"
+                        showDupsCheckbox={false}
                     />}
                 />
             </Switch>

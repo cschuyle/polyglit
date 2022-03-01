@@ -61,8 +61,10 @@ interface ShowcaseState {
 
 interface ShowcaseProps {
     pageHeader: string
+    pageSubtitle: string
     troveUrl: string
     collectionTitle: string
+    showDupsCheckbox: boolean
 }
 
 const BigWhiteTooltip = withStyles({
@@ -125,7 +127,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             <div id="main_content_wrap" className="outer">
                 <div id="main_content" className="inner">
                     <h1>{this.props.pageHeader}</h1>
-                    <p>My collection, painstakingly acquired over the years.</p>
+                    <p>{this.props.pageSubtitle}</p>
 
                     <span>
                         <div>
@@ -139,6 +141,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                                placeholder="language, country, title, script, format ..."
                                     />
                                 </div>
+                                {this.props.showDupsCheckbox &&
                                 <div style={{marginLeft: "20px"}}>
                                     <div style={{float: "left"}}>
                                         <FormControlLabel
@@ -165,6 +168,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                         />
                                     </div>
                                 </div>
+                                }
                             </div>
                         </div>
                         <p/>
