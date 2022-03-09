@@ -31,7 +31,7 @@ interface TroveItem {
         "script"?: string,
         "script-family"?: string,
         "tags"?: string[],
-        "comments"?: string,
+        "comments"?: string[],
         "date-acquired"?: string,
         "acquired-from"?: string,
         "search-words"?: string
@@ -233,7 +233,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     troveItem.littlePrinceItem["translation-title"]?.toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem["translation-title-transliterated"]?.toLowerCase().includes(searchText.toLowerCase()) ||
                     troveItem.littlePrinceItem["language-spoken-in"]?.toLowerCase().includes(searchText.toLowerCase()) ||
-                    troveItem.littlePrinceItem["search-words"]?.toLowerCase().includes(searchText.toLowerCase())
+                    troveItem.littlePrinceItem["search-words"]?.toLowerCase().includes(searchText.toLowerCase()) ||
+                    troveItem.littlePrinceItem["comments"]?.join("/").toLowerCase().includes(searchText.toLowerCase())
                 ) || false
             }
         }
@@ -411,7 +412,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         </a>
     }
 
-    private constructPublicationBlurb(item: { title: string; largeImageUrl: string; language: string; smallImageUrl: string; format?: string; illustrator?: string; isbn13?: string; narrator?: string; "publication-country"?: string; "publication-location"?: string; publisher?: string; quantity?: number; translator?: string; year?: string; files?: string[]; "translation-title"?: string; "translation-title-transliterated"?: string; "language-spoken-in"?: string; script?: string; tags?: string[]; comments?: string }) {
+    private constructPublicationBlurb(item: { title: string; largeImageUrl: string; language: string; smallImageUrl: string; format?: string; illustrator?: string; isbn13?: string; narrator?: string; "publication-country"?: string; "publication-location"?: string; publisher?: string; quantity?: number; translator?: string; year?: string; files?: string[]; "translation-title"?: string; "translation-title-transliterated"?: string; "language-spoken-in"?: string; script?: string; tags?: string[]; }) {
         let publisher = item.publisher
         let publicationLocation = item['publication-location']
         let publicationCountry = item['publication-country']
@@ -460,11 +461,11 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         }
     }
 
-    private constructTagsBlurb(tags: string[] | undefined): string | null {
-        if (!this.isPresent(tags)) {
+    private constructTagsBlurb(items: string[] | undefined): string | null {
+        if (!this.isPresent(items)) {
             return null
         }
-        return tags!!.join(", ")
+        return items!!.join(", ")
     }
 
     private iconFor(filename: string) {
