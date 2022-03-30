@@ -218,23 +218,24 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         }
 
         if (searchText) {
+            searchText = searchText.toLowerCase()
             searchByText = (troveItem) => {
                 return (
-                    troveItem.littlePrinceItem.language.toLowerCase().includes(searchText.toLowerCase()) ||
-                    troveItem.littlePrinceItem.title.toLowerCase().includes(searchText.toLowerCase()) ||
-                    troveItem.littlePrinceItem.author?.toLowerCase().includes(searchText.toLowerCase()) ||
-                    troveItem.littlePrinceItem.script?.toLowerCase().includes(searchText.toLowerCase()) ||
-                    troveItem.littlePrinceItem.format?.toLowerCase().includes(searchText.toLowerCase()) ||
-                    troveItem.littlePrinceItem.translator?.toLowerCase().includes(searchText.toLowerCase()) ||
-                    troveItem.littlePrinceItem.narrator?.toLowerCase().includes(searchText.toLowerCase()) ||
-                    troveItem.littlePrinceItem.illustrator?.toLowerCase().includes(searchText.toLowerCase()) ||
-                    troveItem.littlePrinceItem["script-family"]?.toLowerCase().includes(searchText.toLowerCase()) ||
-                    troveItem.littlePrinceItem["tags"]?.join("/").toLowerCase().includes(searchText.toLowerCase()) ||
-                    troveItem.littlePrinceItem["translation-title"]?.toLowerCase().includes(searchText.toLowerCase()) ||
-                    troveItem.littlePrinceItem["translation-title-transliterated"]?.toLowerCase().includes(searchText.toLowerCase()) ||
-                    troveItem.littlePrinceItem["language-spoken-in"]?.toLowerCase().includes(searchText.toLowerCase()) ||
-                    troveItem.littlePrinceItem["search-words"]?.toLowerCase().includes(searchText.toLowerCase()) ||
-                    troveItem.littlePrinceItem["comments"]?.join("/").toLowerCase().includes(searchText.toLowerCase())
+                    troveItem.littlePrinceItem.language.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem.title.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem.author?.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem.script?.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem.format?.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem.translator?.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem.narrator?.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem.illustrator?.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem["script-family"]?.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem["tags"]?.join("/").toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem["translation-title"]?.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem["translation-title-transliterated"]?.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem["language-spoken-in"]?.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem["search-words"]?.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem["comments"]?.join("/").toLowerCase().includes(searchText)
                 ) || false
             }
         }
