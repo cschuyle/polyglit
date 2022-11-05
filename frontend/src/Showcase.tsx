@@ -9,32 +9,32 @@ import {Checkbox, FormControlLabel, Grid, TextField, Tooltip, withStyles} from "
 
 interface TroveItem {
     littlePrinceItem: {
-        title: string,
+        "acquired-from"?: string,
+        "comments"?: string[],
+        "date-acquired"?: string,
+        "language-spoken-in"?: string,
+        "publication-country"?: string,
+        "publication-location"?: string,
+        "script"?: string,
+        "script-family"?: string,
+        "search-words"?: string
+        "tags"?: string[],
+        "translation-title"?: string,
+        "translation-title-transliterated"?: string,
         author?: string,
-        largeImageUrl: string,
-        language: string,
-        smallImageUrl: string,
+        files?: string[],
         format?: string,
         illustrator?: string,
         isbn13?: string,
+        language: string,
+        largeImageUrl: string,
         narrator?: string,
-        "publication-country"?: string,
-        "publication-location"?: string,
         publisher?: string,
         quantity?: number,
+        smallImageUrl: string,
+        title: string,
         translator?: string,
         year?: string,
-        files?: string[],
-        "translation-title"?: string,
-        "translation-title-transliterated"?: string,
-        "language-spoken-in"?: string,
-        "script"?: string,
-        "script-family"?: string,
-        "tags"?: string[],
-        "comments"?: string[],
-        "date-acquired"?: string,
-        "acquired-from"?: string,
-        "search-words"?: string
     }
 }
 
@@ -142,32 +142,33 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                     />
                                 </div>
                                 {this.props.showDupsCheckbox &&
-                                <div style={{marginLeft: "20px"}}>
-                                    <div style={{float: "left"}}>
-                                        <FormControlLabel
-                                            control={
-                                                <Checkbox
-                                                    checked={this.state.onlyDuplicates}
-                                                    onChange={e => this.onOnlyDuplicatesChanged(e)}
-                                                    color="default"
-                                                />
-                                            }
-                                            label={
-                                                <BigWhiteTooltip
-                                                    title={<section>Send me an email at <a
-                                                        href="mailto:carl@dragnon.com">carl@dragnon.com</a></section>}
-                                                    arrow
-                                                    interactive
-                                                    placement="bottom-start">
-                                                    <div>Show only copies for which I have duplicates <i><strong>(want
-                                                        to make a
-                                                        deal?)</strong></i>
-                                                    </div>
-                                                </BigWhiteTooltip>
-                                            }
-                                        />
+                                    <div style={{marginLeft: "20px"}}>
+                                        <div style={{float: "left"}}>
+                                            <FormControlLabel
+                                                control={
+                                                    <Checkbox
+                                                        checked={this.state.onlyDuplicates}
+                                                        onChange={e => this.onOnlyDuplicatesChanged(e)}
+                                                        color="default"
+                                                    />
+                                                }
+                                                label={
+                                                    <BigWhiteTooltip
+                                                        title={<section>Send me an email at <a
+                                                            href="mailto:carl@dragnon.com">carl@dragnon.com</a>
+                                                        </section>}
+                                                        arrow
+                                                        interactive
+                                                        placement="bottom-start">
+                                                        <div>Show only copies for which I have duplicates <i><strong>(want
+                                                            to make a
+                                                            deal?)</strong></i>
+                                                        </div>
+                                                    </BigWhiteTooltip>
+                                                }
+                                            />
+                                        </div>
                                     </div>
-                                </div>
                                 }
                             </div>
                         </div>
@@ -221,21 +222,24 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             searchText = searchText.toLowerCase()
             searchByText = (troveItem) => {
                 return (
-                    troveItem.littlePrinceItem.language.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem.title.toLowerCase().includes(searchText) ||
                     troveItem.littlePrinceItem.author?.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem.script?.toLowerCase().includes(searchText) ||
                     troveItem.littlePrinceItem.format?.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem.translator?.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem.narrator?.toLowerCase().includes(searchText) ||
                     troveItem.littlePrinceItem.illustrator?.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem.language.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem.narrator?.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem.publisher?.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem.script?.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem.title.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem.translator?.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem["comments"]?.join("/").toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem["language-spoken-in"]?.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem["publication-country"]?.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem["publication-location"]?.toLowerCase().includes(searchText) ||
                     troveItem.littlePrinceItem["script-family"]?.toLowerCase().includes(searchText) ||
+                    troveItem.littlePrinceItem["search-words"]?.toLowerCase().includes(searchText) ||
                     troveItem.littlePrinceItem["tags"]?.join("/").toLowerCase().includes(searchText) ||
                     troveItem.littlePrinceItem["translation-title"]?.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem["translation-title-transliterated"]?.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem["language-spoken-in"]?.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem["search-words"]?.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem["comments"]?.join("/").toLowerCase().includes(searchText)
+                    troveItem.littlePrinceItem["translation-title-transliterated"]?.toLowerCase().includes(searchText)
                 ) || false
             }
         }
