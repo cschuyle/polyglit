@@ -248,7 +248,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
         if (onlyDuplicates) {
             searchByDuplicates = troveItem => {
-                return searchByText(troveItem) && (troveItem.littlePrinceItem.quantity ?? 1) > 1
+                return searchByText(troveItem) && (troveItem.littlePrinceItem.quantity ?? 1) > 2
             }
         }
 
