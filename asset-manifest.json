@@ -1,28 +1,21 @@
 {
   "files": {
-    "main.css": "/polyglit/static/css/main.e6075137.chunk.css",
-    "main.js": "/polyglit/static/js/main.2829a1b2.chunk.js",
-    "main.js.map": "/polyglit/static/js/main.2829a1b2.chunk.js.map",
-    "runtime-main.js": "/polyglit/static/js/runtime-main.544eba4e.js",
-    "runtime-main.js.map": "/polyglit/static/js/runtime-main.544eba4e.js.map",
-    "static/js/2.5b821d6d.chunk.js": "/polyglit/static/js/2.5b821d6d.chunk.js",
-    "static/js/2.5b821d6d.chunk.js.map": "/polyglit/static/js/2.5b821d6d.chunk.js.map",
-    "static/js/3.d5fd4733.chunk.js": "/polyglit/static/js/3.d5fd4733.chunk.js",
-    "static/js/3.d5fd4733.chunk.js.map": "/polyglit/static/js/3.d5fd4733.chunk.js.map",
+    "main.css": "/polyglit/static/css/main.5988da65.css",
+    "main.js": "/polyglit/static/js/main.8cf82b29.js",
+    "static/js/787.7fc555fe.chunk.js": "/polyglit/static/js/787.7fc555fe.chunk.js",
+    "static/media/popout-flat.png": "/polyglit/static/media/popout-flat.8676d87dbaa923d8816d.png",
+    "static/media/lp-cover.jpg": "/polyglit/static/media/lp-cover.94255a7eedbe910e35a6.jpg",
+    "static/media/sprite_download.png": "/polyglit/static/media/sprite_download.f83d73425e46e157c550.png",
+    "static/media/pdf.png": "/polyglit/static/media/pdf.5a5d0ba1ddf4041a9688.png",
+    "static/media/audiobook.png": "/polyglit/static/media/audiobook.cd1398bfaa4b6419fa2b.png",
+    "static/media/document.png": "/polyglit/static/media/document.2d3b74281fb2a86b12b8.png",
     "index.html": "/polyglit/index.html",
-    "static/css/main.e6075137.chunk.css.map": "/polyglit/static/css/main.e6075137.chunk.css.map",
-    "static/js/2.5b821d6d.chunk.js.LICENSE.txt": "/polyglit/static/js/2.5b821d6d.chunk.js.LICENSE.txt",
-    "static/media/audiobook.cd1398bf.png": "/polyglit/static/media/audiobook.cd1398bf.png",
-    "static/media/document.2d3b7428.png": "/polyglit/static/media/document.2d3b7428.png",
-    "static/media/lp-cover.94255a7e.jpg": "/polyglit/static/media/lp-cover.94255a7e.jpg",
-    "static/media/pdf.5a5d0ba1.png": "/polyglit/static/media/pdf.5a5d0ba1.png",
-    "static/media/popout-flat.8676d87d.png": "/polyglit/static/media/popout-flat.8676d87d.png",
-    "static/media/style.css": "/polyglit/static/media/sprite_download.f83d7342.png"
+    "main.5988da65.css.map": "/polyglit/static/css/main.5988da65.css.map",
+    "main.8cf82b29.js.map": "/polyglit/static/js/main.8cf82b29.js.map",
+    "787.7fc555fe.chunk.js.map": "/polyglit/static/js/787.7fc555fe.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.544eba4e.js",
-    "static/js/2.5b821d6d.chunk.js",
-    "static/css/main.e6075137.chunk.css",
-    "static/js/main.2829a1b2.chunk.js"
+    "static/css/main.5988da65.css",
+    "static/js/main.8cf82b29.js"
   ]
 }
