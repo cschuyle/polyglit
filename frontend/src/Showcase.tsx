@@ -11,7 +11,7 @@ interface TroveItem {
     littlePrinceItem: {
         "acquired-from"?: string,
         "comments"?: string[],
-        "date-acquired"?: string,
+        "date-added"?: string,
         "language-spoken-in"?: string,
         "publication-country"?: string,
         "publication-location"?: string,
@@ -449,9 +449,9 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     }
 
     // TODO make URLs into links, and format dates
-    private constructAquisitionBlurb(item: { "acquired-from"?: string, "date-acquired"?: string }) {
+    private constructAquisitionBlurb(item: { "acquired-from"?: string, "date-added"?: string }) {
         let acquiredFrom = item["acquired-from"]
-        let dateAcquired = item["date-acquired"]
+        let dateAcquired = item["date-added"]
         if (!(this.isPresent(acquiredFrom) || this.isPresent(dateAcquired))) {
             return null
         }
