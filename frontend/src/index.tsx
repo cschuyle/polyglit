@@ -9,7 +9,7 @@ import './css/Showcase.css';
 
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
-import Showcase from './Showcase';
+import Showcase, {FocusState} from './Showcase';
 import HomePage from './HomePage';
 import reportWebVitals from './reportWebVitals';
 
@@ -31,7 +31,9 @@ ReactDOM.render(
                         pageSubtitle="My collection, painstakingly acquired over the years."
                         troveUrl="https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince"
                         collectionTitle="The Little Prince"
-                        showDupsCheckbox={true}
+                        // showDupsCheckbox={true}
+                        showWantedCheckboxes={true}
+                        focusState={FocusState.OWNED}
                     />}
                 />
                 <Route path={["/the-hobbit", "/hobbit", "/thehobbit"]} exact component={() =>
@@ -40,7 +42,8 @@ ReactDOM.render(
                         pageSubtitle="My collection, painstakingly acquired over the years."
                         troveUrl="https://moocho-test.s3-us-west-2.amazonaws.com/public/hobbit"
                         collectionTitle = "The Hobbit"
-                        showDupsCheckbox={true}
+                        // showDupsCheckbox={true}
+                        showWantedCheckboxes={false}
                     />}
                 />
                 <Route path={["/alice-in-wonderland", "/alice", "aliceinwonderland"]} exact component={() =>
@@ -49,7 +52,8 @@ ReactDOM.render(
                         pageSubtitle="My collection, painstakingly acquired over the years."
                         troveUrl="https://moocho-test.s3-us-west-2.amazonaws.com/public/alice-in-wonderland"
                         collectionTitle = "Alice in Wonderland"
-                        showDupsCheckbox={true}
+                        // showDupsCheckbox={true}
+                        showWantedCheckboxes={false}
                     />}
                 />
                 <Route path={["/other-titles", "/other", "/othertitles"]} exact component={() =>
@@ -58,7 +62,8 @@ ReactDOM.render(
                         pageSubtitle="My collection, painstakingly acquired over the years."
                         troveUrl="https://moocho-test.s3-us-west-2.amazonaws.com/public/books"
                         collectionTitle = "opportunistically-acquired titles, either translated from, or in the original non-English text"
-                        showDupsCheckbox={true}
+                        // showDupsCheckbox={true}
+                        showWantedCheckboxes={false}
                     />}
                 />
                 <Route path={["/the-little-prince-wanted", "/little-prince-wanted", "/littleprincewanted"]} exact component={() =>
@@ -67,7 +72,8 @@ ReactDOM.render(
                         pageSubtitle="Editions of The Little Prince which I am looking for"
                         troveUrl="https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-wanted"
                         collectionTitle="The Little Prince - Wanted Items"
-                        showDupsCheckbox={false}
+                        // showDupsCheckbox={false}
+                        showWantedCheckboxes={false}
                     />}
                 />
             </Switch>

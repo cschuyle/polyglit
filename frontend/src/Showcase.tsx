@@ -5,7 +5,7 @@ import documentIcon from "./images/document.png"
 import coverIcon from "./images/lp-cover.jpg"
 import audibookIcon from "./images/audiobook.png"
 
-import {Checkbox, FormControlLabel, Grid, TextField, Tooltip, withStyles} from "@material-ui/core";
+import {Checkbox, FormControlLabel, Grid, MenuItem, Select, TextField, Tooltip, withStyles} from "@material-ui/core";
 
 interface TroveItem {
     littlePrinceItem: {
@@ -35,6 +35,7 @@ interface TroveItem {
         title: string,
         translator?: string,
         year?: string,
+        owned?: string
     }
 }
 
@@ -52,19 +53,29 @@ interface Trove {
     items: TroveItem[]
 }
 
-interface ShowcaseState {
-    troveItems: TroveItem[],
-    displayedTroveItems: TroveItem[],
-    searchText: string
-    onlyDuplicates: boolean
+export enum FocusState {
+    ALL,
+    WANTED,
+    OWNED,
+    DUPLICATES
 }
 
-interface ShowcaseProps {
-    pageHeader: string
-    pageSubtitle: string
-    troveUrl: string
-    collectionTitle: string
-    showDupsCheckbox: boolean
+interface ShowcaseState {
+    troveItems: TroveItem[],
+    searchText: string,
+    displayedTroveItems: TroveItem[],
+    focusState?: FocusState
+    focusItems: TroveItem[],
+    FocusItemCount: number
+}
+
+export interface ShowcaseProps {
+    pageHeader: string,
+    pageSubtitle: string,
+    troveUrl: string,
+    collectionTitle: string,
+    showWantedCheckboxes: boolean,
+    focusState?: FocusState
 }
 
 const BigWhiteTooltip = withStyles({
@@ -102,16 +113,21 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         this.state = {
             troveItems: [],
             displayedTroveItems: [],
+            focusItems: [],
             searchText: "",
-            onlyDuplicates: false
+            focusState: (props.showWantedCheckboxes ? FocusState.OWNED : FocusState.ALL),
+            FocusItemCount: 0
         }
     }
 
     componentDidMount() {
         this.fetchTrove().then(trove => {
             console.log(`Got ${trove.items.length} Trove items`)
-            this.setState({troveItems: trove.items.sort(compareTroveItem)});
-            this.search("", false)
+            this.setState({
+                troveItems: trove.items.sort(compareTroveItem)
+            });
+            this.setFocus(this.props.focusState)
+            this.search("", this.props.focusState)
         })
     }
 
@@ -141,31 +157,25 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                                placeholder="language, country, title, script, format ..."
                                     />
                                 </div>
-                                {this.props.showDupsCheckbox &&
+                                {this.props.showWantedCheckboxes &&
                                     <div style={{marginLeft: "20px"}}>
                                         <div style={{float: "left"}}>
                                             <FormControlLabel
+                                                label=""
                                                 control={
-                                                    <Checkbox
-                                                        checked={this.state.onlyDuplicates}
-                                                        onChange={e => this.onOnlyDuplicatesChanged(e)}
-                                                        color="default"
-                                                    />
-                                                }
-                                                label={
-                                                    <BigWhiteTooltip
-                                                        title={<section>Send me an email at <a
-                                                            href="mailto:carl@dragnon.com">carl@dragnon.com</a>
-                                                        </section>}
-                                                        arrow
-                                                        interactive
-                                                        placement="bottom-start">
-                                                        <div>Show only copies for which I have duplicates <i><strong>(want
-                                                            to make a
-                                                            deal?)</strong></i>
-                                                        </div>
-                                                    </BigWhiteTooltip>
-                                                }
+                                                    <Select
+                                                        value={this.state.focusState}
+
+                                                        onChange={(e: any) => this.onFocusStateChanged(e)}
+                                                        color="primary"
+                                                    >
+
+                                                        <MenuItem value={FocusState.OWNED}>I have these</MenuItem>
+                                                        <MenuItem value={FocusState.WANTED}>I want these</MenuItem>
+                                                        <MenuItem value={FocusState.DUPLICATES}>I have these to trade!</MenuItem>
+                                                        <MenuItem value={FocusState.ALL}>All</MenuItem>
+                                                    </Select>
+                                            }
                                             />
                                         </div>
                                     </div>
@@ -174,12 +184,12 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         </div>
                         <p/>
                         <section>
-                            Showing {this.state.displayedTroveItems.length} of {this.state.troveItems.length} editions of {this.props.collectionTitle}
+                            Showing {this.state.focusItems.length} of {this.state.FocusItemCount} editions of {this.props.collectionTitle}
                         </section>
                         <p/>
                         <section className="column">
                             {
-                                this.state.displayedTroveItems.map((troveItem, index) => {
+                                this.state.focusItems.map((troveItem, index) => {
                                     return this.renderTroveItem(troveItem, index)
                                 })
                             }
@@ -194,34 +204,115 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         this.setState({
             searchText: e.target.value
         });
-        this.search(e.currentTarget.value, this.state.onlyDuplicates);
+        this.search(e.currentTarget.value, this.state.focusState);
     }
 
-    private onOnlyDuplicatesChanged(e: React.ChangeEvent<HTMLInputElement>) {
-        console.log(`only duplicates value is ${e.currentTarget.checked}`)
+    private onFocusStateChanged(e: React.ChangeEvent<{ name?: string; value: FocusState }>) {
+        let newValue = e.target.value;
+        console.log(`focus is ${newValue}`)
         this.setState({
-            searchText: this.state.searchText,
-            onlyDuplicates: e.target.checked
+            focusState: newValue
         });
-        this.search(this.state.searchText, e.currentTarget.checked);
+        this.setFocus(newValue);
     }
 
-    private search(searchText: string, onlyDuplicates: boolean) {
+    private setFocus(focusState: FocusState | undefined) {
+        let focusFilteredItems = this.state.troveItems.filter(this.troveItemMatchesFocusPredicate(focusState));
         this.setState({
-            displayedTroveItems: this.state.troveItems.filter(this.troveItemMatches(searchText, onlyDuplicates))
+            focusItems: focusFilteredItems,
+            FocusItemCount: focusFilteredItems.length
         })
     }
 
-    private troveItemMatches(searchText: string, onlyDuplicates: boolean) {
+    private search(searchText: string, focusState: FocusState | undefined) {
+        this.setState({
+            displayedTroveItems: this.state.troveItems.filter(this.troveItemMatchesPredicate(searchText, focusState))
+        })
+    }
 
-        let searchByText = (_: TroveItem) => {
+    private troveItemMatchesFocusPredicate(focusState: FocusState | undefined) {
+
+        let pred1 = (_: TroveItem) => {
             return true
         }
 
+        let pred2 = pred1
+
+        // Condition: focus state - all, wanted, owned, duplicates (assuming duplicates only happens for owned)
+        switch (focusState) {
+            case FocusState.OWNED:
+                console.log("OWNED")
+                pred2 = troveItem => {
+                    let isOwned = troveItem.littlePrinceItem.owned ?? "true";
+                    return pred1(troveItem) && isOwned === "true"
+                }
+                break;
+
+            case FocusState.WANTED:
+                console.log("WANTED")
+                pred2 = troveItem => {
+                    let isOwned = troveItem.littlePrinceItem.owned ?? "true";
+                    return pred1(troveItem) && isOwned !== "true"
+                }
+                break;
+
+            case FocusState.DUPLICATES:
+                console.log("DUPLICATES")
+                pred2 = troveItem => {
+                    return pred1(troveItem) && (troveItem.littlePrinceItem.quantity ?? 1) > 1
+                }
+                break;
+
+            default:
+        }
+        return pred2;
+    }
+
+    private troveItemMatchesPredicate(searchText: string,
+                                      focusState: FocusState | undefined) {
+
+        let pred1 = (_: TroveItem) => {
+            return true
+        }
+
+        let pred2 = pred1
+
+        // Condition: focus state - all, wanted, owned, duplicates (assuming duplicates only happens for owned)
+        switch (focusState) {
+            case FocusState.OWNED:
+                console.log("OWNED")
+                pred2 = troveItem => {
+                    let isOwned = troveItem.littlePrinceItem.owned ?? "true";
+                    return pred1(troveItem) && isOwned === "true"
+                }
+                break;
+
+            case FocusState.WANTED:
+                console.log("WANTED")
+                pred2 = troveItem => {
+                    let isOwned = troveItem.littlePrinceItem.owned ?? "true";
+                    return pred1(troveItem) && isOwned !== "true"
+                }
+                break;
+
+            case FocusState.DUPLICATES:
+                console.log("DUPLICATES")
+                pred2 = troveItem => {
+                    return pred1(troveItem) && (troveItem.littlePrinceItem.quantity ?? 1) > 1
+                }
+                break;
+
+            default:
+        }
+
+        let pred3 = pred2
+
+        // Condition: text search
         if (searchText) {
+            console.log("SEARCH TEXT " + searchText)
             searchText = searchText.toLowerCase()
-            searchByText = (troveItem) => {
-                return (
+            pred3 = (troveItem) => {
+                return pred2(troveItem) && (
                     troveItem.littlePrinceItem.author?.toLowerCase().includes(searchText) ||
                     troveItem.littlePrinceItem.format?.toLowerCase().includes(searchText) ||
                     troveItem.littlePrinceItem.illustrator?.toLowerCase().includes(searchText) ||
@@ -244,15 +335,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             }
         }
 
-        let searchByDuplicates = searchByText
-
-        if (onlyDuplicates) {
-            searchByDuplicates = troveItem => {
-                return searchByText(troveItem) && (troveItem.littlePrinceItem.quantity ?? 1) > 1
-            }
-        }
-
-        return searchByDuplicates
+        // Return the last condition in the accumulation above
+        return pred3
     }
 
     private renderTroveItem(troveItem: TroveItem, key: any) {
@@ -417,7 +501,29 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         </a>
     }
 
-    private constructPublicationBlurb(item: { title: string; largeImageUrl: string; language: string; smallImageUrl: string; format?: string; illustrator?: string; isbn13?: string; narrator?: string; "publication-country"?: string; "publication-location"?: string; publisher?: string; quantity?: number; translator?: string; year?: string; files?: string[]; "translation-title"?: string; "translation-title-transliterated"?: string; "language-spoken-in"?: string; script?: string; tags?: string[]; }) {
+    private constructPublicationBlurb(item: {
+                                          title: string;
+                                          largeImageUrl: string;
+                                          language: string;
+                                          smallImageUrl: string;
+                                          format?: string;
+                                          illustrator?: string;
+                                          isbn13?: string;
+                                          narrator?: string;
+                                          "publication-country"?: string;
+                                          "publication-location"?: string;
+                                          publisher?: string;
+                                          quantity?: number;
+                                          translator?: string;
+                                          year?: string;
+                                          files?: string[];
+                                          "translation-title"?: string;
+                                          "translation-title-transliterated"?: string;
+                                          "language-spoken-in"?: string;
+                                          script?: string;
+                                          tags?: string[];
+                                      }
+    ) {
         let publisher = item.publisher
         let publicationLocation = item['publication-location']
         let publicationCountry = item['publication-country']
@@ -448,7 +554,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         return `by ${publisher} in ${publicationLocation}, ${publicationCountry}`
     }
 
-    // TODO make URLs into links, and format dates
+// TODO make URLs into links, and format dates
     private constructAquisitionBlurb(item: { "acquired-from"?: string, "date-added"?: string }) {
         let acquiredFrom = item["acquired-from"]
         let dateAcquired = item["date-added"]
@@ -466,7 +572,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         }
     }
 
-    private constructTagsBlurb(items: string[] | undefined): string | null {
+    private constructTagsBlurb(items: string[] | undefined):
+        string | null {
         if (!this.isPresent(items)) {
             return null
         }
