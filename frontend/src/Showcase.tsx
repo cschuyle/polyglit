@@ -175,7 +175,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                                         <MenuItem value={FocusState.DUPLICATES}>To trade!</MenuItem>
                                                         <MenuItem value={FocusState.ALL}>All</MenuItem>
                                                     </Select>
-                                            }
+                                                }
                                             />
                                         </div>
                                     </div>
@@ -271,9 +271,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     private troveItemMatchesPredicate(searchText: string,
                                       focusState: FocusState | undefined) {
 
-        let pred1 = (_: TroveItem) => {
-            return true
-        }
+        let pred1 = (_: TroveItem) => true
 
         let pred2 = pred1
 
@@ -282,23 +280,26 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             case FocusState.OWNED:
                 console.log("OWNED")
                 pred2 = troveItem => {
-                    let isOwned = troveItem.littlePrinceItem.owned ?? "true";
-                    return pred1(troveItem) && isOwned === "true"
+                    let isOwned = troveItem.littlePrinceItem?.owned ?? "true";
+                    return pred1(troveItem)
+                        && isOwned === "true"
                 }
                 break;
 
             case FocusState.WANTED:
                 console.log("WANTED")
                 pred2 = troveItem => {
-                    let isOwned = troveItem.littlePrinceItem.owned ?? "true";
-                    return pred1(troveItem) && isOwned !== "true"
+                    let isOwned = troveItem.littlePrinceItem?.owned ?? "true";
+                    return pred1(troveItem)
+                        && isOwned !== "true"
                 }
                 break;
 
             case FocusState.DUPLICATES:
                 console.log("DUPLICATES")
                 pred2 = troveItem => {
-                    return pred1(troveItem) && (troveItem.littlePrinceItem.quantity ?? 1) > 1
+                    return pred1(troveItem)
+                        && (troveItem.littlePrinceItem?.quantity ?? 1) > 1
                 }
                 break;
 
@@ -309,29 +310,30 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
         // Condition: text search
         if (searchText) {
-            console.log("SEARCH TEXT " + searchText)
             searchText = searchText.toLowerCase()
+            console.log("SEARCH TEXT " + searchText)
             pred3 = (troveItem) => {
-                return pred2(troveItem) && (
-                    troveItem.littlePrinceItem.author?.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem.format?.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem.illustrator?.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem.language.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem.narrator?.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem.publisher?.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem.script?.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem.title.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem.translator?.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem["comments"]?.join("/").toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem["language-spoken-in"]?.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem["publication-country"]?.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem["publication-location"]?.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem["script-family"]?.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem["search-words"]?.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem["tags"]?.join("/").toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem["translation-title"]?.toLowerCase().includes(searchText) ||
-                    troveItem.littlePrinceItem["translation-title-transliterated"]?.toLowerCase().includes(searchText)
-                ) || false
+                return pred2(troveItem)
+                    && (
+                        troveItem.littlePrinceItem?.author?.toLowerCase().includes(searchText) ||
+                        troveItem.littlePrinceItem?.format?.toLowerCase().includes(searchText) ||
+                        troveItem.littlePrinceItem?.illustrator?.toLowerCase().includes(searchText) ||
+                        troveItem.littlePrinceItem?.language.toLowerCase().includes(searchText) ||
+                        troveItem.littlePrinceItem?.narrator?.toLowerCase().includes(searchText) ||
+                        troveItem.littlePrinceItem?.publisher?.toLowerCase().includes(searchText) ||
+                        troveItem.littlePrinceItem?.script?.toLowerCase().includes(searchText) ||
+                        troveItem.littlePrinceItem?.title?.toLowerCase().includes(searchText) ||
+                        troveItem.littlePrinceItem?.translator?.toLowerCase().includes(searchText) ||
+                        troveItem.littlePrinceItem["comments"]?.join("/").toLowerCase().includes(searchText) ||
+                        troveItem.littlePrinceItem["language-spoken-in"]?.toLowerCase().includes(searchText) ||
+                        troveItem.littlePrinceItem["publication-country"]?.toLowerCase().includes(searchText) ||
+                        troveItem.littlePrinceItem["publication-location"]?.toLowerCase().includes(searchText) ||
+                        troveItem.littlePrinceItem["script-family"]?.toLowerCase().includes(searchText) ||
+                        troveItem.littlePrinceItem["search-words"]?.toLowerCase().includes(searchText) ||
+                        troveItem.littlePrinceItem["tags"]?.join("/").toLowerCase().includes(searchText) ||
+                        troveItem.littlePrinceItem["translation-title"]?.toLowerCase().includes(searchText) ||
+                        troveItem.littlePrinceItem["translation-title-transliterated"]?.toLowerCase().includes(searchText)
+                    ) || false
             }
         }
 
