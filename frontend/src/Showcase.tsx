@@ -172,7 +172,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
                                                         <MenuItem value={FocusState.OWNED}>I have these</MenuItem>
                                                         <MenuItem value={FocusState.WANTED}>I want these</MenuItem>
-                                                        <MenuItem value={FocusState.DUPLICATES}>I have these to trade!</MenuItem>
+                                                        <MenuItem value={FocusState.DUPLICATES}>To trade!</MenuItem>
                                                         <MenuItem value={FocusState.ALL}>All</MenuItem>
                                                     </Select>
                                             }
@@ -367,6 +367,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     private troveItemTooltipContents(troveItem: TroveItem) {
 
         let fieldsInOrder: string[] = [
+            "wanted-message",
+            "trade-message",
             "translation-title",
             "translation-title-transliterated",
             'language',
@@ -415,6 +417,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     return createRow("Acquired", this.constructAquisitionBlurb(troveItem.littlePrinceItem))
                 case 'comments':
                     return createRow(null, troveItem.littlePrinceItem.comments)
+                case 'wanted-message':
+                    return createRow("Note!", this.constructWantedMessage(troveItem.littlePrinceItem))
+                case 'trade-message':
+                    return createRow("Note!", this.constructTradeMessage(troveItem.littlePrinceItem))
             }
         }).filter(e => e != null && this.isPresent(e.value))
 
@@ -572,12 +578,33 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         }
     }
 
-    private constructTagsBlurb(items: string[] | undefined):
-        string | null {
+    private constructTagsBlurb(items: string[] | undefined): string | null {
         if (!this.isPresent(items)) {
             return null
         }
         return items!!.join(", ")
+    }
+
+    private constructWantedMessage(littlePrinceItem: {
+        owned?: string
+    }): string | null {
+        if (!this.isPresent(littlePrinceItem.owned)) {
+            return null
+        }
+        if (littlePrinceItem.owned === "false") {
+            return "I am looking for this book! If you want to help me find it, please get in touch: carl@dragnon.com"
+        }
+        return null
+    }
+
+    private constructTradeMessage(littlePrinceItem: {
+        quantity?: number
+    }): string | null | undefined {
+        // @ts-ignore
+        if (this.isPresent(littlePrinceItem.quantity) && littlePrinceItem.quantity > 1) {
+            return "I can trade or sell this book. Interested? Please get in touch: carl@dragnon.com"
+        }
+        return null
     }
 
     private iconFor(filename: string) {
