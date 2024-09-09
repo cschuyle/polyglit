@@ -319,24 +319,24 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 }
                 return pred2(troveItem)
                     && (
-                        lpItem.author?.toLowerCase().includes(searchText) ||
-                        lpItem.format?.toLowerCase().includes(searchText) ||
-                        lpItem.illustrator?.toLowerCase().includes(searchText) ||
-                        lpItem.language.toLowerCase().includes(searchText) ||
-                        lpItem.narrator?.toLowerCase().includes(searchText) ||
-                        lpItem.publisher?.toLowerCase().includes(searchText) ||
-                        lpItem.script?.toLowerCase().includes(searchText) ||
-                        lpItem.title?.toLowerCase().includes(searchText) ||
-                        lpItem.translator?.toLowerCase().includes(searchText) ||
-
-                        lpItem["language-spoken-in"]?.toLowerCase().includes(searchText) ||
-                        lpItem["publication-country"]?.toLowerCase().includes(searchText) ||
-                        lpItem["publication-location"]?.toLowerCase().includes(searchText) ||
-                        lpItem["script-family"]?.toLowerCase().includes(searchText) ||
-                        lpItem["search-words"]?.toLowerCase().includes(searchText) ||
-                        lpItem["translation-title"]?.toLowerCase().includes(searchText) ||
-                        lpItem["translation-title-transliterated"]?.toLowerCase().includes(searchText)
-                        // ||
+                        lpItem.language.toLowerCase().includes(searchText)
+                        //||
+                        // lpItem.title?.toLowerCase().includes(searchText) ||
+                        // lpItem.author?.toLowerCase().includes(searchText) ||
+                        // lpItem.format?.toLowerCase().includes(searchText) ||
+                        // lpItem.illustrator?.toLowerCase().includes(searchText) ||
+                        // lpItem.narrator?.toLowerCase().includes(searchText) ||
+                        // lpItem.publisher?.toLowerCase().includes(searchText) ||
+                        // lpItem.script?.toLowerCase().includes(searchText) ||
+                        // lpItem.translator?.toLowerCase().includes(searchText) ||
+                        //
+                        // lpItem["language-spoken-in"]?.toLowerCase().includes(searchText) ||
+                        // lpItem["publication-country"]?.toLowerCase().includes(searchText) ||
+                        // lpItem["publication-location"]?.toLowerCase().includes(searchText) ||
+                        // lpItem["script-family"]?.toLowerCase().includes(searchText) ||
+                        // lpItem["search-words"]?.toLowerCase().includes(searchText) ||
+                        // lpItem["translation-title"]?.toLowerCase().includes(searchText) ||
+                        // lpItem["translation-title-transliterated"]?.toLowerCase().includes(searchText) ||
                         //
                         // lpItem["comments"]?.join(" |zsbpigknievfpplopp xyzzy| ").toLowerCase().includes(searchText) ||
                         // lpItem["tags"]?.join(" |zsbpigknievfpplopp xyzzy| ").toLowerCase().includes(searchText)
