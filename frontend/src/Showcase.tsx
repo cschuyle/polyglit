@@ -185,10 +185,13 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         <p/>
                         <section>
                             Showing {this.state.displayedTroveItems.length} of {this.state.FocusItemCount} editions of {this.props.collectionTitle}.
-                            {this.state.focusState == FocusState.OWNED && <p>These are editions that I own</p>}
-                            {this.state.focusState == FocusState.WANTED && <p>These are editions that I don't have. If you want to help me find them, please get in touch! carl@dragnon.com</p>}
-                            {this.state.focusState == FocusState.DUPLICATES && <p>These are editions that I have extras to trade or sell. If you're interested, please get in touch! carl@dragnon.com</p>}
-                            {this.state.focusState == FocusState.ALL && <p><i>NOTE!</i> These include editions that I own, and ones that I'm looking for.</p>}
+                            {this.state.focusState == FocusState.OWNED && <p>These are editions that I own.</p>}
+                            {this.state.focusState == FocusState.WANTED &&
+                                <p>These are editions that I don't have. If you want to help me find them, please get in
+                                    touch! <a href="mailto:carl@dragnon.com">carl@dragnon.com</a></p>}
+                            {this.state.focusState == FocusState.DUPLICATES && <p>These are editions that I have extras to trade or sell. If you're interested, please get in
+                                touch! <a href="mailto:carl@dragnon.com">carl@dragnon.com</a></p>}
+                            {this.state.focusState == FocusState.ALL && <p><b>NOTE:</b> These include editions that I own, and ones that I'm looking for.</p>}
                         </section>
                         <p/>
                         <section className="column">
