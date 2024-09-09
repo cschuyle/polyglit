@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/polyglit/static/css/main.e43ff3a2.css",
-    "main.js": "/polyglit/static/js/main.e370f0ef.js",
+    "main.js": "/polyglit/static/js/main.15d15adc.js",
     "static/js/787.9ebb3b46.chunk.js": "/polyglit/static/js/787.9ebb3b46.chunk.js",
     "static/media/popout-flat.png": "/polyglit/static/media/popout-flat.8676d87dbaa923d8816d.png",
     "static/media/lp-cover.jpg": "/polyglit/static/media/lp-cover.94255a7eedbe910e35a6.jpg",
@@ -11,11 +11,11 @@
     "static/media/document.png": "/polyglit/static/media/document.2d3b74281fb2a86b12b8.png",
     "index.html": "/polyglit/index.html",
     "main.e43ff3a2.css.map": "/polyglit/static/css/main.e43ff3a2.css.map",
-    "main.e370f0ef.js.map": "/polyglit/static/js/main.e370f0ef.js.map",
+    "main.15d15adc.js.map": "/polyglit/static/js/main.15d15adc.js.map",
     "787.9ebb3b46.chunk.js.map": "/polyglit/static/js/787.9ebb3b46.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e43ff3a2.css",
-    "static/js/main.e370f0ef.js"
+    "static/js/main.15d15adc.js"
   ]
 }
