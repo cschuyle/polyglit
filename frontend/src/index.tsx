@@ -30,7 +30,7 @@ ReactDOM.render(
                         pageHeader="The Little Prince (Le Petit Prince) by Antoine de Saint-Exupéry"
                         pageSubtitle="My collection, painstakingly acquired over the years."
                         troveUrl="https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince"
-                        collectionTitle="The Little Prince"
+                        collectionTitle="Le Petit Prince, by Antoine de Saint-Exupéry"
                         showWantedCheckboxes={true}
                         focusState={FocusState.OWNED}
                     />}
@@ -61,16 +61,6 @@ ReactDOM.render(
                         pageSubtitle="My collection, painstakingly acquired over the years."
                         troveUrl="https://moocho-test.s3-us-west-2.amazonaws.com/public/books"
                         collectionTitle = "opportunistically-acquired titles, either translated from, or in the original non-English text"
-                        showWantedCheckboxes={false}
-                        focusState={FocusState.OWNED}
-                    />}
-                />
-                <Route path={["/the-little-prince-wanted", "/little-prince-wanted", "/littleprincewanted"]} exact component={() =>
-                    <Showcase
-                        pageHeader="The Little Prince (Le Petit Prince) by Antoine de Saint-Exupéry"
-                        pageSubtitle="Editions of The Little Prince which I am looking for"
-                        troveUrl="https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-wanted"
-                        collectionTitle="The Little Prince - Wanted Items"
                         showWantedCheckboxes={false}
                         focusState={FocusState.OWNED}
                     />}
