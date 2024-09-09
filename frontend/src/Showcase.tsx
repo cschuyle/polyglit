@@ -184,12 +184,12 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         </div>
                         <p/>
                         <section>
-                            Showing {this.state.focusItems.length} of {this.state.FocusItemCount} editions of {this.props.collectionTitle}
+                            Showing {this.state.displayedTroveItems.length} of {this.state.FocusItemCount} editions of {this.props.collectionTitle}
                         </section>
                         <p/>
                         <section className="column">
                             {
-                                this.state.focusItems.map((troveItem, index) => {
+                                this.state.displayedTroveItems.map((troveItem, index) => {
                                     return this.renderTroveItem(troveItem, index)
                                 })
                             }
@@ -241,7 +241,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         // Condition: focus state - all, wanted, owned, duplicates (assuming duplicates only happens for owned)
         switch (focusState) {
             case FocusState.OWNED:
-                console.log("OWNED")
+                // console.log("OWNED")
                 pred2 = troveItem => {
                     let isOwned = troveItem.littlePrinceItem.owned ?? "true";
                     return pred1(troveItem) && isOwned === "true"
@@ -249,7 +249,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 break;
 
             case FocusState.WANTED:
-                console.log("WANTED")
+                // console.log("WANTED")
                 pred2 = troveItem => {
                     let isOwned = troveItem.littlePrinceItem.owned ?? "true";
                     return pred1(troveItem) && isOwned !== "true"
@@ -257,7 +257,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 break;
 
             case FocusState.DUPLICATES:
-                console.log("DUPLICATES")
+                // console.log("DUPLICATES")
                 pred2 = troveItem => {
                     return pred1(troveItem) && (troveItem.littlePrinceItem.quantity ?? 1) > 1
                 }
@@ -278,7 +278,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         // Condition: focus state - all, wanted, owned, duplicates (assuming duplicates only happens for owned)
         switch (focusState) {
             case FocusState.OWNED:
-                console.log("OWNED")
+                // console.log("OWNED")
                 pred2 = troveItem => {
                     let isOwned = troveItem.littlePrinceItem?.owned ?? "true";
                     return pred1(troveItem)
@@ -287,7 +287,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 break;
 
             case FocusState.WANTED:
-                console.log("WANTED")
+                // console.log("WANTED")
                 pred2 = troveItem => {
                     let isOwned = troveItem.littlePrinceItem?.owned ?? "true";
                     return pred1(troveItem)
@@ -296,7 +296,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 break;
 
             case FocusState.DUPLICATES:
-                console.log("DUPLICATES")
+                // console.log("DUPLICATES")
                 pred2 = troveItem => {
                     return pred1(troveItem)
                         && (troveItem.littlePrinceItem?.quantity ?? 1) > 1
@@ -317,9 +317,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 if (!lpItem) {
                     return false
                 }
-                console.log("SEARCH TEXT " + searchText)
-                console.log("LANGUAGE " + lpItem.language.toLowerCase())
-                return pred2(troveItem)
+                const response = pred2(troveItem)
                     && (
                         lpItem.language.toLowerCase().includes(searchText)
                         //||
@@ -343,6 +341,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         // lpItem["comments"]?.join(" |zsbpigknievfpplopp xyzzy| ").toLowerCase().includes(searchText) ||
                         // lpItem["tags"]?.join(" |zsbpigknievfpplopp xyzzy| ").toLowerCase().includes(searchText)
                     )
+                // console.log(`SEARCH TEXT ${searchText} LANGUAGE ${lpItem.language.toLowerCase()} MATCH? ${response}`)
+                return response
             }
         }
 
