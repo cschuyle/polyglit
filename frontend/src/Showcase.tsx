@@ -338,6 +338,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         lpItem["translation-title"]?.toLowerCase().includes(searchText) ||
                         lpItem["translation-title-transliterated"]?.toLowerCase().includes(searchText) ||
 
+                        // TODO Log error if these are not arrays. For that matter log for all fields if they are not the right type
                         lpItem["comments"]?.join(" || ").toLowerCase().includes(searchText) ||
                         lpItem["tags"]?.join(" || ").toLowerCase().includes(searchText)
                     ) || false
