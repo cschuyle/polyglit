@@ -311,12 +311,14 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         // Condition: text search
         if (searchText) {
             searchText = searchText.toLowerCase()
-            console.log("SEARCH TEXT " + searchText)
+
             pred3 = (troveItem) => {
                 let lpItem = troveItem.littlePrinceItem;
                 if (!lpItem) {
                     return false
                 }
+                console.log("SEARCH TEXT " + searchText)
+                console.log("LANGUAGE " + lpItem.language.toLowerCase())
                 return pred2(troveItem)
                     && (
                         lpItem.language.toLowerCase().includes(searchText)
