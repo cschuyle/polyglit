@@ -5,7 +5,7 @@ import documentIcon from "./images/document.png"
 import coverIcon from "./images/lp-cover.jpg"
 import audibookIcon from "./images/audiobook.png"
 
-import {Checkbox, FormControlLabel, Grid, MenuItem, Select, TextField, Tooltip, withStyles} from "@material-ui/core";
+import {FormControlLabel, Grid, MenuItem, Select, TextField, Tooltip, withStyles} from "@material-ui/core";
 
 interface TroveItem {
     littlePrinceItem: {
@@ -342,7 +342,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         //
                         // lpItem["comments"]?.join(" |zsbpigknievfpplopp xyzzy| ").toLowerCase().includes(searchText) ||
                         // lpItem["tags"]?.join(" |zsbpigknievfpplopp xyzzy| ").toLowerCase().includes(searchText)
-                    ) || false
+                    )
             }
         }
 
@@ -461,10 +461,9 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 </span>
                             }
                             if (Array.isArray(row?.value)) {
-                                const items = row?.value.map((word, idx) => {
+                                return row?.value.map((word, idx) => {
                                     return <span key={idx}>{word}<p/></span>;
                                 });
-                                return items;
                             }
                             return <span>{row?.value}</span>
                         }
