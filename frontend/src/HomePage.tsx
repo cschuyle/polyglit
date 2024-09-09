@@ -11,8 +11,6 @@ class HomePage extends React.Component {
 - [The Adventures of Alice in Wonderland](./alice-in-wonderland)
 - [Other titles](./other-titles)
 
-- [The Little Prince - Items I'm looking for](./the-little-prince-wanted)
-
 # What's a Polyglit??
 
 That's me being clever by abbreviating the phrase "Polyglot Literature".
