@@ -208,12 +208,13 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     }
 
     private onFocusStateChanged(e: React.ChangeEvent<{ name?: string; value: FocusState }>) {
-        let newValue = e.target.value;
-        console.log(`focus is ${newValue}`)
+        let newFocusState = e.target.value;
+        console.log(`focus is ${newFocusState}`)
         this.setState({
-            focusState: newValue
+            focusState: newFocusState
         });
-        this.setFocus(newValue);
+        this.setFocus(newFocusState);
+        this.search(this.state.searchText, newFocusState)
     }
 
     private setFocus(focusState: FocusState | undefined) {
@@ -319,28 +320,27 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 }
                 const response = pred2(troveItem)
                     && (
-                        lpItem.language.toLowerCase().includes(searchText)
-                        //||
-                        // lpItem.title?.toLowerCase().includes(searchText) ||
-                        // lpItem.author?.toLowerCase().includes(searchText) ||
-                        // lpItem.format?.toLowerCase().includes(searchText) ||
-                        // lpItem.illustrator?.toLowerCase().includes(searchText) ||
-                        // lpItem.narrator?.toLowerCase().includes(searchText) ||
-                        // lpItem.publisher?.toLowerCase().includes(searchText) ||
-                        // lpItem.script?.toLowerCase().includes(searchText) ||
-                        // lpItem.translator?.toLowerCase().includes(searchText) ||
-                        //
-                        // lpItem["language-spoken-in"]?.toLowerCase().includes(searchText) ||
-                        // lpItem["publication-country"]?.toLowerCase().includes(searchText) ||
-                        // lpItem["publication-location"]?.toLowerCase().includes(searchText) ||
-                        // lpItem["script-family"]?.toLowerCase().includes(searchText) ||
-                        // lpItem["search-words"]?.toLowerCase().includes(searchText) ||
-                        // lpItem["translation-title"]?.toLowerCase().includes(searchText) ||
-                        // lpItem["translation-title-transliterated"]?.toLowerCase().includes(searchText) ||
-                        //
-                        // lpItem["comments"]?.join(" |zsbpigknievfpplopp xyzzy| ").toLowerCase().includes(searchText) ||
-                        // lpItem["tags"]?.join(" |zsbpigknievfpplopp xyzzy| ").toLowerCase().includes(searchText)
-                    )
+                        lpItem.language.toLowerCase().includes(searchText) ||
+                        lpItem.title?.toLowerCase().includes(searchText) ||
+                        lpItem.author?.toLowerCase().includes(searchText) ||
+                        lpItem.format?.toLowerCase().includes(searchText) ||
+                        lpItem.illustrator?.toLowerCase().includes(searchText) ||
+                        lpItem.narrator?.toLowerCase().includes(searchText) ||
+                        lpItem.publisher?.toLowerCase().includes(searchText) ||
+                        lpItem.script?.toLowerCase().includes(searchText) ||
+                        lpItem.translator?.toLowerCase().includes(searchText) ||
+
+                        lpItem["language-spoken-in"]?.toLowerCase().includes(searchText) ||
+                        lpItem["publication-country"]?.toLowerCase().includes(searchText) ||
+                        lpItem["publication-location"]?.toLowerCase().includes(searchText) ||
+                        lpItem["script-family"]?.toLowerCase().includes(searchText) ||
+                        lpItem["search-words"]?.toLowerCase().includes(searchText) ||
+                        lpItem["translation-title"]?.toLowerCase().includes(searchText) ||
+                        lpItem["translation-title-transliterated"]?.toLowerCase().includes(searchText) ||
+
+                        lpItem["comments"]?.join(" || ").toLowerCase().includes(searchText) ||
+                        lpItem["tags"]?.join(" || ").toLowerCase().includes(searchText)
+                    ) || false
                 // console.log(`SEARCH TEXT ${searchText} LANGUAGE ${lpItem.language.toLowerCase()} MATCH? ${response}`)
                 return response
             }
