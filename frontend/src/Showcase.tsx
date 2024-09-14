@@ -129,7 +129,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 troveItems: trove.items
                     .map( item => {
                         item.littlePrinceItem.lumpOfText = JSON.stringify(item.littlePrinceItem).toLowerCase()
-                        console.log("LUMP OF TEXT " + item.littlePrinceItem.lumpOfText)
+                        // console.log("LUMP OF TEXT " + item.littlePrinceItem.lumpOfText)
                         return item
                     })
                     .sort(compareTroveItem)
@@ -242,7 +242,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
     private search(searchText: string, focusState: FocusState | undefined) {
         this.setState({
-            displayedTroveItems: this.state.troveItems.filter(this.troveItemMatchesPredicate(searchText, focusState))
+            displayedTroveItems: this.state.troveItems
+                .filter(this.troveItemMatchesPredicate(searchText, focusState))
         })
     }
 
@@ -454,8 +455,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     return createRow("Note!", this.constructWantedMessage(troveItem.littlePrinceItem))
                 case 'trade-message':
                     return createRow("Note!", this.constructTradeMessage(troveItem.littlePrinceItem))
-                // case 'lumpOfText':
-                //     return createRow("Lump Of Text", troveItem.littlePrinceItem.lumpOfText)
+                case 'lumpOfText':
+                    return createRow("Lump Of Text", troveItem.littlePrinceItem.lumpOfText)
             }
         }).filter(e => e != null && this.isPresent(e.value))
 
