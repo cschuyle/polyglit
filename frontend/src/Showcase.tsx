@@ -35,7 +35,8 @@ interface TroveItem {
         title: string,
         translator?: string,
         year?: string,
-        owned?: string
+        owned?: string,
+        lumpOfText?: string
     }
 }
 
@@ -123,8 +124,15 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     componentDidMount() {
         this.fetchTrove().then(trove => {
             console.log(`Got ${trove.items.length} Trove items`)
+
             this.setState({
-                troveItems: trove.items.sort(compareTroveItem)
+                troveItems: trove.items
+                    .map( item => {
+                        item.littlePrinceItem.lumpOfText = JSON.stringify(item.littlePrinceItem).toLowerCase()
+                        console.log("LUMP OF TEXT " + item.littlePrinceItem.lumpOfText)
+                        return item
+                    })
+                    .sort(compareTroveItem)
             });
             this.setFocus(this.props.focusState)
             this.search("", this.props.focusState)
@@ -279,7 +287,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     private troveItemMatchesPredicate(searchText: string,
                                       focusState: FocusState | undefined) {
 
-        let pred1 = (_: TroveItem) => true
+        const pred1 = (_: TroveItem) => true
 
         let pred2 = pred1
 
@@ -318,7 +326,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
         // Condition: text search
         if (searchText) {
-            searchText = searchText.toLowerCase()
+            const searchTokens = searchText.toLowerCase().split(new RegExp(/\s+/))
 
             pred3 = (troveItem) => {
                 let lpItem = troveItem.littlePrinceItem;
@@ -326,29 +334,34 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     return false
                 }
                 const response = pred2(troveItem)
-                    && (
-                        lpItem.language.toLowerCase().includes(searchText) ||
-                        lpItem.title?.toLowerCase().includes(searchText) ||
-                        lpItem.author?.toLowerCase().includes(searchText) ||
-                        lpItem.format?.toLowerCase().includes(searchText) ||
-                        lpItem.illustrator?.toLowerCase().includes(searchText) ||
-                        lpItem.narrator?.toLowerCase().includes(searchText) ||
-                        lpItem.publisher?.toLowerCase().includes(searchText) ||
-                        lpItem.script?.toLowerCase().includes(searchText) ||
-                        lpItem.translator?.toLowerCase().includes(searchText) ||
-
-                        lpItem["language-spoken-in"]?.toLowerCase().includes(searchText) ||
-                        lpItem["publication-country"]?.toLowerCase().includes(searchText) ||
-                        lpItem["publication-location"]?.toLowerCase().includes(searchText) ||
-                        lpItem["script-family"]?.toLowerCase().includes(searchText) ||
-                        lpItem["search-words"]?.toLowerCase().includes(searchText) ||
-                        lpItem["translation-title"]?.toLowerCase().includes(searchText) ||
-                        lpItem["translation-title-transliterated"]?.toLowerCase().includes(searchText) ||
-
-                        // TODO Log error if these are not arrays. For that matter log for all fields if they are not the right type
-                        lpItem["comments"]?.join(" || ").toLowerCase().includes(searchText) ||
-                        lpItem["tags"]?.join(" || ").toLowerCase().includes(searchText)
-                    ) || false
+                    && searchTokens.some(searchToken => {
+                        // console.log("SEARCHING FOR " + searchToken)
+                        return troveItem.littlePrinceItem.lumpOfText!.includes(searchToken)
+                    })
+                    // (
+                    //     lpItem.language.toLowerCase().includes(searchText) ||
+                    //     lpItem.title?.toLowerCase().includes(searchText) ||
+                    //     lpItem.author?.toLowerCase().includes(searchText) ||
+                    //     lpItem.format?.toLowerCase().includes(searchText) ||
+                    //     lpItem.illustrator?.toLowerCase().includes(searchText) ||
+                    //     lpItem.narrator?.toLowerCase().includes(searchText) ||
+                    //     lpItem.publisher?.toLowerCase().includes(searchText) ||
+                    //     lpItem.script?.toLowerCase().includes(searchText) ||
+                    //     lpItem.translator?.toLowerCase().includes(searchText) ||
+                    //
+                    //     lpItem["language-spoken-in"]?.toLowerCase().includes(searchText) ||
+                    //     lpItem["publication-country"]?.toLowerCase().includes(searchText) ||
+                    //     lpItem["publication-location"]?.toLowerCase().includes(searchText) ||
+                    //     lpItem["script-family"]?.toLowerCase().includes(searchText) ||
+                    //     lpItem["search-words"]?.toLowerCase().includes(searchText) ||
+                    //     lpItem["translation-title"]?.toLowerCase().includes(searchText) ||
+                    //     lpItem["translation-title-transliterated"]?.toLowerCase().includes(searchText) ||
+                    //
+                    //     // TODO Log error if these are not arrays. For that matter log for all fields if they are not the right type
+                    //     lpItem["comments"]?.join(" || ").toLowerCase().includes(searchText) ||
+                    //     lpItem["tags"]?.join(" || ").toLowerCase().includes(searchText)
+                    // )
+                    // || false
                 // console.log(`SEARCH TEXT ${searchText} LANGUAGE ${lpItem.language.toLowerCase()} MATCH? ${response}`)
                 return response
             }
@@ -403,7 +416,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             'publication-location',
             'acquisition-blurb',
             "tags",
-            "comments"
+            "comments",
+            "lumpOfText"
         ]
 
         let createRow = (field: string | null, value: any) => ({field, value})
@@ -440,6 +454,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     return createRow("Note!", this.constructWantedMessage(troveItem.littlePrinceItem))
                 case 'trade-message':
                     return createRow("Note!", this.constructTradeMessage(troveItem.littlePrinceItem))
+                // case 'lumpOfText':
+                //     return createRow("Lump Of Text", troveItem.littlePrinceItem.lumpOfText)
             }
         }).filter(e => e != null && this.isPresent(e.value))
 
