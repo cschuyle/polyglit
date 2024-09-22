@@ -652,7 +652,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
     private iconFor(filename: string) {
         filename = filename.toLowerCase();
-        if (filename.endsWith(".png") || filename.endsWith(".gif") || filename.endsWith(".jpg") || filename.endsWith(".jpeg")) {
+        if (filename.endsWith(".png") || filename.endsWith(".gif") || filename.endsWith(".jpg") || filename.endsWith(".jpeg") || filename.endsWith(".webp")) {
             return ["cover image", coverIcon]
         }
         if (filename.endsWith(".pdf")) {
