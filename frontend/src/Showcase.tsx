@@ -4,6 +4,8 @@ import pdfIcon from "./images/pdf.png"
 import documentIcon from "./images/document.png"
 import coverIcon from "./images/lp-cover.jpg"
 import audibookIcon from "./images/audiobook.png"
+import lpfoundIcon from "./images/lp-found-fox.png"
+import tintenfassIcon from "./images/tinten.png"
 
 import {FormControlLabel, Grid, MenuItem, Select, TextField, Tooltip, withStyles} from "@material-ui/core";
 
@@ -36,7 +38,9 @@ interface TroveItem {
         translator?: string,
         year?: string,
         owned?: string,
-        lumpOfText?: string
+        lumpOfText?: string,
+        lpid?: string,
+        tintenfassId?: string
     }
 }
 
@@ -214,13 +218,13 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         <p/>
                         <section>
                             Showing {this.state.displayedTroveItems.length} of {this.state.FocusItemCount} editions of {this.props.collectionTitle}.
-                            {this.state.focusState == FocusState.OWNED && <p>These are editions that I own.</p>}
-                            {this.state.focusState == FocusState.WANTED &&
+                            {this.state.focusState === FocusState.OWNED && <p>These are editions that I own.</p>}
+                            {this.state.focusState === FocusState.WANTED &&
                                 <p>These are editions that I don't have. If you want to trade or buy, or just want to help me find them, please get in
                                     touch! <a href="mailto:carl@dragnon.com">carl@dragnon.com</a></p>}
-                            {this.state.focusState == FocusState.DUPLICATES && <p>These are editions that I have extras to trade or sell. If you're interested, please get in
+                            {this.state.focusState === FocusState.DUPLICATES && <p>These are editions that I have extras to trade or sell. If you're interested, please get in
                                 touch! <a href="mailto:carl@dragnon.com">carl@dragnon.com</a></p>}
-                            {this.state.focusState == FocusState.ALL && <p><b>NOTE:</b> These include editions that I own, and ones that I'm looking for.</p>}
+                            {this.state.focusState === FocusState.ALL && <p><b>NOTE:</b> These include editions that I own, and ones that I'm looking for.</p>}
                         </section>
                         <p/>
                         <section className="column">
@@ -482,6 +486,16 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         </Grid>
                     })
                 }
+                {troveItem.littlePrinceItem.lpid &&
+                    <Grid item>
+                        {this.renderDocumentLinkForType("Little Prince Foundation link", lpfoundIcon, `https://www.petit-prince-collection.com/lang/show_livre.php?lang=en&id=${this.extractLpId(troveItem.littlePrinceItem.lpid)}`)}
+                    </Grid>
+                }
+                {troveItem.littlePrinceItem.tintenfassId &&
+                    <Grid item>
+                        {this.renderDocumentLinkForType("Edition Tintenfaß link", tintenfassIcon, `https://editiontintenfass.de/en/catalog/${troveItem.littlePrinceItem.tintenfassId}`)}
+                    </Grid>
+                }
             </Grid>
             <Grid item>
                 <div>
@@ -504,6 +518,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 </div>
             </Grid>
         </Grid>
+    }
+
+    private extractLpId(lpIdWithPP: string) {
+        return lpIdWithPP.replace(/PP-/, '');
     }
 
     private isPresent(value: any | null | undefined): value is null | undefined {
@@ -535,8 +553,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         return language;
     }
 
-    private renderDocumentLink(file: string) {
-        let [fileType, icon] = this.iconFor(file)
+    private renderDocumentLinkForType(fileType: string, icon: string, file: string) {
         return <a href={file}
                   target="_blank"
                   rel="noreferrer">
@@ -548,6 +565,11 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 />
             </SmallTooltip>
         </a>
+    }
+
+    private renderDocumentLink(file: string) {
+        let [fileType, icon] = this.iconFor(file)
+        return this.renderDocumentLinkForType(fileType, icon, file)
     }
 
     private constructPublicationBlurb(item: {
