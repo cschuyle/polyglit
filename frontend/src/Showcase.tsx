@@ -28,19 +28,20 @@ interface TroveItem {
         format?: string,
         illustrator?: string,
         isbn13?: string,
+        isbn?: string,
         language: string,
         largeImageUrl: string,
+        lpid?: string,
+        lumpOfText?: string,
         narrator?: string,
+        owned?: string,
         publisher?: string,
         quantity?: number,
         smallImageUrl: string,
+        tintenfassId?: string
         title: string,
         translator?: string,
         year?: string,
-        owned?: string,
-        lumpOfText?: string,
-        lpid?: string,
-        tintenfassId?: string
     }
 }
 
@@ -131,29 +132,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
             this.setState({
                 troveItems: trove.items
-                    .map( item => {
-                        // TODO Instead of Stringify consider concatenating the strings which used to be matched int he search() method:
-                        //   lpItem.language.toLowerCase().includes(searchText) ||
-                        //   lpItem.title?.toLowerCase().includes(searchText) ||
-                        //   lpItem.author?.toLowerCase().includes(searchText) ||
-                        //   lpItem.format?.toLowerCase().includes(searchText) ||
-                        //   lpItem.illustrator?.toLowerCase().includes(searchText) ||
-                        //   lpItem.narrator?.toLowerCase().includes(searchText) ||
-                        //   lpItem.publisher?.toLowerCase().includes(searchText) ||
-                        //   lpItem.script?.toLowerCase().includes(searchText) ||
-                        //   lpItem.translator?.toLowerCase().includes(searchText) ||
-                        //   lpItem["language-spoken-in"]?.toLowerCase().includes(searchText) ||
-                        //   lpItem["publication-country"]?.toLowerCase().includes(searchText) ||
-                        //   lpItem["publication-location"]?.toLowerCase().includes(searchText) ||
-                        //   lpItem["script-family"]?.toLowerCase().includes(searchText) ||
-                        //   lpItem["search-words"]?.toLowerCase().includes(searchText) ||
-                        //   lpItem["translation-title"]?.toLowerCase().includes(searchText) ||
-                        //   lpItem["translation-title-transliterated"]?.toLowerCase().includes(searchText) ||
-                        //   // TODO Log error if these are not arrays. For that matter log for all fields if they are not the right type
-                        //   lpItem["comments"]?.join(" || ").toLowerCase().includes(searchText) ||
-                        //   lpItem["tags"]?.join(" || ").toLowerCase().includes(searchText)
-
-                        item.littlePrinceItem.lumpOfText = JSON.stringify(item.littlePrinceItem).toLowerCase()
+                    .map(item => {
+                        item.littlePrinceItem.lumpOfText = this.searchableText(item)
                         // console.log("LUMP OF TEXT " + item.littlePrinceItem.lumpOfText)
                         return item
                     })
@@ -220,11 +200,15 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                             Showing {this.state.displayedTroveItems.length} of {this.state.FocusItemCount} editions of {this.props.collectionTitle}.
                             {this.state.focusState === FocusState.OWNED && <p>These are editions that I own.</p>}
                             {this.state.focusState === FocusState.WANTED &&
-                                <p>These are editions that I don't have. If you want to trade or buy, or just want to help me find them, please get in
+                                <p>These are editions that I don't have. If you want to trade or buy, or just want to
+                                    help me find them, please get in
                                     touch! <a href="mailto:carl@dragnon.com">carl@dragnon.com</a></p>}
-                            {this.state.focusState === FocusState.DUPLICATES && <p>These are editions that I have extras to trade or sell. If you're interested, please get in
-                                touch! <a href="mailto:carl@dragnon.com">carl@dragnon.com</a></p>}
-                            {this.state.focusState === FocusState.ALL && <p><b>NOTE:</b> These include editions that I own, and ones that I'm looking for.</p>}
+                            {this.state.focusState === FocusState.DUPLICATES &&
+                                <p>These are editions that I have extras to trade or sell. If you're interested, please
+                                    get in
+                                    touch! <a href="mailto:carl@dragnon.com">carl@dragnon.com</a></p>}
+                            {this.state.focusState === FocusState.ALL &&
+                                <p><b>NOTE:</b> These include editions that I own, and ones that I'm looking for.</p>}
                         </section>
                         <p/>
                         <section className="column">
@@ -361,7 +345,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     return false
                 }
                 let response = false
-                if(all) {
+                if (all) {
                     response = pred2(troveItem)
                         && searchTokens.every(searchToken => {
                             // console.log("SEARCHING FOR " + searchToken)
@@ -502,11 +486,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     <strong><i>{troveItem.littlePrinceItem.title}</i></strong>
                     <p/>{
                     rows.map((row) => {
-                            if (row?.field != null) {
-                                return <span><strong>{row?.field}:</strong> {row?.value}
-                                    <p/>
-                </span>
-                            }
+                            if (row?.field != null) return <span>
+                                <strong>{row?.field}:</strong> {row?.value}<p/></span>
                             if (Array.isArray(row?.value)) {
                                 return row?.value.map((word, idx) => {
                                     return <span key={idx}>{word}<p/></span>;
@@ -687,6 +668,41 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             return ["audio file", audibookIcon]
         }
         return ["file", popoutFlat]
+    }
+
+    private searchableText(item: TroveItem) {
+        let lpItem = item.littlePrinceItem;
+
+        return "" +
+`
+${lpItem.author}
+${lpItem["acquired-from"]}
+${lpItem["comments"]?.join(" || ")} 
+${lpItem.format}
+${lpItem.illustrator}
+${this.canonicalIsbn(lpItem.isbn)}
+${this.canonicalIsbn(lpItem.isbn13)}
+${lpItem.language}
+${lpItem["language-spoken-in"]}
+${lpItem.lpid}
+${lpItem.narrator}
+${lpItem.publisher}
+${lpItem.script}
+${lpItem["search-words"]}
+${lpItem["script-family"]}
+${lpItem["tags"]?.join(" || ")}
+${lpItem["translation-title"]}
+${lpItem["translation-title-transliterated"]}
+${lpItem.tintenfassId}
+${lpItem.title}
+${lpItem.translator}
+${lpItem.year}
+`.toLowerCase();
+    }
+
+    private canonicalIsbn(dirty: string | undefined) {
+        if (!dirty) return dirty;
+        return dirty.replace(/[^\d]/g, '');
     }
 }
 
