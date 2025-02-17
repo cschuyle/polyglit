@@ -9,40 +9,44 @@ import tintenfassIcon from "./images/tinten.png"
 
 import {FormControlLabel, Grid, MenuItem, Select, TextField, Tooltip, withStyles} from "@material-ui/core";
 
+interface TroveItemDetails {
+    "acquired-from"?: string,
+    "comments"?: string[],
+    "date-added"?: string,
+    "language-spoken-in"?: string,
+    "publication-country"?: string,
+    "publication-location"?: string,
+    "script"?: string,
+    "script-family"?: string,
+    "search-words"?: string
+    "tags"?: string[],
+    "translation-title"?: string,
+    "translation-title-transliterated"?: string,
+    author?: string,
+    asin?: string,
+    files?: string[],
+    format?: string,
+    illustrator?: string,
+    isbn13?: string,
+    isbn10?: string,
+    language: string,
+    largeImageUrl: string,
+    lpid?: string,
+    lumpOfText?: string,
+    narrator?: string,
+    owned?: string,
+    publisher?: string,
+    "publisher-series"?: string,
+    quantity?: number,
+    smallImageUrl: string,
+    tintenfassId?: string
+    title: string,
+    translator?: string,
+    year?: string,
+}
+
 interface TroveItem {
-    littlePrinceItem: {
-        "acquired-from"?: string,
-        "comments"?: string[],
-        "date-added"?: string,
-        "language-spoken-in"?: string,
-        "publication-country"?: string,
-        "publication-location"?: string,
-        "script"?: string,
-        "script-family"?: string,
-        "search-words"?: string
-        "tags"?: string[],
-        "translation-title"?: string,
-        "translation-title-transliterated"?: string,
-        author?: string,
-        files?: string[],
-        format?: string,
-        illustrator?: string,
-        isbn13?: string,
-        isbn?: string,
-        language: string,
-        largeImageUrl: string,
-        lpid?: string,
-        lumpOfText?: string,
-        narrator?: string,
-        owned?: string,
-        publisher?: string,
-        quantity?: number,
-        smallImageUrl: string,
-        tintenfassId?: string
-        title: string,
-        translator?: string,
-        year?: string,
-    }
+    littlePrinceItem: TroveItemDetails
 }
 
 function compareTroveItem(a: TroveItem, b: TroveItem) {
@@ -424,7 +428,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 case 'language':
                     return createRow("Language", this.constructLanguage(troveItem))
                 case 'translation-title':
-                    return createRow("Title in translation", this.constructTranslationTitle(troveItem))
+                    return createRow("Title in translation", this.constructTranslationTitle(troveItem.littlePrinceItem))
                 case 'script':
                     return createRow("Script", troveItem.littlePrinceItem.script)
                 case 'translator':
@@ -435,6 +439,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     return createRow("Narrated by", troveItem.littlePrinceItem.narrator)
                 case 'isbn13':
                     return createRow("ISBN-13", troveItem.littlePrinceItem.isbn13)
+                case 'isbn10':
+                    return createRow("ISBN-10", troveItem.littlePrinceItem.isbn10)
+                case 'asin':
+                    return createRow("ASIN", troveItem.littlePrinceItem.asin)
                 case 'format':
                     return createRow("Format", troveItem.littlePrinceItem.format)
                 case 'publisher':
@@ -509,9 +517,9 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         return !(value === null || value === undefined || value === '');
     }
 
-    private constructTranslationTitle(troveItem: TroveItem) {
-        let translationTitle = troveItem.littlePrinceItem['translation-title'];
-        let transliterated = troveItem.littlePrinceItem['translation-title-transliterated'];
+    private constructTranslationTitle(troveItem: TroveItemDetails) {
+        let translationTitle = troveItem['translation-title'];
+        let transliterated = troveItem['translation-title-transliterated'];
 
         if (this.isPresent(translationTitle) && this.isPresent(transliterated)) {
             return `${translationTitle} [${transliterated}]`;
@@ -553,32 +561,16 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         return this.renderDocumentLinkForType(fileType, icon, file)
     }
 
-    private constructPublicationBlurb(item: {
-                                          title: string;
-                                          largeImageUrl: string;
-                                          language: string;
-                                          smallImageUrl: string;
-                                          format?: string;
-                                          illustrator?: string;
-                                          isbn13?: string;
-                                          narrator?: string;
-                                          "publication-country"?: string;
-                                          "publication-location"?: string;
-                                          publisher?: string;
-                                          quantity?: number;
-                                          translator?: string;
-                                          year?: string;
-                                          files?: string[];
-                                          "translation-title"?: string;
-                                          "translation-title-transliterated"?: string;
-                                          "language-spoken-in"?: string;
-                                          script?: string;
-                                          tags?: string[];
-                                      }
-    ) {
+    private constructPublicationBlurb(item: TroveItemDetails) {
         let publisher = item.publisher
         let publicationLocation = item['publication-location']
         let publicationCountry = item['publication-country']
+        let publisherSeries = item['publisher-series']
+        if(this.isPresent(publisherSeries)) {
+            publisherSeries = ` as part of series '${publisherSeries}`
+        } else {
+            publisherSeries = ''
+        }
         if (!(this.isPresent(publisher) || this.isPresent(publicationLocation) || this.isPresent(publicationCountry))) {
             return null
         }
@@ -607,7 +599,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     }
 
 // TODO make URLs into links, and format dates
-    private constructAquisitionBlurb(item: { "acquired-from"?: string, "date-added"?: string }) {
+    private constructAquisitionBlurb(item: TroveItemDetails) {
         let acquiredFrom = item["acquired-from"]
         let dateAcquired = item["date-added"]
         if (!(this.isPresent(acquiredFrom) || this.isPresent(dateAcquired))) {
@@ -680,21 +672,24 @@ ${lpItem["acquired-from"]}
 ${lpItem["comments"]?.join(" || ")} 
 ${lpItem.format}
 ${lpItem.illustrator}
-${this.canonicalIsbn(lpItem.isbn)}
+${this.canonicalIsbn(lpItem.isbn10)}
 ${this.canonicalIsbn(lpItem.isbn13)}
 ${lpItem.language}
 ${lpItem["language-spoken-in"]}
 ${lpItem.lpid}
 ${lpItem.narrator}
+// Problematic because of precision:
+// ${lpItem["publication-location"]}
+// ${lpItem["publication-country"]}
 ${lpItem.publisher}
 ${lpItem.script}
 ${lpItem["search-words"]}
 ${lpItem["script-family"]}
 ${lpItem["tags"]?.join(" || ")}
-${lpItem["translation-title"]}
-${lpItem["translation-title-transliterated"]}
 ${lpItem.tintenfassId}
 ${lpItem.title}
+${lpItem["translation-title"]}
+${lpItem["translation-title-transliterated"]}
 ${lpItem.translator}
 ${lpItem.year}
 `.toLowerCase();
