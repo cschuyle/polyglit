@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/polyglit/static/css/main.e43ff3a2.css",
-    "main.js": "/polyglit/static/js/main.addd63fa.js",
+    "main.js": "/polyglit/static/js/main.618104ec.js",
     "static/js/787.9ebb3b46.chunk.js": "/polyglit/static/js/787.9ebb3b46.chunk.js",
     "static/media/lp-found-fox.png": "/polyglit/static/media/lp-found-fox.6e2b9f9a9cfe1c0c4e99.png",
     "static/media/tinten.png": "/polyglit/static/media/tinten.640874893f155a865482.png",
@@ -13,11 +13,11 @@
     "static/media/document.png": "/polyglit/static/media/document.2d3b74281fb2a86b12b8.png",
     "index.html": "/polyglit/index.html",
     "main.e43ff3a2.css.map": "/polyglit/static/css/main.e43ff3a2.css.map",
-    "main.addd63fa.js.map": "/polyglit/static/js/main.addd63fa.js.map",
+    "main.618104ec.js.map": "/polyglit/static/js/main.618104ec.js.map",
     "787.9ebb3b46.chunk.js.map": "/polyglit/static/js/787.9ebb3b46.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e43ff3a2.css",
-    "static/js/main.addd63fa.js"
+    "static/js/main.618104ec.js"
   ]
 }
