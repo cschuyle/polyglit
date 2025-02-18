@@ -601,18 +601,18 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 // TODO make URLs into links, and format dates
     private constructAquisitionBlurb(item: TroveItemDetails) {
         let acquiredFrom = item["acquired-from"]
-        let dateAcquired = item["date-added"]
-        if (!(this.isPresent(acquiredFrom) || this.isPresent(dateAcquired))) {
+        let dateAdded = item["date-added"]
+        if (!(this.isPresent(acquiredFrom) || this.isPresent(dateAdded))) {
             return null
         }
-        if (this.isPresent(acquiredFrom) && this.isPresent(dateAcquired)) {
-            return `from ${acquiredFrom} on ${dateAcquired}`
+        if (this.isPresent(acquiredFrom) && this.isPresent(dateAdded)) {
+            return `from ${acquiredFrom} on ${dateAdded}`
         }
-        if (!this.isPresent(dateAcquired)) {
+        if (!this.isPresent(dateAdded)) {
             return `from ${acquiredFrom}`
         }
-        if (!this.isPresent(dateAcquired)) {
-            return `on ${dateAcquired}`
+        if (!this.isPresent(dateAdded)) {
+            return `on ${dateAdded}`
         }
     }
 
