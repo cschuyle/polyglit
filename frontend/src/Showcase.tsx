@@ -678,9 +678,6 @@ ${lpItem.language}
 ${lpItem["language-spoken-in"]}
 ${lpItem.lpid}
 ${lpItem.narrator}
-// Problematic because of precision:
-// ${lpItem["publication-location"]}
-// ${lpItem["publication-country"]}
 ${lpItem.publisher}
 ${lpItem.script}
 ${lpItem["search-words"]}
@@ -692,7 +689,12 @@ ${lpItem["translation-title"]}
 ${lpItem["translation-title-transliterated"]}
 ${lpItem.translator}
 ${lpItem.year}
-`.toLowerCase();
+`
+// Problematic because of precision:
+// ${lpItem["publication-location"]}
+// ${lpItem["publication-country"]}
+
+        .toLowerCase();
     }
 
     private canonicalIsbn(dirty: string | undefined) {
