@@ -204,15 +204,15 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                             Showing {this.state.displayedTroveItems.length} of {this.state.FocusItemCount} editions of {this.props.collectionTitle}.
                             {this.state.focusState === FocusState.OWNED && <p>These are editions that I own.</p>}
                             {this.state.focusState === FocusState.WANTED &&
-                                <p>These are editions that I don't have. If you want to trade or buy, or just want to
+                                <p>These are editions that I DO NOT HAVE. I'm looking for them. If you want to trade (or sell!), or just want to
                                     help me find them, please get in
                                     touch! <a href="mailto:carl@dragnon.com">carl@dragnon.com</a></p>}
                             {this.state.focusState === FocusState.DUPLICATES &&
-                                <p>These are editions that I have extras to trade or sell. If you're interested, please
+                                <p>These are editions that I have EXTRAS to trade or sell. If you're interested, please
                                     get in
                                     touch! <a href="mailto:carl@dragnon.com">carl@dragnon.com</a></p>}
                             {this.state.focusState === FocusState.ALL &&
-                                <p><b>NOTE:</b> These include editions that I own, and ones that I'm looking for.</p>}
+                                <p><b>NOTE:</b> These include editions that I own, as well as ones that I'm looking for.</p>}
                         </section>
                         <p/>
                         <section className="column">
