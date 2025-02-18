@@ -567,7 +567,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         let publicationCountry = item['publication-country']
         let publisherSeries = item['publisher-series']
         if(this.isPresent(publisherSeries)) {
-            publisherSeries = ` as part of series '${publisherSeries}`
+            publisherSeries = ` as part of '${publisherSeries}'`
         } else {
             publisherSeries = ''
         }
@@ -576,26 +576,26 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         }
 
         if (!this.isPresent(publisher) && !this.isPresent(publicationLocation)) {
-            return `in ${publicationCountry}`
+            return `in ${publicationCountry}${publisherSeries}`
         }
         if (!this.isPresent(publisher) && !this.isPresent(publicationCountry)) {
-            return `in ${publicationLocation}`
+            return `in ${publicationLocation}${publisherSeries}`
         }
         if (!this.isPresent(publicationLocation) && !this.isPresent(publicationCountry)) {
-            return `by ${publisher}`
+            return `by ${publisher}${publisherSeries}`
         }
 
         if (!this.isPresent(publisher)) {
-            return `in ${publicationLocation}, ${publicationCountry}`
+            return `in ${publicationLocation}, ${publicationCountry}${publisherSeries}`
         }
         if (!this.isPresent(publicationLocation)) {
-            return `by ${publisher} in ${publicationCountry}`
+            return `by ${publisher} in ${publicationCountry}${publisherSeries}`
         }
         if (!this.isPresent(publicationCountry)) {
-            return `by ${publisher} in ${publicationLocation}`
+            return `by ${publisher} in ${publicationLocation}${publisherSeries}`
         }
 
-        return `by ${publisher} in ${publicationLocation}, ${publicationCountry}`
+        return `by ${publisher} in ${publicationLocation}, ${publicationCountry}${publisherSeries}`
     }
 
 // TODO make URLs into links, and format dates
