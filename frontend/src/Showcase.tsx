@@ -566,7 +566,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         let publicationLocation = item['publication-location']
         let publicationCountry = item['publication-country']
         let publisherSeries = item['publisher-series']
-        if(this.isPresent(publisherSeries)) {
+        if (this.isPresent(publisherSeries)) {
             publisherSeries = ` as part of '${publisherSeries}'`
         } else {
             publisherSeries = ''
