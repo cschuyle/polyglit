@@ -80,8 +80,8 @@ interface ShowcaseState {
 }
 
 export interface ShowcaseProps {
-    pageHeader: string,
-    pageSubtitle: string,
+    // pageHeader: string,
+    // pageSubtitle: string,
     troveUrl: string,
     collectionTitle: string,
     showWantedCheckboxes: boolean,
@@ -159,10 +159,23 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         return (
             <div id="main_content_wrap" className="outer">
                 <div id="main_content" className="inner">
-                    <h1>{this.props.pageHeader}</h1>
-                    <p>{this.props.pageSubtitle}</p>
+                    {/*<h1>{this.props.pageHeader}</h1>*/}
+                    {/*<p>{this.props.pageSubtitle}</p>*/}
 
                     <span>
+                        {this.state.focusState === FocusState.OWNED &&
+                            <p>These are editions that I own. Use the dropdown and the search box to filter differently!</p>}
+                        {this.state.focusState === FocusState.WANTED &&
+                            <p>These are editions that I DO NOT HAVE. I'm looking for them. If you want to trade (or sell!), or just want to
+                                help me find them, please get in
+                                touch! <a href="mailto:carl@dragnon.com">carl@dragnon.com</a></p>}
+                        {this.state.focusState === FocusState.DUPLICATES &&
+                            <p>These are editions that I have EXTRAS to trade or sell. If you're interested, please
+                                get in
+                                touch! <a href="mailto:carl@dragnon.com">carl@dragnon.com</a></p>}
+                        {this.state.focusState === FocusState.ALL &&
+                            <p><b>NOTE:</b> These include editions that I own, as well as ones that I'm looking for.</p>}
+
                         <div>
                             <div style={{display: "flex"}}>
                                 <div style={{width: "90%"}}>
@@ -202,17 +215,6 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         <p/>
                         <section>
                             Showing {this.state.displayedTroveItems.length} of {this.state.FocusItemCount} editions of {this.props.collectionTitle}.
-                            {this.state.focusState === FocusState.OWNED && <p>These are editions that I own.</p>}
-                            {this.state.focusState === FocusState.WANTED &&
-                                <p>These are editions that I DO NOT HAVE. I'm looking for them. If you want to trade (or sell!), or just want to
-                                    help me find them, please get in
-                                    touch! <a href="mailto:carl@dragnon.com">carl@dragnon.com</a></p>}
-                            {this.state.focusState === FocusState.DUPLICATES &&
-                                <p>These are editions that I have EXTRAS to trade or sell. If you're interested, please
-                                    get in
-                                    touch! <a href="mailto:carl@dragnon.com">carl@dragnon.com</a></p>}
-                            {this.state.focusState === FocusState.ALL &&
-                                <p><b>NOTE:</b> These include editions that I own, as well as ones that I'm looking for.</p>}
                         </section>
                         <p/>
                         <section className="column">

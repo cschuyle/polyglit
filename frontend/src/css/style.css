@@ -222,6 +222,8 @@ Full-Width Styles
 
 #project_tagline { color: #fff; font-size: 24px; font-weight: 300; background: none; text-shadow: #111 0px 0px 10px; }
 
+#project_tagline2 { color: #ddd; font-size: 18px; font-weight: 200; background: none; text-shadow: #111 0px 0px 10px; }
+
 #downloads { position: absolute; width: 210px; z-index: 10; bottom: -40px; right: 0; height: 70px; background: url("../images/icon_download.png") no-repeat 0% 90%; }
 
 .zip_download_link { display: block; float: right; width: 90px; height: 70px; text-indent: -5000px; overflow: hidden; background: url(../images/sprite_download.png) no-repeat bottom left; }
