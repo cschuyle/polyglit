@@ -63,6 +63,7 @@ interface Trove {
     items: TroveItem[]
 }
 
+
 export enum FocusState {
     ALL,
     WANTED,
