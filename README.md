@@ -1,6 +1,6 @@
 # Polyglit
 
-A showcase for multilingual collections of books
+A showcase website for multilingual collections of books
 
 Copyright (C) 2021-2025, Carlton Schuyler
 
