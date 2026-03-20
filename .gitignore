@@ -3,3 +3,6 @@
 *.ipr
 *.iml
 *.iws
+
+# Mac Crap
+.DS_Store
