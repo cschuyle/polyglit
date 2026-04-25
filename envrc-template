@@ -1,1 +1,2 @@
-export POLYGLIT_LOCAL=true
+# Set this to load data from the local fixtures instead of from S3.
+#export POLYGLIT_LOCAL=true
