@@ -699,7 +699,9 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             return "";
         }
         const maps = this.state.langIsoMaps;
-        return Array.from(new Set(pairs.map((p) => nameFor6393(p.lang, maps)))).join("; ");
+        return Array.from(new Set(pairs.map((p) => nameFor6393(p.lang, maps))))
+            .filter((s) => s !== "")
+            .join("; ");
     }
 
     private listViewLangNames6391(troveItem: TroveItem): string {
@@ -709,8 +711,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         }
         const maps = this.state.langIsoMaps;
         return Array.from(
-            new Set(pairs.map((p) => (p.lang2 != null ? nameFor6391(p.lang2, maps) : "—"))),
-        ).join("; ");
+            new Set(pairs.map((p) => (p.lang2 != null ? nameFor6391(p.lang2, maps) : ""))),
+        )
+            .filter((s) => s !== "")
+            .join("; ");
     }
 
     private listViewLangTags(troveItem: TroveItem): string {
@@ -719,8 +723,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             return "";
         }
         return Array.from(
-            new Set(pairs.map((p) => (p.langTag != null && p.langTag !== "" ? p.langTag : "—"))),
-        ).join("; ");
+            new Set(pairs.map((p) => (p.langTag != null && p.langTag !== "" ? p.langTag : ""))),
+        )
+            .filter((s) => s !== "")
+            .join("; ");
     }
 
     private toggleListSort(column: ListSortColumn) {
@@ -826,6 +832,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     <tbody>
                         {this.listViewSortedItems().map((troveItem, index) => {
                             const lp = troveItem.littlePrinceItem;
+                            const langTagsText = this.listViewLangTags(troveItem);
                             const rowKey =
                                 troveItem.polyglitStableRowKey ??
                                 `${lp.lpid ?? "noid"}-${lp.smallImageUrl}-${lp.title}-${index}`;
@@ -856,7 +863,9 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                     <td style={cellStyle}>{this.listViewLangNames6393(troveItem)}</td>
                                     <td style={cellStyle}>{this.listViewLangNames6391(troveItem)}</td>
                                     <td style={cellStyle}>
-                                        <code style={{fontSize: "0.9em", whiteSpace: "pre-wrap"}}>{this.listViewLangTags(troveItem)}</code>
+                                        {langTagsText.trim() !== "" ? (
+                                            <code style={{fontSize: "0.9em", whiteSpace: "pre-wrap"}}>{langTagsText}</code>
+                                        ) : null}
                                     </td>
                                     <td style={cellStyle}>{lp.lpid ?? ""}</td>
                                 </tr>
