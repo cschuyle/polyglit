@@ -8,6 +8,17 @@ import lpfoundIcon from "./images/lp-found-fox.png"
 import tintenfassIcon from "./images/tinten.png"
 
 import {FormControlLabel, Grid, MenuItem, Select, TextField, Tooltip, withStyles} from "@material-ui/core";
+import {fetchLangIsoMaps, LangIsoMaps, LangPair, nameFor6391, nameFor6393} from "./langIsoLookup";
+
+enum CaptionMode {
+    TITLES = "titles",
+    LANGUAGES = "languages"
+}
+
+enum ViewMode {
+    GALLERY = "gallery",
+    LIST = "list"
+}
 
 interface TroveItemDetails {
     "acquired-from"?: string,
@@ -29,6 +40,7 @@ interface TroveItemDetails {
     illustrator?: string,
     isbn13?: string,
     isbn10?: string,
+    langPairs?: LangPair[],
     language: string,
     largeImageUrl: string,
     lpid?: string,
@@ -77,7 +89,10 @@ interface ShowcaseState {
     displayedTroveItems: TroveItem[],
     focusState?: FocusState
     focusItems: TroveItem[],
-    FocusItemCount: number
+    FocusItemCount: number,
+    langIsoMaps: LangIsoMaps | null,
+    captionMode: CaptionMode,
+    viewMode: ViewMode
 }
 
 export interface ShowcaseProps {
@@ -127,12 +142,15 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             focusItems: [],
             searchText: "",
             focusState: (props.showWantedCheckboxes ? FocusState.OWNED : FocusState.ALL),
-            FocusItemCount: 0
+            FocusItemCount: 0,
+            langIsoMaps: null,
+            captionMode: CaptionMode.TITLES,
+            viewMode: ViewMode.GALLERY
         }
     }
 
     componentDidMount() {
-        this.fetchTrove().then(trove => {
+        Promise.all([this.fetchTrove(), fetchLangIsoMaps(this.props.troveUrl)]).then(([trove, langIsoMaps]) => {
             console.log(`Got ${trove.items.length} Trove items`)
 
             this.setState({
@@ -142,7 +160,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         // console.log("LUMP OF TEXT " + item.littlePrinceItem.lumpOfText)
                         return item
                     })
-                    .sort(compareTroveItem)
+                    .sort(compareTroveItem),
+                langIsoMaps
             });
             this.setFocus(this.props.focusState)
             this.search("", this.props.focusState)
@@ -177,54 +196,94 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         {this.state.focusState === FocusState.ALL &&
                             <p><b>NOTE:</b> These include books that I own, and ones that I'm looking for.</p>}
 
-                        <div>
-                            <div style={{display: "flex"}}>
-                                <div style={{width: "90%"}}>
-                                    <TextField label="Search keywords"
-                                               type="search" variant="outlined"
-                                               style={{width: "100%"}}
-                                               value={this.state.searchText}
-                                               onChange={e => this.onSearchTextChanged(e)}
-                                               placeholder="language, country, title, script, format ..."
+                        <div
+                            style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "flex-start",
+                                gap: "20px",
+                                width: "100%",
+                            }}
+                        >
+                            <div style={{flex: 1, minWidth: 0}}>
+                                <TextField label="Search keywords"
+                                           type="search" variant="outlined"
+                                           style={{width: "100%"}}
+                                           value={this.state.searchText}
+                                           onChange={e => this.onSearchTextChanged(e)}
+                                           placeholder="language, country, title, script, format ..."
+                                />
+                                <section style={{marginTop: "12px"}}>
+                                    Showing {this.state.displayedTroveItems.length} of {this.state.FocusItemCount} editions
+                                    of {this.props.collectionTitle}.
+                                </section>
+                            </div>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    gap: "10px",
+                                    flexShrink: 0,
+                                    alignItems: "stretch",
+                                }}
+                            >
+                                {this.props.showWantedCheckboxes && (
+                                    <FormControlLabel
+                                        label=""
+                                        control={
+                                            <Select
+                                                value={this.state.focusState}
+                                                onChange={(e: any) => this.onFocusStateChanged(e)}
+                                                color="primary"
+                                            >
+                                                <MenuItem value={FocusState.OWNED}>I have these</MenuItem>
+                                                <MenuItem value={FocusState.WANTED}>I want these</MenuItem>
+                                                <MenuItem value={FocusState.DUPLICATES}>To trade!</MenuItem>
+                                                <MenuItem value={FocusState.ALL}>All</MenuItem>
+                                            </Select>
+                                        }
                                     />
-                                </div>
-                                {this.props.showWantedCheckboxes &&
-                                    <div style={{marginLeft: "20px"}}>
-                                        <div style={{float: "left"}}>
-                                            <FormControlLabel
-                                                label=""
-                                                control={
-                                                    <Select
-                                                        value={this.state.focusState}
-
-                                                        onChange={(e: any) => this.onFocusStateChanged(e)}
-                                                        color="primary"
-                                                    >
-
-                                                        <MenuItem value={FocusState.OWNED}>I have these</MenuItem>
-                                                        <MenuItem value={FocusState.WANTED}>I want these</MenuItem>
-                                                        <MenuItem value={FocusState.DUPLICATES}>To trade!</MenuItem>
-                                                        <MenuItem value={FocusState.ALL}>All</MenuItem>
-                                                    </Select>
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                }
+                                )}
+                                <FormControlLabel
+                                    label=""
+                                    control={
+                                        <Select
+                                            value={this.state.captionMode}
+                                            onChange={(e: any) => this.onCaptionModeChanged(e)}
+                                            color="primary"
+                                        >
+                                            <MenuItem value={CaptionMode.TITLES}>Show Titles</MenuItem>
+                                            <MenuItem value={CaptionMode.LANGUAGES}>Show Languages</MenuItem>
+                                        </Select>
+                                    }
+                                />
+                                <FormControlLabel
+                                    label=""
+                                    control={
+                                        <Select
+                                            value={this.state.viewMode}
+                                            onChange={(e: any) => this.onViewModeChanged(e)}
+                                            color="primary"
+                                        >
+                                            <MenuItem value={ViewMode.GALLERY}>Gallery</MenuItem>
+                                            <MenuItem value={ViewMode.LIST}>List</MenuItem>
+                                        </Select>
+                                    }
+                                />
                             </div>
                         </div>
                         <p/>
-                        <section>
-                            Showing {this.state.displayedTroveItems.length} of {this.state.FocusItemCount} editions of {this.props.collectionTitle}.
-                        </section>
-                        <p/>
-                        <section className="column">
-                            {
-                                this.state.displayedTroveItems.map((troveItem, index) => {
-                                    return this.renderTroveItem(troveItem, index)
-                                })
-                            }
-                        </section>
+                        {this.state.viewMode === ViewMode.GALLERY ? (
+                            <section className="column">
+                                {
+                                    this.state.displayedTroveItems.map((troveItem, index) => {
+                                        return this.renderTroveItem(troveItem, index)
+                                    })
+                                }
+                            </section>
+                        ) : (
+                            this.renderListView()
+                        )}
                     </span>
                 </div>
             </div>
@@ -246,6 +305,14 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         });
         this.setFocus(newFocusState);
         this.search(this.state.searchText, newFocusState)
+    }
+
+    private onCaptionModeChanged(e: React.ChangeEvent<{ name?: string; value: unknown }>) {
+        this.setState({captionMode: e.target.value as CaptionMode});
+    }
+
+    private onViewModeChanged(e: React.ChangeEvent<{ name?: string; value: unknown }>) {
+        this.setState({viewMode: e.target.value as ViewMode});
     }
 
     private setFocus(focusState: FocusState | undefined) {
@@ -386,7 +453,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         >
 
             <div className="thumbnail" key={key}>
-                <a target="_blank" href={troveItem.littlePrinceItem.largeImageUrl}>
+                <a target="_blank" rel="noreferrer" href={troveItem.littlePrinceItem.largeImageUrl}>
                     <div style={{position: "relative"}}>
                         <img width="150" height={"100%"}
                              src={troveItem.littlePrinceItem.smallImageUrl}
@@ -395,9 +462,138 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         />
                     </div>
                 </a>
-                <div className="caption">{troveItem.littlePrinceItem.language}</div>
+                {this.renderThumbnailCaption(troveItem)}
             </div>
         </BigWhiteTooltip>
+    }
+
+    private renderThumbnailCaption(troveItem: TroveItem) {
+        if (this.state.captionMode === CaptionMode.TITLES) {
+            return <div className="caption">{troveItem.littlePrinceItem.language}</div>;
+        }
+        const maps = this.state.langIsoMaps;
+        const pairs = troveItem.littlePrinceItem.langPairs;
+        return (
+            <div className="caption" style={{textAlign: "left"}}>
+                <div>{this.constructLanguage(troveItem)}</div>
+                {pairs && pairs.length > 0 && (
+                    <ul style={{margin: "0.35em 0 0 0", paddingLeft: "1.1em", fontSize: "0.9em"}}>
+                        {pairs.map((pair, idx) => (
+                            <li key={idx}>
+                                {nameFor6393(pair.lang, maps)}
+                                {pair.lang2 != null && (
+                                    <> · {nameFor6391(pair.lang2, maps)}</>
+                                )}
+                                {pair.langTag && ` (${pair.langTag})`}
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
+        );
+    }
+
+    private listViewLangNames6393(troveItem: TroveItem): string {
+        const pairs = troveItem.littlePrinceItem.langPairs;
+        if (!pairs?.length) {
+            return "";
+        }
+        const maps = this.state.langIsoMaps;
+        return pairs.map((p) => nameFor6393(p.lang, maps)).join("; ");
+    }
+
+    private listViewLangNames6391(troveItem: TroveItem): string {
+        const pairs = troveItem.littlePrinceItem.langPairs;
+        if (!pairs?.length) {
+            return "";
+        }
+        const maps = this.state.langIsoMaps;
+        return pairs
+            .map((p) => (p.lang2 != null ? nameFor6391(p.lang2, maps) : "—"))
+            .join("; ");
+    }
+
+    private listViewLangTags(troveItem: TroveItem): string {
+        const pairs = troveItem.littlePrinceItem.langPairs;
+        if (!pairs?.length) {
+            return "";
+        }
+        return pairs.map((p) => (p.langTag != null && p.langTag !== "" ? p.langTag : "—")).join("; ");
+    }
+
+    private renderListView() {
+        const tableStyle: React.CSSProperties = {
+            width: "100%",
+            borderCollapse: "collapse",
+            fontSize: "0.9em",
+        };
+        const cellStyle: React.CSSProperties = {
+            border: "1px solid #ccc",
+            padding: "6px 8px",
+            verticalAlign: "top",
+        };
+        const thStyle: React.CSSProperties = {
+            ...cellStyle,
+            backgroundColor: "#f5f5f5",
+            textAlign: "left",
+            color: "#000",
+        };
+        return (
+            <div style={{overflowX: "auto", width: "100%"}}>
+                <table style={tableStyle}>
+                    <thead>
+                        <tr>
+                            <th style={thStyle}>Thumbnail</th>
+                            <th style={thStyle}>Title</th>
+                            <th style={thStyle}>Language</th>
+                            <th style={thStyle}>Language string</th>
+                            <th style={thStyle}>lang</th>
+                            <th style={thStyle}>lang2</th>
+                            <th style={thStyle}>langTag</th>
+                            <th style={thStyle}>lpid</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.displayedTroveItems.map((troveItem, index) => {
+                            const lp = troveItem.littlePrinceItem;
+                            return (
+                                <tr key={index}>
+                                    <td style={cellStyle}>
+                                        <BigWhiteTooltip
+                                            title={this.troveItemTooltipContents(troveItem)}
+                                            arrow
+                                            interactive
+                                            placement="right-start"
+                                            enterDelay={300}
+                                            enterNextDelay={300}
+                                        >
+                                            <a href={lp.largeImageUrl} target="_blank" rel="noreferrer">
+                                                <img
+                                                    width="80"
+                                                    height="100%"
+                                                    src={lp.smallImageUrl}
+                                                    alt={lp.title}
+                                                    style={{display: "block"}}
+                                                />
+                                            </a>
+                                        </BigWhiteTooltip>
+                                    </td>
+                                    <td style={cellStyle}>{lp.title}</td>
+                                    <td style={cellStyle}>{lp.language}</td>
+                                    <td style={cellStyle}>{this.constructLanguage(troveItem)}</td>
+                                    <td style={cellStyle}>{this.listViewLangNames6393(troveItem)}</td>
+                                    <td style={cellStyle}>{this.listViewLangNames6391(troveItem)}</td>
+                                    <td style={cellStyle}>
+                                        <code style={{fontSize: "0.9em", whiteSpace: "pre-wrap"}}>{this.listViewLangTags(troveItem)}</code>
+                                    </td>
+                                    <td style={cellStyle}>{lp.lpid ?? ""}</td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+            </div>
+        );
     }
 
     private troveItemTooltipContents(troveItem: TroveItem) {

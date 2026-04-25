@@ -5,6 +5,18 @@
     margin: 0 auto;
 }
 
+/* Main collection area: use horizontal space on large viewports (list table, search row). */
+#main_content.inner {
+    max-width: min(96vw, 1280px);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Override global `th` (white on dark) from style.css for list view column headers. */
+#main_content table thead th {
+    color: #000;
+}
+
 .thumbnail{
     vertical-align:top;
     display:inline-block;

@@ -10,6 +10,7 @@ import './css/Showcase.css';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 import Showcase, {FocusState} from './Showcase';
+import {trovePublicJson} from './troveUrls';
 // import HomePage from './HomePage';
 import reportWebVitals from './reportWebVitals';
 
@@ -30,7 +31,7 @@ ReactDOM.render(
                     <Showcase
                         // pageHeader="The Little Prince (Le Petit Prince) by Antoine de Saint-Exupéry"
                         // pageSubtitle="My collection, painstakingly acquired over the years."
-                        troveUrl="https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince.json"
+                        troveUrl={trovePublicJson('little-prince.json')}
                         collectionTitle="Le Petit Prince, by Antoine de Saint-Exupéry"
                         showWantedCheckboxes={true}
                         focusState={FocusState.OWNED}
@@ -40,7 +41,7 @@ ReactDOM.render(
                     <Showcase
                         // pageHeader="The Hobbit, or There and Back Again - by J.R.R. Tolkien"
                         // pageSubtitle="My collection, painstakingly acquired over the years."
-                        troveUrl="https://moocho-test.s3-us-west-2.amazonaws.com/public/hobbit.json"
+                        troveUrl={trovePublicJson('hobbit.json')}
                         collectionTitle = "The Hobbit"
                         showWantedCheckboxes={false}
                         focusState={FocusState.OWNED}
@@ -50,7 +51,7 @@ ReactDOM.render(
                     <Showcase
                         // pageHeader="Alice's Adventures in Wonderland, by Lewis Carroll"
                         // pageSubtitle="My collection, painstakingly acquired over the years."
-                        troveUrl="https://moocho-test.s3-us-west-2.amazonaws.com/public/alice-in-wonderland.json"
+                        troveUrl={trovePublicJson('alice-in-wonderland.json')}
                         collectionTitle = "Alice in Wonderland"
                         showWantedCheckboxes={false}
                         focusState={FocusState.OWNED}
@@ -60,7 +61,7 @@ ReactDOM.render(
                     <Showcase
                         // pageHeader="Collection: Not originally in English"
                         // pageSubtitle="My collection, painstakingly acquired over the years."
-                        troveUrl="https://moocho-test.s3-us-west-2.amazonaws.com/public/books.json"
+                        troveUrl={trovePublicJson('books.json')}
                         collectionTitle = "opportunistically-acquired titles, either translated from, or in the original non-English text"
                         showWantedCheckboxes={false}
                         focusState={FocusState.OWNED}

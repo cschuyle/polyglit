@@ -2,10 +2,10 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Showcase from './Showcase';
 
-test('renders the title', () => {
+test('renders search and edition summary', () => {
   render(<Showcase
       // pageHeader='' pageSubtitle=''
       troveUrl='' collectionTitle='' showWantedCheckboxes={false}/>);
-  const linkElement = screen.getByText(/Little Prince/);
-  expect(linkElement).toBeInTheDocument();
+  expect(screen.getByPlaceholderText(/language, country/)).toBeInTheDocument();
+  expect(screen.getByText(/editions of/)).toBeInTheDocument();
 });

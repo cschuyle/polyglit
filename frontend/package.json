@@ -22,8 +22,8 @@
     "web-vitals": "^1.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "node scripts/run-with-polyglit-local.cjs start",
+    "build": "node scripts/run-with-polyglit-local.cjs build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build && cp build/index.html build/404.html",
