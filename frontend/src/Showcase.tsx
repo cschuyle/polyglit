@@ -37,7 +37,6 @@ enum ViewMode {
 type ListSortColumn =
     | "thumbnail"
     | "title"
-    | "language"
     | "languageString"
     | "lang6393"
     | "lang6391"
@@ -740,8 +739,6 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 return lp.smallImageUrl ?? "";
             case "title":
                 return lp.title ?? "";
-            case "language":
-                return lp.language ?? "";
             case "languageString":
                 return this.constructLanguage(troveItem) ?? "";
             case "lang6393":
@@ -819,8 +816,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         <tr>
                             {this.renderListSortHeader(thStyle, "thumbnail", "Thumbnail")}
                             {this.renderListSortHeader(thStyle, "title", "Title")}
-                            {this.renderListSortHeader(thStyle, "language", "Language")}
-                            {this.renderListSortHeader(thStyle, "languageString", "Language string")}
+                            {this.renderListSortHeader(thStyle, "languageString", "Language Description")}
                             {this.renderListSortHeader(thStyle, "lang6393", "lang")}
                             {this.renderListSortHeader(thStyle, "lang6391", "lang2")}
                             {this.renderListSortHeader(thStyle, "langTag", "langTag")}
@@ -856,7 +852,6 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                         </BigWhiteTooltip>
                                     </td>
                                     <td style={cellStyle}>{lp.title}</td>
-                                    <td style={cellStyle}>{lp.language}</td>
                                     <td style={cellStyle}>{this.constructLanguage(troveItem)}</td>
                                     <td style={cellStyle}>{this.listViewLangNames6393(troveItem)}</td>
                                     <td style={cellStyle}>{this.listViewLangNames6391(troveItem)}</td>
