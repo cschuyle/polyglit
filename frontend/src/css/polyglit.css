@@ -17,6 +17,25 @@
     color: #000;
 }
 
+/* Gallery: fluid columns so the grid spans the same width as search / controls (#main_content). */
+#main_content .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 6px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#main_content .gallery-grid > * {
+    justify-self: center;
+    min-width: 0;
+}
+
+#main_content .gallery-grid .thumbnail {
+    margin: 0;
+    max-width: 100%;
+}
+
 .thumbnail{
     vertical-align:top;
     display:inline-block;
@@ -32,11 +51,11 @@ div.thumbnail{
 }
 .thumbnail .caption{
     width: 150px;
-    margin: 0 20px 0 0;
+    max-width: 100%;
+    margin: 10px 0 0 0;
     horizontal-align:center;
     text-align:center;
     max-height: 90px;
-    margin-top: 10px;
 }
 .thumbnail a{
     horizontal-align:center;

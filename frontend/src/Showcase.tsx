@@ -7,7 +7,18 @@ import audibookIcon from "./images/audiobook.png"
 import lpfoundIcon from "./images/lp-found-fox.png"
 import tintenfassIcon from "./images/tinten.png"
 
-import {FormControlLabel, Grid, MenuItem, Select, TextField, Tooltip, withStyles} from "@material-ui/core";
+import {
+    FormControlLabel,
+    Grid,
+    IconButton,
+    MenuItem,
+    Select,
+    TextField,
+    Tooltip,
+    withStyles,
+} from "@material-ui/core";
+import ViewList from "@material-ui/icons/ViewList";
+import ViewModule from "@material-ui/icons/ViewModule";
 import {fetchLangIsoMaps, LangIsoMaps, LangPair, nameFor6391, nameFor6393} from "./langIsoLookup";
 
 enum CaptionMode {
@@ -182,99 +193,82 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     {/*<h1>{this.props.pageHeader}</h1>*/}
                     {/*<p>{this.props.pageSubtitle}</p>*/}
 
-                    <span>
-                        {this.state.focusState === FocusState.OWNED &&
-                            <p>These are books that I own. Use the dropdown and the search box to filter differently!</p>}
-                        {this.state.focusState === FocusState.WANTED &&
-                            <p>These are books that I DO NOT HAVE. I'm looking for them. If you want to trade (or sell!), or just want to
-                                help me find them, please get in
-                                touch! <a href="mailto:carl@dragnon.com">carl@dragnon.com</a></p>}
-                        {this.state.focusState === FocusState.DUPLICATES &&
-                            <p>These are books that I have EXTRAS to trade or sell. If you're interested, please
-                                get in
-                                touch! <a href="mailto:carl@dragnon.com">carl@dragnon.com</a></p>}
-                        {this.state.focusState === FocusState.ALL &&
-                            <p><b>NOTE:</b> These include books that I own, and ones that I'm looking for.</p>}
+                    <div style={{width: "100%"}}>
+                        {this.props.showWantedCheckboxes ? (
+                            this.renderFocusStateSelect()
+                        ) : (
+                            <>
+                                {this.state.focusState === FocusState.OWNED && (
+                                    <p>
+                                        These are books that I own. Use the dropdown and the search box to filter
+                                        differently!
+                                    </p>
+                                )}
+                                {this.state.focusState === FocusState.WANTED && (
+                                    <p>
+                                        These are books that I DO NOT HAVE. I&apos;m looking for them. If you want to
+                                        trade (or sell!), or just want to help me find them, please get in touch!{" "}
+                                        <a href="mailto:carl@dragnon.com">carl@dragnon.com</a>
+                                    </p>
+                                )}
+                                {this.state.focusState === FocusState.DUPLICATES && (
+                                    <p>
+                                        These are books that I have EXTRAS to trade or sell. If you&apos;re
+                                        interested, please get in touch!{" "}
+                                        <a href="mailto:carl@dragnon.com">carl@dragnon.com</a>
+                                    </p>
+                                )}
+                                {this.state.focusState === FocusState.ALL && (
+                                    <p>
+                                        <b>NOTE:</b> These include books that I own, and ones that I&apos;m looking for.
+                                    </p>
+                                )}
+                            </>
+                        )}
 
+                        <div className="search-results" style={{width: "100%"}}>
+                        <div style={{width: "100%", marginTop: "12px"}}>
+                            <TextField label="Search keywords"
+                                       type="search" variant="outlined"
+                                       style={{width: "100%"}}
+                                       value={this.state.searchText}
+                                       onChange={e => this.onSearchTextChanged(e)}
+                                       placeholder="language, country, title, script, format ..."
+                            />
+                        </div>
                         <div
                             style={{
                                 display: "flex",
                                 flexDirection: "row",
-                                alignItems: "flex-start",
-                                gap: "20px",
+                                flexWrap: "wrap",
+                                alignItems: "center",
+                                gap: "12px",
+                                marginTop: "12px",
                                 width: "100%",
                             }}
                         >
-                            <div style={{flex: 1, minWidth: 0}}>
-                                <TextField label="Search keywords"
-                                           type="search" variant="outlined"
-                                           style={{width: "100%"}}
-                                           value={this.state.searchText}
-                                           onChange={e => this.onSearchTextChanged(e)}
-                                           placeholder="language, country, title, script, format ..."
-                                />
-                                <section style={{marginTop: "12px"}}>
-                                    Showing {this.state.displayedTroveItems.length} of {this.state.FocusItemCount} editions
-                                    of {this.props.collectionTitle}.
-                                </section>
-                            </div>
+                            <section style={{margin: 0, flex: "0 1 auto", minWidth: 0}}>
+                                Showing {this.state.displayedTroveItems.length} of {this.state.FocusItemCount} editions
+                                of {this.props.collectionTitle}.
+                            </section>
                             <div
                                 style={{
                                     display: "flex",
-                                    flexDirection: "column",
-                                    gap: "10px",
+                                    flexDirection: "row",
+                                    flexWrap: "wrap",
+                                    alignItems: "center",
+                                    gap: "12px",
                                     flexShrink: 0,
-                                    alignItems: "stretch",
+                                    marginLeft: "auto",
                                 }}
                             >
-                                {this.props.showWantedCheckboxes && (
-                                    <FormControlLabel
-                                        label=""
-                                        control={
-                                            <Select
-                                                value={this.state.focusState}
-                                                onChange={(e: any) => this.onFocusStateChanged(e)}
-                                                color="primary"
-                                            >
-                                                <MenuItem value={FocusState.OWNED}>I have these</MenuItem>
-                                                <MenuItem value={FocusState.WANTED}>I want these</MenuItem>
-                                                <MenuItem value={FocusState.DUPLICATES}>To trade!</MenuItem>
-                                                <MenuItem value={FocusState.ALL}>All</MenuItem>
-                                            </Select>
-                                        }
-                                    />
-                                )}
-                                <FormControlLabel
-                                    label=""
-                                    control={
-                                        <Select
-                                            value={this.state.captionMode}
-                                            onChange={(e: any) => this.onCaptionModeChanged(e)}
-                                            color="primary"
-                                        >
-                                            <MenuItem value={CaptionMode.TITLES}>Show Titles</MenuItem>
-                                            <MenuItem value={CaptionMode.LANGUAGES}>Show Languages</MenuItem>
-                                        </Select>
-                                    }
-                                />
-                                <FormControlLabel
-                                    label=""
-                                    control={
-                                        <Select
-                                            value={this.state.viewMode}
-                                            onChange={(e: any) => this.onViewModeChanged(e)}
-                                            color="primary"
-                                        >
-                                            <MenuItem value={ViewMode.GALLERY}>Gallery</MenuItem>
-                                            <MenuItem value={ViewMode.LIST}>List</MenuItem>
-                                        </Select>
-                                    }
-                                />
+                                {this.renderViewModeToggle()}
+                                {this.renderCaptionModeSelect()}
                             </div>
                         </div>
                         <p/>
                         {this.state.viewMode === ViewMode.GALLERY ? (
-                            <section className="column">
+                            <section className="gallery-grid">
                                 {
                                     this.state.displayedTroveItems.map((troveItem, index) => {
                                         return this.renderTroveItem(troveItem, index)
@@ -284,7 +278,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         ) : (
                             this.renderListView()
                         )}
-                    </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
@@ -311,8 +306,110 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         this.setState({captionMode: e.target.value as CaptionMode});
     }
 
-    private onViewModeChanged(e: React.ChangeEvent<{ name?: string; value: unknown }>) {
-        this.setState({viewMode: e.target.value as ViewMode});
+    private setViewMode(mode: ViewMode) {
+        this.setState({viewMode: mode});
+    }
+
+    private renderCaptionModeSelect() {
+        return (
+            <FormControlLabel
+                style={{margin: 0}}
+                label=""
+                control={
+                    <Select
+                        value={this.state.captionMode}
+                        onChange={(e: any) => this.onCaptionModeChanged(e)}
+                        color="primary"
+                    >
+                        <MenuItem value={CaptionMode.TITLES}>Show Titles</MenuItem>
+                        <MenuItem value={CaptionMode.LANGUAGES}>Show Languages</MenuItem>
+                    </Select>
+                }
+            />
+        );
+    }
+
+    private renderFocusStateSelect() {
+        return (
+            <FormControlLabel
+                style={{margin: 0}}
+                label=""
+                control={
+                    <Select
+                        value={this.state.focusState}
+                        onChange={(e: any) => this.onFocusStateChanged(e)}
+                        color="primary"
+                    >
+                        <MenuItem value={FocusState.OWNED}>Show editions that I own</MenuItem>
+                        <MenuItem value={FocusState.WANTED}>Show editions that I&apos;m looking for</MenuItem>
+                        <MenuItem value={FocusState.DUPLICATES}>
+                            Show editions of which I have extras to trade or sell
+                        </MenuItem>
+                        <MenuItem value={FocusState.ALL}>
+                            Show all editions — the ones I own as well as I&apos;m explicitly looking for
+                        </MenuItem>
+                    </Select>
+                }
+            />
+        );
+    }
+
+    private renderViewModeToggle() {
+        const isGallery = this.state.viewMode === ViewMode.GALLERY;
+        const border = "1px solid rgba(0, 0, 0, 0.23)";
+        const selectedBg = "rgba(63, 81, 181, 0.12)";
+        const btnSx: React.CSSProperties = {
+            borderRadius: 0,
+            padding: 8,
+            minWidth: 44,
+        };
+        return (
+            <div
+                role="group"
+                aria-label="Layout: gallery or list"
+                style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    border,
+                    borderRadius: 4,
+                    overflow: "hidden",
+                    width: "fit-content",
+                    flexShrink: 0,
+                }}
+            >
+                <Tooltip title="Gallery view">
+                    <IconButton
+                        aria-label="Gallery view"
+                        aria-pressed={isGallery}
+                        onClick={() => this.setViewMode(ViewMode.GALLERY)}
+                        color={isGallery ? "primary" : "default"}
+                        size="small"
+                        style={{
+                            ...btnSx,
+                            backgroundColor: isGallery ? selectedBg : undefined,
+                        }}
+                    >
+                        <ViewModule />
+                    </IconButton>
+                </Tooltip>
+                <div style={{width: 1, flexShrink: 0, backgroundColor: "rgba(0, 0, 0, 0.12)"}} />
+                <Tooltip title="List view">
+                    <IconButton
+                        aria-label="List view"
+                        aria-pressed={!isGallery}
+                        onClick={() => this.setViewMode(ViewMode.LIST)}
+                        color={!isGallery ? "primary" : "default"}
+                        size="small"
+                        style={{
+                            ...btnSx,
+                            backgroundColor: !isGallery ? selectedBg : undefined,
+                        }}
+                    >
+                        <ViewList />
+                    </IconButton>
+                </Tooltip>
+            </div>
+        );
     }
 
     private setFocus(focusState: FocusState | undefined) {
@@ -467,25 +564,42 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         </BigWhiteTooltip>
     }
 
+    /** One caption line: avoids "English · English" when 639-3 and 639-1 resolve to the same label. */
+    private formatLangPairCaptionLine(pair: LangPair, maps: LangIsoMaps | null): string {
+        const n3 = nameFor6393(pair.lang, maps);
+        const n1 = pair.lang2 != null ? nameFor6391(pair.lang2, maps) : null;
+        const core = n1 != null && n1 !== n3 ? `${n3} · ${n1}` : n3;
+        return pair.langTag ? `${core} (${pair.langTag})` : core;
+    }
+
+    /** Ordered unique caption lines (duplicate pairs or duplicate resolved text shown once). */
+    private uniqueLangPairCaptionLines(pairs: LangPair[], maps: LangIsoMaps | null): string[] {
+        const seen = new Set<string>();
+        const lines: string[] = [];
+        for (const p of pairs) {
+            const line = this.formatLangPairCaptionLine(p, maps);
+            if (seen.has(line)) {
+                continue;
+            }
+            seen.add(line);
+            lines.push(line);
+        }
+        return lines;
+    }
+
     private renderThumbnailCaption(troveItem: TroveItem) {
         if (this.state.captionMode === CaptionMode.TITLES) {
             return <div className="caption">{troveItem.littlePrinceItem.language}</div>;
         }
         const maps = this.state.langIsoMaps;
         const pairs = troveItem.littlePrinceItem.langPairs;
+        const lines = pairs?.length ? this.uniqueLangPairCaptionLines(pairs, maps) : [];
         return (
             <div className="caption" style={{textAlign: "left"}}>
-                <div>{this.constructLanguage(troveItem)}</div>
-                {pairs && pairs.length > 0 && (
-                    <ul style={{margin: "0.35em 0 0 0", paddingLeft: "1.1em", fontSize: "0.9em"}}>
-                        {pairs.map((pair, idx) => (
-                            <li key={idx}>
-                                {nameFor6393(pair.lang, maps)}
-                                {pair.lang2 != null && (
-                                    <> · {nameFor6391(pair.lang2, maps)}</>
-                                )}
-                                {pair.langTag && ` (${pair.langTag})`}
-                            </li>
+                {lines.length > 0 && (
+                    <ul style={{margin: 0, paddingLeft: "1.1em", fontSize: "0.9em"}}>
+                        {lines.map((line, idx) => (
+                            <li key={idx}>{line}</li>
                         ))}
                     </ul>
                 )}
@@ -499,7 +613,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             return "";
         }
         const maps = this.state.langIsoMaps;
-        return pairs.map((p) => nameFor6393(p.lang, maps)).join("; ");
+        return Array.from(new Set(pairs.map((p) => nameFor6393(p.lang, maps)))).join("; ");
     }
 
     private listViewLangNames6391(troveItem: TroveItem): string {
@@ -508,9 +622,9 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             return "";
         }
         const maps = this.state.langIsoMaps;
-        return pairs
-            .map((p) => (p.lang2 != null ? nameFor6391(p.lang2, maps) : "—"))
-            .join("; ");
+        return Array.from(
+            new Set(pairs.map((p) => (p.lang2 != null ? nameFor6391(p.lang2, maps) : "—"))),
+        ).join("; ");
     }
 
     private listViewLangTags(troveItem: TroveItem): string {
@@ -518,7 +632,9 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         if (!pairs?.length) {
             return "";
         }
-        return pairs.map((p) => (p.langTag != null && p.langTag !== "" ? p.langTag : "—")).join("; ");
+        return Array.from(
+            new Set(pairs.map((p) => (p.langTag != null && p.langTag !== "" ? p.langTag : "—"))),
+        ).join("; ");
     }
 
     private renderListView() {
