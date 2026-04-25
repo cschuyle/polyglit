@@ -31,6 +31,17 @@ enum ViewMode {
     LIST = "list"
 }
 
+/** List table columns that support client-side sort. */
+type ListSortColumn =
+    | "thumbnail"
+    | "title"
+    | "language"
+    | "languageString"
+    | "lang6393"
+    | "lang6391"
+    | "langTag"
+    | "lpid";
+
 interface TroveItemDetails {
     "acquired-from"?: string,
     "comments"?: string[],
@@ -103,7 +114,9 @@ interface ShowcaseState {
     FocusItemCount: number,
     langIsoMaps: LangIsoMaps | null,
     captionMode: CaptionMode,
-    viewMode: ViewMode
+    viewMode: ViewMode,
+    listSortColumn: ListSortColumn | null,
+    listSortAsc: boolean,
 }
 
 export interface ShowcaseProps {
@@ -156,7 +169,9 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             FocusItemCount: 0,
             langIsoMaps: null,
             captionMode: CaptionMode.TITLES,
-            viewMode: ViewMode.GALLERY
+            viewMode: ViewMode.GALLERY,
+            listSortColumn: null,
+            listSortAsc: true,
         }
     }
 
@@ -637,6 +652,75 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         ).join("; ");
     }
 
+    private toggleListSort(column: ListSortColumn) {
+        this.setState((prev) => {
+            if (prev.listSortColumn === column) {
+                return {listSortColumn: column, listSortAsc: !prev.listSortAsc};
+            }
+            return {listSortColumn: column, listSortAsc: true};
+        });
+    }
+
+    private listSortValue(troveItem: TroveItem, column: ListSortColumn): string {
+        const lp = troveItem.littlePrinceItem;
+        switch (column) {
+            case "thumbnail":
+                return lp.smallImageUrl ?? "";
+            case "title":
+                return lp.title ?? "";
+            case "language":
+                return lp.language ?? "";
+            case "languageString":
+                return this.constructLanguage(troveItem) ?? "";
+            case "lang6393":
+                return this.listViewLangNames6393(troveItem);
+            case "lang6391":
+                return this.listViewLangNames6391(troveItem);
+            case "langTag":
+                return this.listViewLangTags(troveItem);
+            case "lpid":
+                return lp.lpid ?? "";
+        }
+    }
+
+    private compareTroveItemsForList(a: TroveItem, b: TroveItem, column: ListSortColumn, asc: boolean): number {
+        const va = this.listSortValue(a, column);
+        const vb = this.listSortValue(b, column);
+        let cmp = va.localeCompare(vb, undefined, {numeric: true, sensitivity: "base"});
+        if (cmp === 0) {
+            const ta = a.littlePrinceItem.title ?? "";
+            const tb = b.littlePrinceItem.title ?? "";
+            cmp = ta.localeCompare(tb, undefined, {numeric: true, sensitivity: "base"});
+        }
+        return asc ? cmp : -cmp;
+    }
+
+    private listViewSortedItems(): TroveItem[] {
+        const items = this.state.displayedTroveItems;
+        const col = this.state.listSortColumn;
+        if (col == null) {
+            return items;
+        }
+        const asc = this.state.listSortAsc;
+        return items.slice().sort((a, b) => this.compareTroveItemsForList(a, b, col, asc));
+    }
+
+    private renderListSortHeader(thStyle: React.CSSProperties, column: ListSortColumn, label: string) {
+        const active = this.state.listSortColumn === column;
+        const arrow = active ? (this.state.listSortAsc ? " ▲" : " ▼") : "";
+        return (
+            <th
+                style={{...thStyle, cursor: "pointer", userSelect: "none"}}
+                onClick={() => this.toggleListSort(column)}
+                scope="col"
+                aria-sort={active ? (this.state.listSortAsc ? "ascending" : "descending") : undefined}
+            >
+                {label}
+                {arrow}
+            </th>
+        );
+    }
+
     private renderListView() {
         const tableStyle: React.CSSProperties = {
             width: "100%",
@@ -659,21 +743,22 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 <table style={tableStyle}>
                     <thead>
                         <tr>
-                            <th style={thStyle}>Thumbnail</th>
-                            <th style={thStyle}>Title</th>
-                            <th style={thStyle}>Language</th>
-                            <th style={thStyle}>Language string</th>
-                            <th style={thStyle}>lang</th>
-                            <th style={thStyle}>lang2</th>
-                            <th style={thStyle}>langTag</th>
-                            <th style={thStyle}>lpid</th>
+                            {this.renderListSortHeader(thStyle, "thumbnail", "Thumbnail")}
+                            {this.renderListSortHeader(thStyle, "title", "Title")}
+                            {this.renderListSortHeader(thStyle, "language", "Language")}
+                            {this.renderListSortHeader(thStyle, "languageString", "Language string")}
+                            {this.renderListSortHeader(thStyle, "lang6393", "lang")}
+                            {this.renderListSortHeader(thStyle, "lang6391", "lang2")}
+                            {this.renderListSortHeader(thStyle, "langTag", "langTag")}
+                            {this.renderListSortHeader(thStyle, "lpid", "lpid")}
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.displayedTroveItems.map((troveItem, index) => {
+                        {this.listViewSortedItems().map((troveItem, index) => {
                             const lp = troveItem.littlePrinceItem;
+                            const rowKey = lp.lpid ?? `${lp.title}\0${lp.smallImageUrl}\0${index}`;
                             return (
-                                <tr key={index}>
+                                <tr key={rowKey}>
                                     <td style={cellStyle}>
                                         <BigWhiteTooltip
                                             title={this.troveItemTooltipContents(troveItem)}
