@@ -13,13 +13,15 @@ import {
     IconButton,
     MenuItem,
     Select,
+    Switch,
     TextField,
     Tooltip,
     withStyles,
 } from "@material-ui/core";
 import ViewList from "@material-ui/icons/ViewList";
 import ViewModule from "@material-ui/icons/ViewModule";
-import {fetchLangIsoMaps, LangIsoMaps, LangPair, nameFor6391, nameFor6393} from "./langIsoLookup";
+import {LangIsoMaps, LangPair, nameFor6391, nameFor6393} from "./langIsoLookup";
+import {ensurePolyglitDataPreloaded, getCachedLangIsoMaps, getCachedTrove} from "./polyglitJsonCache";
 
 enum CaptionMode {
     TITLES = "titles",
@@ -42,7 +44,7 @@ type ListSortColumn =
     | "langTag"
     | "lpid";
 
-interface TroveItemDetails {
+export interface TroveItemDetails {
     "acquired-from"?: string,
     "comments"?: string[],
     "date-added"?: string,
@@ -79,8 +81,10 @@ interface TroveItemDetails {
     year?: string,
 }
 
-interface TroveItem {
-    littlePrinceItem: TroveItemDetails
+export interface TroveItem {
+    littlePrinceItem: TroveItemDetails,
+    /** Stable table row identity (duplicate lpids / image URLs exist in data). */
+    polyglitStableRowKey?: string,
 }
 
 function compareTroveItem(a: TroveItem, b: TroveItem) {
@@ -90,7 +94,7 @@ function compareTroveItem(a: TroveItem, b: TroveItem) {
     return -1
 }
 
-interface Trove {
+export interface Trove {
     id: string,
     name: string,
     shortName: string,
@@ -117,6 +121,8 @@ interface ShowcaseState {
     viewMode: ViewMode,
     listSortColumn: ListSortColumn | null,
     listSortAsc: boolean,
+    /** When true, list/gallery only editions with more than one distinct lang or lang2 code in langPairs. */
+    onlyMultilingualEditions: boolean,
 }
 
 export interface ShowcaseProps {
@@ -172,33 +178,38 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             viewMode: ViewMode.GALLERY,
             listSortColumn: null,
             listSortAsc: true,
+            onlyMultilingualEditions: false,
         }
     }
 
     componentDidMount() {
-        Promise.all([this.fetchTrove(), fetchLangIsoMaps(this.props.troveUrl)]).then(([trove, langIsoMaps]) => {
-            console.log(`Got ${trove.items.length} Trove items`)
+        ensurePolyglitDataPreloaded().then(() => {
+            const trove = getCachedTrove(this.props.troveUrl);
+            const langIsoMaps = getCachedLangIsoMaps(this.props.troveUrl) ?? null;
+            if (!trove?.items) {
+                console.error(`No cached trove for ${this.props.troveUrl}`);
+                return;
+            }
+            console.log(`Got ${trove.items.length} Trove items (from cache)`);
 
+            const troveItems = trove.items
+                .map((item, idx) => {
+                    if (item.polyglitStableRowKey == null) {
+                        item.polyglitStableRowKey = `${trove.shortName || trove.id}#${idx}`;
+                    }
+                    item.littlePrinceItem.lumpOfText = this.searchableText(item);
+                    return item;
+                })
+                .sort(compareTroveItem);
+            const pred = this.troveItemMatchesPredicate("", this.props.focusState);
+            const displayedTroveItems = troveItems.filter(pred);
             this.setState({
-                troveItems: trove.items
-                    .map(item => {
-                        item.littlePrinceItem.lumpOfText = this.searchableText(item)
-                        // console.log("LUMP OF TEXT " + item.littlePrinceItem.lumpOfText)
-                        return item
-                    })
-                    .sort(compareTroveItem),
-                langIsoMaps
+                troveItems,
+                displayedTroveItems,
+                langIsoMaps,
             });
-            this.setFocus(this.props.focusState)
-            this.search("", this.props.focusState)
-        })
-    }
-
-    fetchTrove() {
-        return fetch(this.props.troveUrl)
-            .then(res => {
-                return res.json() as Promise<Trove>
-            })
+            this.setFocus(this.props.focusState, troveItems);
+        });
     }
 
     render() {
@@ -210,7 +221,18 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
                     <div style={{width: "100%"}}>
                         {this.props.showWantedCheckboxes ? (
-                            this.renderFocusStateSelect()
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    flexWrap: "wrap",
+                                    alignItems: "center",
+                                    gap: "16px",
+                                }}
+                            >
+                                {this.renderFocusStateSelect()}
+                                {this.renderMultilingualFilterToggle()}
+                            </div>
                         ) : (
                             <>
                                 {this.state.focusState === FocusState.OWNED && (
@@ -277,6 +299,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                     marginLeft: "auto",
                                 }}
                             >
+                                {!this.props.showWantedCheckboxes && this.renderMultilingualFilterToggle()}
                                 {this.renderViewModeToggle()}
                                 {this.renderCaptionModeSelect()}
                             </div>
@@ -369,6 +392,50 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         );
     }
 
+    private renderMultilingualFilterToggle() {
+        return (
+            <FormControlLabel
+                style={{margin: 0}}
+                control={
+                    <Switch
+                        checked={this.state.onlyMultilingualEditions}
+                        onChange={(_, checked) => this.onOnlyMultilingualEditionsChanged(checked)}
+                        color="primary"
+                    />
+                }
+                label="Only show multilingual editions"
+            />
+        );
+    }
+
+    private onOnlyMultilingualEditionsChanged(checked: boolean) {
+        this.setState({onlyMultilingualEditions: checked}, () => {
+            this.search(this.state.searchText, this.state.focusState);
+        });
+    }
+
+    /** Count of distinct non-empty lang and lang2 codes across langPairs (case-insensitive). */
+    private distinctLangPairCodeCount(lp: TroveItemDetails): number {
+        const pairs = lp.langPairs;
+        if (!pairs?.length) {
+            return 0;
+        }
+        const codes = new Set<string>();
+        for (const p of pairs) {
+            if (p.lang != null && String(p.lang).trim() !== "") {
+                codes.add(String(p.lang).trim().toLowerCase());
+            }
+            if (p.lang2 != null && String(p.lang2).trim() !== "") {
+                codes.add(String(p.lang2).trim().toLowerCase());
+            }
+        }
+        return codes.size;
+    }
+
+    private isMultilingualEdition(troveItem: TroveItem): boolean {
+        return this.distinctLangPairCodeCount(troveItem.littlePrinceItem) > 1;
+    }
+
     private renderViewModeToggle() {
         const isGallery = this.state.viewMode === ViewMode.GALLERY;
         const border = "1px solid rgba(0, 0, 0, 0.23)";
@@ -427,12 +494,13 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         );
     }
 
-    private setFocus(focusState: FocusState | undefined) {
-        let focusFilteredItems = this.state.troveItems.filter(this.troveItemMatchesFocusPredicate(focusState));
+    private setFocus(focusState: FocusState | undefined, troveItems?: TroveItem[]) {
+        const items = troveItems ?? this.state.troveItems;
+        const focusFilteredItems = items.filter(this.troveItemMatchesFocusPredicate(focusState));
         this.setState({
             focusItems: focusFilteredItems,
-            FocusItemCount: focusFilteredItems.length
-        })
+            FocusItemCount: focusFilteredItems.length,
+        });
     }
 
     private search(searchText: string, focusState: FocusState | undefined) {
@@ -550,8 +618,12 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             }
         }
 
-        // Return the last condition in the accumulation above
-        return pred3
+        let predFinal = pred3;
+        if (this.state.onlyMultilingualEditions) {
+            predFinal = (troveItem: TroveItem) => pred3(troveItem) && this.isMultilingualEdition(troveItem);
+        }
+
+        return predFinal;
     }
 
     private renderTroveItem(troveItem: TroveItem, key: any) {
@@ -680,12 +752,14 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 return this.listViewLangTags(troveItem);
             case "lpid":
                 return lp.lpid ?? "";
+            default:
+                return "";
         }
     }
 
     private compareTroveItemsForList(a: TroveItem, b: TroveItem, column: ListSortColumn, asc: boolean): number {
-        const va = this.listSortValue(a, column);
-        const vb = this.listSortValue(b, column);
+        const va = String(this.listSortValue(a, column) ?? "");
+        const vb = String(this.listSortValue(b, column) ?? "");
         let cmp = va.localeCompare(vb, undefined, {numeric: true, sensitivity: "base"});
         if (cmp === 0) {
             const ta = a.littlePrinceItem.title ?? "";
@@ -756,7 +830,9 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     <tbody>
                         {this.listViewSortedItems().map((troveItem, index) => {
                             const lp = troveItem.littlePrinceItem;
-                            const rowKey = lp.lpid ?? `${lp.title}\0${lp.smallImageUrl}\0${index}`;
+                            const rowKey =
+                                troveItem.polyglitStableRowKey ??
+                                `${lp.lpid ?? "noid"}-${lp.smallImageUrl}-${lp.title}-${index}`;
                             return (
                                 <tr key={rowKey}>
                                     <td style={cellStyle}>

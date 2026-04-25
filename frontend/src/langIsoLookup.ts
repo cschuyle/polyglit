@@ -9,12 +9,12 @@ export interface LangIsoMaps {
     names6391: Map<string, string>;
 }
 
-interface Iso6393Row {
+export interface Iso6393Row {
     lang: string;
     name: string;
 }
 
-interface Iso6391Row {
+export interface Iso6391Row {
     lang2: string;
     name: string;
 }
@@ -50,21 +50,9 @@ function buildMaps(rows3: Iso6393Row[], rows1: Iso6391Row[]): LangIsoMaps {
     return { names6393, names6391 };
 }
 
-export async function fetchLangIsoMaps(troveUrl: string): Promise<LangIsoMaps | null> {
-    const { iso6393, iso6391 } = languageJsonUrlsFromTroveUrl(troveUrl);
-    try {
-        const [r3, r1] = await Promise.all([fetch(iso6393), fetch(iso6391)]);
-        if (!r3.ok || !r1.ok) {
-            return null;
-        }
-        const [j3, j1] = await Promise.all([
-            r3.json() as Promise<Iso6393Row[]>,
-            r1.json() as Promise<Iso6391Row[]>,
-        ]);
-        return buildMaps(j3, j1);
-    } catch {
-        return null;
-    }
+/** Build lookup maps from already-fetched ISO JSON rows (used by the startup JSON cache). */
+export function langIsoMapsFromRows(rows3: Iso6393Row[], rows1: Iso6391Row[]): LangIsoMaps {
+    return buildMaps(rows3, rows1);
 }
 
 export function nameFor6393(code: string, maps: LangIsoMaps | null): string {

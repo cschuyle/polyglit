@@ -10,9 +10,12 @@ import './css/Showcase.css';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 import Showcase, {FocusState} from './Showcase';
+import {ensurePolyglitDataPreloaded} from './polyglitJsonCache';
 import {trovePublicJson} from './troveUrls';
 // import HomePage from './HomePage';
 import reportWebVitals from './reportWebVitals';
+
+ensurePolyglitDataPreloaded();
 
 ReactDOM.render(
     <React.StrictMode>
