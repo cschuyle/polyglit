@@ -38,6 +38,9 @@ enum ViewMode {
 /** Gallery sort: language uses resolved 639-3 name (same as group labels); date added is newest first. */
 type GallerySortBy = "language" | "title" | "year" | "dateAdded";
 
+/** Gallery/list section grouping. */
+type GroupByOption = "none" | "language" | "year" | "script";
+
 /** List table columns that support client-side sort. */
 type ListSortColumn =
     | "thumbnail"
@@ -130,8 +133,8 @@ interface ShowcaseState {
     listSortAsc: boolean,
     /** When true, list/gallery only editions with more than one distinct lang or lang2 code in langPairs. */
     onlyMultilingualEditions: boolean,
-    /** When true, split results into sections by effective language label. */
-    groupByLanguage: boolean,
+    /** Split results into sections by language, year, or script (none = flat). */
+    groupBy: GroupByOption,
 }
 
 export interface ShowcaseProps {
@@ -189,7 +192,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             listSortColumn: null,
             listSortAsc: true,
             onlyMultilingualEditions: false,
-            groupByLanguage: false,
+            groupBy: "none",
         }
     }
 
@@ -355,7 +358,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                 }}
                             >
                                 {!this.props.showWantedCheckboxes && this.renderMultilingualFilterToggle()}
-                                {this.renderGroupByLanguageToggle()}
+                                {this.renderGroupBySelect()}
                                 {this.state.viewMode === ViewMode.GALLERY && this.renderGallerySortSelect()}
                                 {this.renderViewModeToggle()}
                             </div>
@@ -568,23 +571,22 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         });
     }
 
-    private onGroupByLanguageChanged(checked: boolean) {
-        this.setState({groupByLanguage: checked});
-    }
-
-    private renderGroupByLanguageToggle() {
+    private renderGroupBySelect() {
         return (
-            <FormControlLabel
-                style={{margin: 0}}
-                control={
-                    <Switch
-                        checked={this.state.groupByLanguage}
-                        onChange={(_, checked) => this.onGroupByLanguageChanged(checked)}
-                        color="primary"
-                    />
-                }
-                label="Group by language"
-            />
+            <FormControl variant="outlined" style={{minWidth: 160, margin: 0}}>
+                <InputLabel id="showcase-group-by-label">Group by</InputLabel>
+                <Select
+                    labelId="showcase-group-by-label"
+                    value={this.state.groupBy}
+                    onChange={(e) => this.setState({groupBy: e.target.value as GroupByOption})}
+                    label="Group by"
+                >
+                    <MenuItem value="none">None</MenuItem>
+                    <MenuItem value="language">Language</MenuItem>
+                    <MenuItem value="year">Year</MenuItem>
+                    <MenuItem value="script">Script</MenuItem>
+                </Select>
+            </FormControl>
         );
     }
 
@@ -675,21 +677,78 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         return labels.map((label) => ({label, items: groups.get(label)!}));
     }
 
+    private groupItemsByYear(items: TroveItem[]): Array<{label: string; items: TroveItem[]}> {
+        const groups = new Map<string, TroveItem[]>();
+        for (const item of items) {
+            const raw = item.littlePrinceItem.year;
+            const label =
+                raw != null && String(raw).trim() !== "" ? String(raw).trim() : "(no year)";
+            const existing = groups.get(label);
+            if (existing) {
+                existing.push(item);
+            } else {
+                groups.set(label, [item]);
+            }
+        }
+        const labels = Array.from(groups.keys()).sort((a, b) => {
+            if (a === "(no year)") {
+                return 1;
+            }
+            if (b === "(no year)") {
+                return -1;
+            }
+            return a.localeCompare(b, undefined, {numeric: true, sensitivity: "base"});
+        });
+        return labels.map((label) => ({label, items: groups.get(label)!}));
+    }
+
+    private groupItemsByScript(items: TroveItem[]): Array<{label: string; items: TroveItem[]}> {
+        const groups = new Map<string, TroveItem[]>();
+        for (const item of items) {
+            const raw = item.littlePrinceItem.script;
+            const label =
+                raw != null && String(raw).trim() !== "" ? String(raw).trim() : "(no script)";
+            const existing = groups.get(label);
+            if (existing) {
+                existing.push(item);
+            } else {
+                groups.set(label, [item]);
+            }
+        }
+        const labels = Array.from(groups.keys()).sort((a, b) =>
+            a.localeCompare(b, undefined, {numeric: true, sensitivity: "base"}),
+        );
+        return labels.map((label) => ({label, items: groups.get(label)!}));
+    }
+
+    private groupItemsForView(items: TroveItem[]): Array<{label: string; items: TroveItem[]}> {
+        switch (this.state.groupBy) {
+            case "none":
+                return [{label: "", items}];
+            case "language":
+                return this.groupItemsByEffectiveLanguage(items);
+            case "year":
+                return this.groupItemsByYear(items);
+            case "script":
+                return this.groupItemsByScript(items);
+            default:
+                return [{label: "", items}];
+        }
+    }
+
     private renderGalleryView() {
         const items = this.sortItemsForGallery(this.state.displayedTroveItems);
-        if (!this.state.groupByLanguage) {
+        if (this.state.groupBy === "none") {
             return (
                 <section className="gallery-grid">
                     {items.map((troveItem, index) => this.renderTroveItem(troveItem, index))}
                 </section>
             );
         }
-        const grouped = this.groupItemsByEffectiveLanguage(this.state.displayedTroveItems).map(
-            (group) => ({
-                label: group.label,
-                items: this.sortItemsForGallery(group.items),
-            }),
-        );
+        const grouped = this.groupItemsForView(this.state.displayedTroveItems).map((group) => ({
+            label: group.label,
+            items: this.sortItemsForGallery(group.items),
+        }));
         return (
             <div>
                 {grouped.map((group) => (
@@ -1184,9 +1243,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             textAlign: "left",
             color: "#000",
         };
-        const grouped = this.state.groupByLanguage
-            ? this.groupItemsByEffectiveLanguage(this.listViewSortedItems())
-            : [{label: "", items: this.listViewSortedItems()}];
+        const grouped = this.groupItemsForView(this.listViewSortedItems());
         const listColumnCount = 9;
         return (
             <div style={{overflowX: "auto", width: "100%"}}>
@@ -1207,7 +1264,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     <tbody>
                         {grouped.map((group) => (
                             <React.Fragment key={group.label || "ungrouped"}>
-                                {this.state.groupByLanguage && (
+                                {this.state.groupBy !== "none" && (
                                     <tr>
                                         <td
                                             style={{...thStyle, fontWeight: 700, backgroundColor: "#efefef"}}
