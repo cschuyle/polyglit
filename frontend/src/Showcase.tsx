@@ -35,8 +35,19 @@ enum ViewMode {
     LIST = "list"
 }
 
-/** Gallery sort: language uses resolved 639-3 name (same as group labels); date added is newest first. */
-type GallerySortBy = "language" | "title" | "year" | "dateAdded";
+/**
+ * Gallery sort: each dimension has ascending (↑) and descending (↓).
+ * Ascending date-added is oldest first; descending is newest first.
+ */
+type GallerySortBy =
+    | "languageAsc"
+    | "languageDesc"
+    | "titleAsc"
+    | "titleDesc"
+    | "yearAsc"
+    | "yearDesc"
+    | "dateAddedAsc"
+    | "dateAddedDesc";
 
 /** Gallery/list section grouping. */
 type GroupByOption = "none" | "language" | "year" | "script";
@@ -188,7 +199,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             langIsoMaps: null,
             captionMode: CaptionMode.TITLES,
             viewMode: ViewMode.GALLERY,
-            gallerySortBy: "title",
+            gallerySortBy: "titleAsc",
             listSortColumn: null,
             listSortAsc: true,
             onlyMultilingualEditions: false,
@@ -406,9 +417,35 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         this.setState({viewMode: mode});
     }
 
+    private gallerySortParts(by: GallerySortBy): {
+        field: "language" | "title" | "year" | "dateAdded";
+        asc: boolean;
+    } {
+        switch (by) {
+            case "languageAsc":
+                return {field: "language", asc: true};
+            case "languageDesc":
+                return {field: "language", asc: false};
+            case "titleAsc":
+                return {field: "title", asc: true};
+            case "titleDesc":
+                return {field: "title", asc: false};
+            case "yearAsc":
+                return {field: "year", asc: true};
+            case "yearDesc":
+                return {field: "year", asc: false};
+            case "dateAddedAsc":
+                return {field: "dateAdded", asc: true};
+            case "dateAddedDesc":
+                return {field: "dateAdded", asc: false};
+            default:
+                return {field: "title", asc: true};
+        }
+    }
+
     private renderGallerySortSelect() {
         return (
-            <FormControl variant="outlined" style={{minWidth: 200, margin: 0}}>
+            <FormControl variant="outlined" style={{minWidth: 240, margin: 0}}>
                 <InputLabel id="showcase-gallery-sort-label">Sort gallery by</InputLabel>
                 <Select
                     labelId="showcase-gallery-sort-label"
@@ -418,10 +455,14 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     }
                     label="Sort gallery by"
                 >
-                    <MenuItem value="language">Language</MenuItem>
-                    <MenuItem value="title">Title</MenuItem>
-                    <MenuItem value="year">Year</MenuItem>
-                    <MenuItem value="dateAdded">Date added</MenuItem>
+                    <MenuItem value="languageAsc">Language ↑</MenuItem>
+                    <MenuItem value="languageDesc">Language ↓</MenuItem>
+                    <MenuItem value="titleAsc">Title ↑</MenuItem>
+                    <MenuItem value="titleDesc">Title ↓</MenuItem>
+                    <MenuItem value="yearAsc">Year ↑</MenuItem>
+                    <MenuItem value="yearDesc">Year ↓</MenuItem>
+                    <MenuItem value="dateAddedAsc">Date added ↑</MenuItem>
+                    <MenuItem value="dateAddedDesc">Date added ↓</MenuItem>
                 </Select>
             </FormControl>
         );
@@ -446,15 +487,23 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         if (raw == null || !String(raw).trim()) {
             return null;
         }
-        const t = Date.parse(raw);
+        const s = String(raw).trim();
+        // Date-only strings: parse as UTC noon so ordering is consistent across browsers (Safari quirks).
+        const ymd = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (ymd) {
+            const t = Date.UTC(Number(ymd[1]), Number(ymd[2]) - 1, Number(ymd[3]), 12, 0, 0, 0);
+            return Number.isNaN(t) ? null : t;
+        }
+        const t = Date.parse(s);
         return Number.isNaN(t) ? null : t;
     }
 
     private compareTroveItemsForGallery(a: TroveItem, b: TroveItem, by: GallerySortBy): number {
         const lpA = a.littlePrinceItem;
         const lpB = b.littlePrinceItem;
+        const {field, asc} = this.gallerySortParts(by);
         let cmp = 0;
-        switch (by) {
+        switch (field) {
             case "language":
                 cmp = this.effectiveLanguageLabel(a).localeCompare(this.effectiveLanguageLabel(b), undefined, {
                     numeric: true,
@@ -483,7 +532,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 const da = this.parseDateAddedMs(lpA["date-added"]);
                 const db = this.parseDateAddedMs(lpB["date-added"]);
                 if (da != null && db != null) {
-                    cmp = db - da;
+                    cmp = da - db;
                 } else if (da == null && db == null) {
                     cmp = 0;
                 } else {
@@ -494,10 +543,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             default:
                 break;
         }
-        if (cmp === 0) {
-            return (lpA.title ?? "").localeCompare(lpB.title ?? "", undefined, {numeric: true, sensitivity: "base"});
+        if (cmp !== 0) {
+            return asc ? cmp : -cmp;
         }
-        return cmp;
+        return (lpA.title ?? "").localeCompare(lpB.title ?? "", undefined, {numeric: true, sensitivity: "base"});
     }
 
     private sortItemsForGallery(items: TroveItem[]): TroveItem[] {
@@ -741,7 +790,9 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         if (this.state.groupBy === "none") {
             return (
                 <section className="gallery-grid">
-                    {items.map((troveItem, index) => this.renderTroveItem(troveItem, index))}
+                    {items.map((troveItem, index) =>
+                        this.renderTroveItem(troveItem, this.stableTroveItemListKey(troveItem, index)),
+                    )}
                 </section>
             );
         }
@@ -755,7 +806,12 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     <section key={group.label} style={{marginBottom: "16px"}}>
                         <h3 style={{margin: "6px 0 8px 0"}}>{group.label}</h3>
                         <section className="gallery-grid">
-                            {group.items.map((troveItem, index) => this.renderTroveItem(troveItem, `${group.label}-${index}`))}
+                            {group.items.map((troveItem, index) =>
+                                this.renderTroveItem(
+                                    troveItem,
+                                    `${group.label}::${this.stableTroveItemListKey(troveItem, index)}`,
+                                ),
+                            )}
                         </section>
                     </section>
                 ))}
@@ -953,17 +1009,28 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         return predFinal;
     }
 
-    private renderTroveItem(troveItem: TroveItem, key: any) {
-        return <BigWhiteTooltip
-            title={this.troveItemTooltipContents(troveItem)}
-            arrow
-            interactive
-            placement="right-start"
-            enterDelay={300}
-            enterNextDelay={300}
-        >
+    private stableTroveItemListKey(troveItem: TroveItem, indexFallback: number): string {
+        const lp = troveItem.littlePrinceItem;
+        return (
+            troveItem.polyglitStableRowKey ??
+            (lp.lpid != null && String(lp.lpid) !== "" ? String(lp.lpid) : null) ??
+            (lp.smallImageUrl != null && String(lp.smallImageUrl) !== "" ? String(lp.smallImageUrl) : null) ??
+            `${lp.title ?? "item"}-${indexFallback}`
+        );
+    }
 
-            <div className="thumbnail" key={key}>
+    private renderTroveItem(troveItem: TroveItem, reactListKey: string) {
+        return (
+            <BigWhiteTooltip
+                key={reactListKey}
+                title={this.troveItemTooltipContents(troveItem)}
+                arrow
+                interactive
+                placement="right-start"
+                enterDelay={300}
+                enterNextDelay={300}
+            >
+            <div className="thumbnail">
                 <a target="_blank" rel="noreferrer" href={troveItem.littlePrinceItem.largeImageUrl}>
                     <div style={{position: "relative"}}>
                         <img width="150" height={"100%"}
@@ -976,6 +1043,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 {this.renderThumbnailCaption(troveItem)}
             </div>
         </BigWhiteTooltip>
+        );
     }
 
     /** One caption line: avoids "English · English" when 639-3 and 639-1 resolve to the same label. Lang tags are omitted (see list column langTag). */
@@ -1577,12 +1645,13 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         if (this.isPresent(acquiredFrom) && this.isPresent(dateAdded)) {
             return `from ${acquiredFrom} on ${dateAdded}`
         }
-        if (!this.isPresent(dateAdded)) {
+        if (this.isPresent(acquiredFrom)) {
             return `from ${acquiredFrom}`
         }
-        if (!this.isPresent(dateAdded)) {
+        if (this.isPresent(dateAdded)) {
             return `on ${dateAdded}`
         }
+        return null;
     }
 
     private constructTagsBlurb(items: string[] | undefined): string | null {
