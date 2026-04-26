@@ -682,7 +682,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         for (const item of items) {
             const raw = item.littlePrinceItem.year;
             const label =
-                raw != null && String(raw).trim() !== "" ? String(raw).trim() : "(no year)";
+                raw != null && String(raw).trim() !== "" ? String(raw).trim() : "(year N/A)";
             const existing = groups.get(label);
             if (existing) {
                 existing.push(item);
@@ -691,10 +691,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             }
         }
         const labels = Array.from(groups.keys()).sort((a, b) => {
-            if (a === "(no year)") {
+            if (a === "(year N/A)") {
                 return 1;
             }
-            if (b === "(no year)") {
+            if (b === "(year N/A)") {
                 return -1;
             }
             return a.localeCompare(b, undefined, {numeric: true, sensitivity: "base"});
@@ -707,7 +707,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         for (const item of items) {
             const raw = item.littlePrinceItem.script;
             const label =
-                raw != null && String(raw).trim() !== "" ? String(raw).trim() : "(no script)";
+                raw != null && String(raw).trim() !== "" ? String(raw).trim() : "(script N/A)";
             const existing = groups.get(label);
             if (existing) {
                 existing.push(item);
