@@ -50,7 +50,7 @@ type GallerySortBy =
     | "dateAddedDesc";
 
 /** Gallery/list section grouping. */
-type GroupByOption = "none" | "language" | "year" | "script";
+type GroupByOption = "none" | "language" | "year" | "script" | "owned";
 
 /** List table columns that support client-side sort. */
 type ListSortColumn =
@@ -144,7 +144,7 @@ interface ShowcaseState {
     listSortAsc: boolean,
     /** When true, list/gallery only editions with more than one distinct lang or lang2 code in langPairs. */
     onlyMultilingualEditions: boolean,
-    /** Split results into sections by language, year, or script (none = flat). */
+    /** Split results into sections by language, year, script, or owned (none = flat). */
     groupBy: GroupByOption,
 }
 
@@ -634,12 +634,21 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     <MenuItem value="language">Language</MenuItem>
                     <MenuItem value="year">Year</MenuItem>
                     <MenuItem value="script">Script</MenuItem>
+                    <MenuItem value="owned">Owned</MenuItem>
                 </Select>
             </FormControl>
         );
     }
 
     /** Count of distinct non-empty 639-3 `lang` codes across langPairs (case-insensitive). */
+    /**
+     * Collection semantics: `owned` is false only when the JSON string is exactly `"false"`;
+     * otherwise (missing, empty, `"true"`, etc.) treat as owned / in collection.
+     */
+    private editionOwnedDefaultTrue(lp: Pick<TroveItemDetails, "owned">): boolean {
+        return lp.owned !== "false";
+    }
+
     private distinctLangPairCodeCount(lp: TroveItemDetails): number {
         const pairs = lp.langPairs;
         if (!pairs?.length) {
@@ -770,6 +779,26 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         return labels.map((label) => ({label, items: groups.get(label)!}));
     }
 
+    private groupItemsByOwned(items: TroveItem[]): Array<{label: string; items: TroveItem[]}> {
+        const ownedGroup: TroveItem[] = [];
+        const lookingGroup: TroveItem[] = [];
+        for (const item of items) {
+            if (this.editionOwnedDefaultTrue(item.littlePrinceItem)) {
+                ownedGroup.push(item);
+            } else {
+                lookingGroup.push(item);
+            }
+        }
+        const out: Array<{label: string; items: TroveItem[]}> = [];
+        if (ownedGroup.length > 0) {
+            out.push({label: "Owned", items: ownedGroup});
+        }
+        if (lookingGroup.length > 0) {
+            out.push({label: "Looking for", items: lookingGroup});
+        }
+        return out;
+    }
+
     private groupItemsForView(items: TroveItem[]): Array<{label: string; items: TroveItem[]}> {
         switch (this.state.groupBy) {
             case "none":
@@ -780,6 +809,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 return this.groupItemsByYear(items);
             case "script":
                 return this.groupItemsByScript(items);
+            case "owned":
+                return this.groupItemsByOwned(items);
             default:
                 return [{label: "", items}];
         }
@@ -905,18 +936,14 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         switch (focusState) {
             case FocusState.OWNED:
                 // console.log("OWNED")
-                pred2 = troveItem => {
-                    let isOwned = troveItem.littlePrinceItem.owned ?? "true";
-                    return pred1(troveItem) && isOwned === "true"
-                }
+                pred2 = (troveItem) =>
+                    pred1(troveItem) && this.editionOwnedDefaultTrue(troveItem.littlePrinceItem);
                 break;
 
             case FocusState.WANTED:
                 // console.log("WANTED")
-                pred2 = troveItem => {
-                    let isOwned = troveItem.littlePrinceItem.owned ?? "true";
-                    return pred1(troveItem) && isOwned !== "true"
-                }
+                pred2 = (troveItem) =>
+                    pred1(troveItem) && !this.editionOwnedDefaultTrue(troveItem.littlePrinceItem);
                 break;
 
             case FocusState.DUPLICATES:
@@ -942,20 +969,14 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         switch (focusState) {
             case FocusState.OWNED:
                 // console.log("OWNED")
-                pred2 = troveItem => {
-                    let isOwned = troveItem.littlePrinceItem?.owned ?? "true";
-                    return pred1(troveItem)
-                        && isOwned === "true"
-                }
+                pred2 = (troveItem) =>
+                    pred1(troveItem) && this.editionOwnedDefaultTrue(troveItem.littlePrinceItem);
                 break;
 
             case FocusState.WANTED:
                 // console.log("WANTED")
-                pred2 = troveItem => {
-                    let isOwned = troveItem.littlePrinceItem?.owned ?? "true";
-                    return pred1(troveItem)
-                        && isOwned !== "true"
-                }
+                pred2 = (troveItem) =>
+                    pred1(troveItem) && !this.editionOwnedDefaultTrue(troveItem.littlePrinceItem);
                 break;
 
             case FocusState.DUPLICATES:
@@ -1664,13 +1685,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     private constructWantedMessage(littlePrinceItem: {
         owned?: string
     }): string | null {
-        if (!this.isPresent(littlePrinceItem.owned)) {
-            return null
+        if (this.editionOwnedDefaultTrue(littlePrinceItem)) {
+            return null;
         }
-        if (littlePrinceItem.owned === "false") {
-            return "I am looking for this book! If you want to trade or just want to help me find it, please get in touch: carl@dragnon.com"
-        }
-        return null
+        return "I am looking for this book! If you want to trade or just want to help me find it, please get in touch: carl@dragnon.com";
     }
 
     private constructTradeMessage(littlePrinceItem: {
