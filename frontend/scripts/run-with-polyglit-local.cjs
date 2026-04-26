@@ -34,27 +34,15 @@ function syncFixturesIntoPublic() {
   fs.cpSync(fixturesSrc, fixturesDest, { recursive: true });
 }
 
-function removeFixturesFromPublic() {
-  fs.rmSync(fixturesDest, { recursive: true, force: true });
-}
-
 const isLocalBuild = args[0] === 'build' && process.env.REACT_APP_POLYGLIT_LOCAL;
 if (isLocalBuild) {
   syncFixturesIntoPublic();
 }
 
-let status = 1;
-try {
-  const result = spawnSync(rsBin, args, {
-    cwd: frontendRoot,
-    env: process.env,
-    stdio: 'inherit',
-  });
-  status = result.status ?? 1;
-} finally {
-  if (isLocalBuild) {
-    removeFixturesFromPublic();
-  }
-}
-
+const result = spawnSync(rsBin, args, {
+  cwd: frontendRoot,
+  env: process.env,
+  stdio: 'inherit',
+});
+const status = result.status ?? 1;
 process.exit(status);
