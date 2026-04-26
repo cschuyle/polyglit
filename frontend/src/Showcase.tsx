@@ -870,12 +870,12 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         </BigWhiteTooltip>
     }
 
-    /** One caption line: avoids "English · English" when 639-3 and 639-1 resolve to the same label. */
+    /** One caption line: avoids "English · English" when 639-3 and 639-1 resolve to the same label. Lang tags are omitted (see list column langTag). */
     private formatLangPairCaptionLine(pair: LangPair, maps: LangIsoMaps | null): string {
         const n3 = nameFor6393(pair.lang, maps);
         const n1 = pair.lang2 != null ? nameFor6391(pair.lang2, maps) : null;
         const core = n1 != null && n1 !== n3 ? `${n3} · ${n1}` : n3;
-        return pair.langTag ? `${core} (${pair.langTag})` : core;
+        return core;
     }
 
     /** Ordered unique caption lines (duplicate pairs or duplicate resolved text shown once). */
@@ -893,12 +893,73 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         return lines;
     }
 
+    /**
+     * Gallery caption when `translation-title` is set: *title*, optional [transliteration], line break, then
+     * (ISO lang lines) and/or (language field) using parentheses; see code for substring / dedupe rules.
+     */
+    private renderGalleryTranslationTitleCaption(troveItem: TroveItem) {
+        const lp = troveItem.littlePrinceItem;
+        const maps = this.state.langIsoMaps;
+        const pairs = lp.langPairs;
+        const langFromPairs =
+            pairs?.length && pairs.some((p) => this.isPresent(p.lang))
+                ? this.uniqueLangPairCaptionLines(pairs, maps).join("; ")
+                : "";
+        const hasLang = this.isPresent(langFromPairs);
+        const languageField = lp.language ?? "";
+        const hasLanguageField = this.isPresent(languageField);
+        const title = lp["translation-title"]!;
+        const transliterated = lp["translation-title-transliterated"];
+        const showTransliterated = this.isPresent(transliterated);
+
+        let parenPart = "";
+        let bracketSuffix = "";
+        if (hasLang && hasLanguageField) {
+            const langTrim = langFromPairs.trim();
+            const languageTrim = languageField.trim();
+            const langContainedInLanguage =
+                langTrim.length > 0 && languageTrim.includes(langTrim);
+            if (langContainedInLanguage) {
+                bracketSuffix = `(${languageField})`;
+            } else {
+                parenPart = langFromPairs;
+                const sameAsLangDisplay = languageTrim === langTrim;
+                if (!sameAsLangDisplay) {
+                    bracketSuffix = `(${languageField})`;
+                }
+            }
+        } else if (hasLang) {
+            parenPart = langFromPairs;
+        } else if (hasLanguageField) {
+            parenPart = languageField;
+        }
+
+        const showSuffix = parenPart !== "" || bracketSuffix !== "";
+        return (
+            <div className="caption">
+                <em>{title}</em>
+                {showTransliterated && <> [{transliterated}]</>}
+                {showSuffix && (
+                    <>
+                        <br />
+                        {parenPart !== "" ? `(${parenPart})` : ""}
+                        {bracketSuffix !== "" ? (parenPart !== "" ? " " : "") + bracketSuffix : ""}
+                    </>
+                )}
+            </div>
+        );
+    }
+
     private renderThumbnailCaption(troveItem: TroveItem) {
+        const lp = troveItem.littlePrinceItem;
+        if (this.state.viewMode === ViewMode.GALLERY && this.isPresent(lp["translation-title"])) {
+            return this.renderGalleryTranslationTitleCaption(troveItem);
+        }
         if (this.state.captionMode === CaptionMode.TITLES) {
-            return <div className="caption">{troveItem.littlePrinceItem.language}</div>;
+            return <div className="caption">{lp.language}</div>;
         }
         const maps = this.state.langIsoMaps;
-        const pairs = troveItem.littlePrinceItem.langPairs;
+        const pairs = lp.langPairs;
         const lines = pairs?.length ? this.uniqueLangPairCaptionLines(pairs, maps) : [];
         return (
             <div className="caption" style={{textAlign: "left"}}>
