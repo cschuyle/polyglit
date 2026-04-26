@@ -33,7 +33,7 @@ export function languageJsonUrlsFromTroveUrl(troveUrl: string): { iso6393: strin
     const dir = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
     const base = `${resolved.origin}${dir}`;
     return {
-        iso6393: `${base}/languages.iso639-3.json`,
+        iso6393: `${base}/languages.iso639-3-augmented.json`,
         iso6391: `${base}/languages.iso639-1.json`,
     };
 }

@@ -300,7 +300,6 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                             >
                                 {!this.props.showWantedCheckboxes && this.renderMultilingualFilterToggle()}
                                 {this.renderViewModeToggle()}
-                                {this.renderCaptionModeSelect()}
                             </div>
                         </div>
                         <p/>
