@@ -1219,6 +1219,44 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         );
     }
 
+    /** ISO / tag lines for each lang pair; one bullet per pair (shown under the Language row). */
+    private renderLangPairTooltipBlocks(item: TroveItemDetails): React.ReactNode {
+        const pairs = item.langPairs;
+        if (!pairs?.length) {
+            return null;
+        }
+        const maps = this.state.langIsoMaps;
+        return (
+            <ul
+                style={{
+                    margin: "8px 0 0 0",
+                    paddingLeft: "1.35em",
+                    listStylePosition: "outside",
+                }}
+            >
+                {pairs.map((pair, idx) => (
+                    <li key={idx} style={{marginTop: idx > 0 ? 10 : 0}}>
+                        <div style={{paddingLeft: "0.35em"}}>
+                            <div>
+                                <strong>ISO 639-3</strong> ({pair.lang}): {nameFor6393(pair.lang, maps)}
+                            </div>
+                            {pair.lang2 != null && pair.lang2 !== "" && (
+                                <div style={{marginTop: 4}}>
+                                    <strong>ISO 639-1</strong> ({pair.lang2}): {nameFor6391(pair.lang2, maps)}
+                                </div>
+                            )}
+                            {this.isPresent(pair.langTag) && (
+                                <div style={{marginTop: 4}}>
+                                    <strong>Language tag</strong>: {pair.langTag}
+                                </div>
+                            )}
+                        </div>
+                    </li>
+                ))}
+            </ul>
+        );
+    }
+
     private troveItemTooltipContents(troveItem: TroveItem) {
 
         let fieldsInOrder: string[] = [
@@ -1247,10 +1285,28 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
         let rows = fieldsInOrder.map(field => {
             switch (field) {
-                case 'language':
-                    return createRow("Language", this.constructLanguage(troveItem))
+                case 'language': {
+                    const languageLine = this.constructLanguage(troveItem);
+                    const pairBlock = this.renderLangPairTooltipBlocks(troveItem.littlePrinceItem);
+                    return createRow(
+                        "Language",
+                        pairBlock != null ? (
+                            <>
+                                {languageLine}
+                                {pairBlock}
+                            </>
+                        ) : (
+                            languageLine
+                        ),
+                    );
+                }
                 case 'translation-title':
-                    return createRow("Title in translation", this.constructTranslationTitle(troveItem.littlePrinceItem))
+                    return createRow("Title in translation", troveItem.littlePrinceItem["translation-title"])
+                case "translation-title-transliterated":
+                    return createRow(
+                        "Title transliterated",
+                        troveItem.littlePrinceItem["translation-title-transliterated"],
+                    );
                 case 'script':
                     return createRow("Script", troveItem.littlePrinceItem.script)
                 case 'translator':
@@ -1314,7 +1370,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             <Grid item>
                 <div>
                     <strong><i>{troveItem.littlePrinceItem.title}</i></strong>
-                    <p/>{
+                    <p />
+                    {
                     rows.map((row) => {
                             if (row?.field != null) return <span>
                                 <strong>{row?.field}:</strong> {row?.value}<p/></span>
@@ -1335,24 +1392,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         return lpIdWithPP.replace(/PP-/, '');
     }
 
-    private isPresent(value: any | null | undefined): value is null | undefined {
+    private isPresent(value: any): boolean {
         return !(value === null || value === undefined || value === '');
-    }
-
-    private constructTranslationTitle(troveItem: TroveItemDetails) {
-        let translationTitle = troveItem['translation-title'];
-        let transliterated = troveItem['translation-title-transliterated'];
-
-        if (this.isPresent(translationTitle) && this.isPresent(transliterated)) {
-            return `${translationTitle} [${transliterated}]`;
-        }
-        if (this.isPresent(transliterated)) {
-            return `${transliterated}`;
-        }
-        if (this.isPresent(translationTitle)) {
-            return `${translationTitle}`;
-        }
-        return null;
     }
 
     private constructLanguage(troveItem: TroveItem) {
