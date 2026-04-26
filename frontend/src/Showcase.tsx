@@ -122,6 +122,8 @@ interface ShowcaseState {
     listSortAsc: boolean,
     /** When true, list/gallery only editions with more than one distinct lang or lang2 code in langPairs. */
     onlyMultilingualEditions: boolean,
+    /** When true, split results into sections by effective language label. */
+    groupByLanguage: boolean,
 }
 
 export interface ShowcaseProps {
@@ -178,6 +180,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             listSortColumn: null,
             listSortAsc: true,
             onlyMultilingualEditions: false,
+            groupByLanguage: false,
         }
     }
 
@@ -299,18 +302,13 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                 }}
                             >
                                 {!this.props.showWantedCheckboxes && this.renderMultilingualFilterToggle()}
+                                {this.renderGroupByLanguageToggle()}
                                 {this.renderViewModeToggle()}
                             </div>
                         </div>
                         <p/>
                         {this.state.viewMode === ViewMode.GALLERY ? (
-                            <section className="gallery-grid">
-                                {
-                                    this.state.displayedTroveItems.map((troveItem, index) => {
-                                        return this.renderTroveItem(troveItem, index)
-                                    })
-                                }
-                            </section>
+                            this.renderGalleryView()
                         ) : (
                             this.renderListView()
                         )}
@@ -412,7 +410,27 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         });
     }
 
-    /** Count of distinct non-empty lang and lang2 codes across langPairs (case-insensitive). */
+    private onGroupByLanguageChanged(checked: boolean) {
+        this.setState({groupByLanguage: checked});
+    }
+
+    private renderGroupByLanguageToggle() {
+        return (
+            <FormControlLabel
+                style={{margin: 0}}
+                control={
+                    <Switch
+                        checked={this.state.groupByLanguage}
+                        onChange={(_, checked) => this.onGroupByLanguageChanged(checked)}
+                        color="primary"
+                    />
+                }
+                label="Group by language"
+            />
+        );
+    }
+
+    /** Count of distinct non-empty 639-3 `lang` codes across langPairs (case-insensitive). */
     private distinctLangPairCodeCount(lp: TroveItemDetails): number {
         const pairs = lp.langPairs;
         if (!pairs?.length) {
@@ -423,15 +441,104 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             if (p.lang != null && String(p.lang).trim() !== "") {
                 codes.add(String(p.lang).trim().toLowerCase());
             }
-            if (p.lang2 != null && String(p.lang2).trim() !== "") {
-                codes.add(String(p.lang2).trim().toLowerCase());
-            }
         }
         return codes.size;
     }
 
     private isMultilingualEdition(troveItem: TroveItem): boolean {
         return this.distinctLangPairCodeCount(troveItem.littlePrinceItem) > 1;
+    }
+
+    private effectiveLanguageLabel(troveItem: TroveItem): string {
+        const pairs = troveItem.littlePrinceItem.langPairs;
+        const maps = this.state.langIsoMaps;
+        let firstLangCode: string | null = null;
+        if (pairs?.length) {
+            for (const pair of pairs) {
+                if (pair.lang != null && String(pair.lang).trim() !== "") {
+                    const code = String(pair.lang).trim().toLowerCase();
+                    if (firstLangCode == null) {
+                        firstLangCode = code;
+                    }
+                    const resolved = maps?.names6393.get(code);
+                    if (resolved != null && resolved !== "") {
+                        return resolved;
+                    }
+                }
+            }
+        }
+        return troveItem.littlePrinceItem.language || firstLangCode || "(unknown language)";
+    }
+
+    private effectiveLanguageLabelsForItem(troveItem: TroveItem): string[] {
+        const pairs = troveItem.littlePrinceItem.langPairs;
+        if (pairs?.length) {
+            const codes = new Set<string>();
+            for (const pair of pairs) {
+                if (pair.lang != null && String(pair.lang).trim() !== "") {
+                    codes.add(String(pair.lang).trim().toLowerCase());
+                }
+            }
+            if (codes.size > 0) {
+                const labels: string[] = [];
+                const seen = new Set<string>();
+                for (const code of Array.from(codes)) {
+                    const resolved = this.state.langIsoMaps?.names6393.get(code);
+                    if (resolved != null && resolved !== "" && !seen.has(resolved)) {
+                        seen.add(resolved);
+                        labels.push(resolved);
+                    }
+                }
+                if (labels.length > 0) {
+                    return labels;
+                }
+                return ["(unknown language)"];
+            }
+        }
+        return [troveItem.littlePrinceItem.language || "(unknown language)"];
+    }
+
+    private groupItemsByEffectiveLanguage(items: TroveItem[]): Array<{ label: string; items: TroveItem[] }> {
+        const groups = new Map<string, TroveItem[]>();
+        for (const item of items) {
+            const labels = this.effectiveLanguageLabelsForItem(item);
+            for (const label of labels) {
+                const existing = groups.get(label);
+                if (existing) {
+                    existing.push(item);
+                } else {
+                    groups.set(label, [item]);
+                }
+            }
+        }
+        const labels = Array.from(groups.keys()).sort((a, b) =>
+            a.localeCompare(b, undefined, {numeric: true, sensitivity: "base"}),
+        );
+        return labels.map((label) => ({label, items: groups.get(label)!}));
+    }
+
+    private renderGalleryView() {
+        const items = this.state.displayedTroveItems;
+        if (!this.state.groupByLanguage) {
+            return (
+                <section className="gallery-grid">
+                    {items.map((troveItem, index) => this.renderTroveItem(troveItem, index))}
+                </section>
+            );
+        }
+        const grouped = this.groupItemsByEffectiveLanguage(items);
+        return (
+            <div>
+                {grouped.map((group) => (
+                    <section key={group.label} style={{marginBottom: "16px"}}>
+                        <h3 style={{margin: "6px 0 8px 0"}}>{group.label}</h3>
+                        <section className="gallery-grid">
+                            {group.items.map((troveItem, index) => this.renderTroveItem(troveItem, `${group.label}-${index}`))}
+                        </section>
+                    </section>
+                ))}
+            </div>
+        );
     }
 
     private renderViewModeToggle() {
@@ -814,6 +921,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             textAlign: "left",
             color: "#000",
         };
+        const grouped = this.state.groupByLanguage
+            ? this.groupItemsByEffectiveLanguage(this.listViewSortedItems())
+            : [{label: "", items: this.listViewSortedItems()}];
+        const listColumnCount = 7;
         return (
             <div style={{overflowX: "auto", width: "100%"}}>
                 <table style={tableStyle}>
@@ -829,47 +940,61 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.listViewSortedItems().map((troveItem, index) => {
-                            const lp = troveItem.littlePrinceItem;
-                            const langTagsText = this.listViewLangTags(troveItem);
-                            const rowKey =
-                                troveItem.polyglitStableRowKey ??
-                                `${lp.lpid ?? "noid"}-${lp.smallImageUrl}-${lp.title}-${index}`;
-                            return (
-                                <tr key={rowKey}>
-                                    <td style={cellStyle}>
-                                        <BigWhiteTooltip
-                                            title={this.troveItemTooltipContents(troveItem)}
-                                            arrow
-                                            interactive
-                                            placement="right-start"
-                                            enterDelay={300}
-                                            enterNextDelay={300}
+                        {grouped.map((group) => (
+                            <React.Fragment key={group.label || "ungrouped"}>
+                                {this.state.groupByLanguage && (
+                                    <tr>
+                                        <td
+                                            style={{...thStyle, fontWeight: 700, backgroundColor: "#efefef"}}
+                                            colSpan={listColumnCount}
                                         >
-                                            <a href={lp.largeImageUrl} target="_blank" rel="noreferrer">
-                                                <img
-                                                    width="80"
-                                                    height="100%"
-                                                    src={lp.smallImageUrl}
-                                                    alt={lp.title}
-                                                    style={{display: "block"}}
-                                                />
-                                            </a>
-                                        </BigWhiteTooltip>
-                                    </td>
-                                    <td style={cellStyle}>{lp.title}</td>
-                                    <td style={cellStyle}>{this.constructLanguage(troveItem)}</td>
-                                    <td style={cellStyle}>{this.listViewLangNames6393(troveItem)}</td>
-                                    <td style={cellStyle}>{this.listViewLangNames6391(troveItem)}</td>
-                                    <td style={cellStyle}>
-                                        {langTagsText.trim() !== "" ? (
-                                            <code style={{fontSize: "0.9em", whiteSpace: "pre-wrap"}}>{langTagsText}</code>
-                                        ) : null}
-                                    </td>
-                                    <td style={cellStyle}>{lp.lpid ?? ""}</td>
-                                </tr>
-                            );
-                        })}
+                                            {group.label}
+                                        </td>
+                                    </tr>
+                                )}
+                                {group.items.map((troveItem, index) => {
+                                    const lp = troveItem.littlePrinceItem;
+                                    const langTagsText = this.listViewLangTags(troveItem);
+                                    const rowKey =
+                                        troveItem.polyglitStableRowKey ??
+                                        `${lp.lpid ?? "noid"}-${lp.smallImageUrl}-${lp.title}-${index}`;
+                                    return (
+                                        <tr key={rowKey}>
+                                            <td style={cellStyle}>
+                                                <BigWhiteTooltip
+                                                    title={this.troveItemTooltipContents(troveItem)}
+                                                    arrow
+                                                    interactive
+                                                    placement="right-start"
+                                                    enterDelay={300}
+                                                    enterNextDelay={300}
+                                                >
+                                                    <a href={lp.largeImageUrl} target="_blank" rel="noreferrer">
+                                                        <img
+                                                            width="80"
+                                                            height="100%"
+                                                            src={lp.smallImageUrl}
+                                                            alt={lp.title}
+                                                            style={{display: "block"}}
+                                                        />
+                                                    </a>
+                                                </BigWhiteTooltip>
+                                            </td>
+                                            <td style={cellStyle}>{lp.title}</td>
+                                            <td style={cellStyle}>{this.constructLanguage(troveItem)}</td>
+                                            <td style={cellStyle}>{this.listViewLangNames6393(troveItem)}</td>
+                                            <td style={cellStyle}>{this.listViewLangNames6391(troveItem)}</td>
+                                            <td style={cellStyle}>
+                                                {langTagsText.trim() !== "" ? (
+                                                    <code style={{fontSize: "0.9em", whiteSpace: "pre-wrap"}}>{langTagsText}</code>
+                                                ) : null}
+                                            </td>
+                                            <td style={cellStyle}>{lp.lpid ?? ""}</td>
+                                        </tr>
+                                    );
+                                })}
+                            </React.Fragment>
+                        ))}
                     </tbody>
                 </table>
             </div>
