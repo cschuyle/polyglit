@@ -276,13 +276,57 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
                         <div className="search-results" style={{width: "100%"}}>
                         <div style={{width: "100%", marginTop: "12px"}}>
-                            <TextField label="Search keywords"
-                                       type="search" variant="outlined"
-                                       style={{width: "100%"}}
-                                       value={this.state.searchText}
-                                       onChange={e => this.onSearchTextChanged(e)}
-                                       placeholder="language, country, title, script, format ..."
-                            />
+                            <div style={{position: "relative", width: "100%"}}>
+                                <TextField
+                                    label="Search keywords"
+                                    type="text"
+                                    variant="outlined"
+                                    fullWidth
+                                    value={this.state.searchText}
+                                    onChange={(e) => this.onSearchTextChanged(e)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Escape") {
+                                            e.preventDefault();
+                                            this.clearSearch();
+                                        }
+                                    }}
+                                    placeholder="language, country, title, script, format ..."
+                                    InputProps={{
+                                        style: this.state.searchText
+                                            ? {paddingRight: 40}
+                                            : undefined,
+                                    }}
+                                />
+                                {this.state.searchText ? (
+                                    <IconButton
+                                        type="button"
+                                        aria-label="Clear search"
+                                        size="small"
+                                        onMouseDown={(ev) => ev.preventDefault()}
+                                        onClick={() => this.clearSearch()}
+                                        style={{
+                                            position: "absolute",
+                                            right: 10,
+                                            bottom: 17,
+                                            zIndex: 2,
+                                            padding: 4,
+                                            color: "rgba(0, 0, 0, 0.38)",
+                                        }}
+                                    >
+                                        <span
+                                            aria-hidden
+                                            style={{
+                                                fontWeight: 700,
+                                                fontSize: "1.05rem",
+                                                lineHeight: 1,
+                                                color: "rgba(0, 0, 0, 0.38)",
+                                            }}
+                                        >
+                                            ×
+                                        </span>
+                                    </IconButton>
+                                ) : null}
+                            </div>
                         </div>
                         <div
                             style={{
@@ -327,6 +371,11 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 </div>
             </div>
         );
+    }
+
+    private clearSearch() {
+        this.setState({searchText: ""});
+        this.search("", this.state.focusState);
     }
 
     private onSearchTextChanged(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
