@@ -7,3 +7,5 @@
 # Mac Crap
 .DS_Store
 .envrc
+
+frontend/public/fixtures

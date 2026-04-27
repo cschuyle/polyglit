@@ -58,7 +58,6 @@
         "translation-title-transliterated": "Malkiyat Prints",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince-bulgarian.jpg",
         "language": "Bulgarian",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince-bulgarian.jpg",
         "date-added": "2019-07-04",
         "langPairs": [
@@ -66,6 +65,9 @@
             "lang": "bul",
             "lang2": "bg"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -234,7 +236,6 @@
         "search-words": "malenky malen'ky malenkiy malen'kiy malenkyi malen'kyi malenkii malen'kii prints princ",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince-and-lewis-carroll-tales-russian.jpeg",
         "language": "Russian, Русский",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince-and-lewis-carroll-tales-russian.jpeg",
         "date-added": "2019-07-04",
         "langPairs": [
@@ -242,6 +243,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -333,7 +337,6 @@
         "search-words": "Xiao wang zi",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince-mandarin-trilingual-anniversary.jpg",
         "language": "Mandarin 普通话, French, English",
-        "script": "simplified Chinese",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince-mandarin-trilingual-anniversary.jpg",
         "date-added": "2019-07-04",
         "langPairs": [
@@ -349,6 +352,9 @@
             "lang": "eng",
             "lang2": "en"
           }
+        ],
+        "scripts": [
+          "Hans"
         ]
       }
     },
@@ -357,7 +363,6 @@
         "title": "The Little Prince in Mandarin, French, and English",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince-chinese-french-english.jpeg",
         "language": "Mandarin, French, and English",
-        "script": "simplified Chinese",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince-chinese-french-english.jpeg",
         "tags": [
           "multi-language"
@@ -372,6 +377,9 @@
             "lang": "eng",
             "lang2": "en"
           }
+        ],
+        "scripts": [
+          "Hans"
         ]
       }
     },
@@ -662,6 +670,9 @@
             "lang": "jpn",
             "lang2": "ja"
           }
+        ],
+        "scripts": [
+          "Jpan"
         ]
       }
     },
@@ -681,6 +692,9 @@
             "lang": "jpn",
             "lang2": "ja"
           }
+        ],
+        "scripts": [
+          "Jpan"
         ]
       }
     },
@@ -935,7 +949,6 @@
         "title": "The Little Prince in Macedonian",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince-macedonian.jpeg",
         "language": "Macedonian",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince-macedonian.jpeg",
         "date-added": "2019-07-04",
         "langPairs": [
@@ -943,6 +956,9 @@
             "lang": "mkd",
             "lang2": "mk"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -1140,13 +1156,15 @@
         "title": "The Little Prince in Serbian",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince-serbian-(cyrillic).jpeg",
         "language": "Serbian",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince-serbian-(cyrillic).jpeg",
         "langPairs": [
           {
             "lang": "srp",
             "lang2": "sr"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -1260,6 +1278,9 @@
             "lang": "cmn",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Hant"
         ]
       }
     },
@@ -1282,13 +1303,15 @@
         "title": "The Little Prince in Ukrainian",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince-ukrainian.jpeg",
         "language": "Ukrainian",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince-ukrainian.jpeg",
         "langPairs": [
           {
             "lang": "ukr",
             "lang2": "uk"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -1399,7 +1422,6 @@
         "search-words": "Xiao wang zi",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince-mandarin-bilingual.jpg",
         "language": "Mandarin / 普通话 and English",
-        "script": "simplified Chinese",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince-mandarin-bilingual.jpg",
         "tags": [
           "dual-language"
@@ -1413,6 +1435,9 @@
             "lang": "eng",
             "lang2": "en"
           }
+        ],
+        "scripts": [
+          "Hans"
         ]
       }
     },
@@ -1421,13 +1446,15 @@
         "title": "The Little Prince in Mandarin (traditional script) (hardcover)",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince-mandarin-traditional.jpg",
         "language": "Mandarin / 普通话 / 华语",
-        "script": "traditional Chinese",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince-mandarin-traditional.jpg",
         "langPairs": [
           {
             "lang": "cmn",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Hant"
         ]
       }
     },
@@ -1443,6 +1470,9 @@
             "lang": "srp",
             "lang2": "sr"
           }
+        ],
+        "scripts": [
+          "Latn"
         ]
       }
     },
@@ -1597,6 +1627,10 @@
             "lang": "tur",
             "lang2": "tr"
           }
+        ],
+        "scripts": [
+          "Latn",
+          "Orkh"
         ]
       }
     },
@@ -1718,7 +1752,6 @@
         "title": "The Little Prince in Yiddish, Hebraic script section",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince-yiddish-hebraic-script.jpeg",
         "language": "Yiddish",
-        "script": "Hebraic script",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince-yiddish-hebraic-script.jpeg",
         "comments": [
           "Right-to-left (\"back\") cover. The other cover in this dual-script book is in the Latin script"
@@ -1732,6 +1765,9 @@
             "lang": "yid",
             "lang2": "yi"
           }
+        ],
+        "scripts": [
+          "Hebr"
         ]
       }
     },
@@ -1740,7 +1776,6 @@
         "title": "The Little Prince in Yiddish, Latin script section",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince-yiddish-latin-script.jpeg",
         "language": "Yiddish",
-        "script": "Latin script",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince-yiddish-latin-script.jpeg",
         "comments": [
           "Left-to-right (\"front\") cover. The other cover in this dual-script book is in the Hebraic script"
@@ -1759,6 +1794,9 @@
             "lang": "yid",
             "lang2": "yi"
           }
+        ],
+        "scripts": [
+          "Latn"
         ]
       }
     },
@@ -1884,6 +1922,9 @@
             "lang2": "fa",
             "langTag": "fas-x-farsi"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -1976,7 +2017,6 @@
         "title": "The Little Prince in Mongolian",
         "translation-title": "",
         "translation-title-transliterated": "Byatskhan khuntaydzh",
-        "script": "Cyrillic",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince-mongolian-cyrillic.jpeg",
         "language": "Mongolian",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince-mongolian-cyrillic.jpeg",
@@ -1985,6 +2025,9 @@
             "lang": "mon",
             "lang2": "mn"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -1993,7 +2036,6 @@
         "title": "The Little Prince in Mongolian",
         "translation-title": "ᠪᠢᠴᠢᠬᠠᠨ ᠬᠣᠨᠩᠳᠠᠢᠵᠢ",
         "translation-title-transliterated": "Byatskhan khuntaydzh",
-        "script": "Mongolian",
         "language": "Mongolian",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince-mongolian-traditional.jpeg",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince-mongolian-traditional.jpeg",
@@ -2002,6 +2044,9 @@
             "lang": "mon",
             "lang2": "mn"
           }
+        ],
+        "scripts": [
+          "Mong"
         ]
       }
     },
@@ -2449,7 +2494,6 @@
         "search-words": "kaniyan rajkumarah kaniiyaan raajumaarah",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/the-little-prince---Sanskrit.jpeg",
         "language": "Sanskrit",
-        "script": "Devanagari",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/the-little-prince---Sanskrit.jpeg",
         "language-spoken-in": "India",
         "tags": [
@@ -2460,6 +2504,9 @@
             "lang": "san",
             "lang2": "sa"
           }
+        ],
+        "scripts": [
+          "Deva"
         ]
       }
     },
@@ -2543,13 +2590,15 @@
         "search-words": "malenky malen'ky malenkiy malen'kiy malenkyi malen'kyi malenkii malen'kii prints princ",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/the-little-prince---Russian-2.jpeg",
         "language": "Russian",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/the-little-prince---Russian-2.jpeg",
         "langPairs": [
           {
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -2623,7 +2672,6 @@
         "search-words": "be tham lytlan aethelinge lutlan luetlan",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/the-little-prince----Þam-lytlan-æþelinge---Old-English-(Anglo-Saxon-runes).jpeg",
         "language": "Old English (Anglo Saxon)",
-        "script": "Anglo Saxon runes",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/the-little-prince----Þam-lytlan-æþelinge---Old-English-(Anglo-Saxon-runes).jpeg",
         "isbn13": "978-3-946190-92-9",
         "narrator": "",
@@ -2641,6 +2689,9 @@
             "lang": "ang",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Runr"
         ]
       }
     },
@@ -2797,7 +2848,6 @@
         "translation-title": "Der Kleine Prinz",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/the-little-prince---Der-Kleine-Prinz---Deutsch-(Fraktur),-German.jpeg",
         "language": "Deutsch, German",
-        "script": "Fraktur",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/the-little-prince---Der-Kleine-Prinz---Deutsch-(Fraktur),-German.jpeg",
         "langPairs": [
           {
@@ -2805,6 +2855,9 @@
             "lang2": "de",
             "langTag": "deu-x-german"
           }
+        ],
+        "scripts": [
+          "Latf"
         ]
       }
     },
@@ -3004,13 +3057,15 @@
         "translation-title-transliterated": "Byatskhan khuntaydzh",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/the-little-prince---Mongolian-(Mongolian-script).jpeg",
         "language": "Mongolian",
-        "script": "Mongolian",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/the-little-prince---Mongolian-(Mongolian-script).jpeg",
         "langPairs": [
           {
             "lang": "mon",
             "lang2": "mn"
           }
+        ],
+        "scripts": [
+          "Mong"
         ]
       }
     },
@@ -3054,7 +3109,6 @@
         "title": "Пщы Нэнау [Pshy Nănau] - Fairytales including The Little Prince, in Circassian/Kabardian",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/fairytales-in-circassian-including-the-little-prince.png",
         "language": "Circassian, Адыгэхэр; Kabardian",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/fairytales-in-circassian-including-the-little-prince.png",
         "format": "pdf",
         "files": [
@@ -3065,7 +3119,10 @@
         "year": "1994",
         "translator": "Zaur Naloyev",
         "isbn10": "5-88195-068-2",
-        "langPairs": []
+        "langPairs": [],
+        "scripts": [
+          "Cyrl"
+        ]
       }
     },
     {
@@ -3442,13 +3499,15 @@
         "title": "The Little Prince, in Mandarin with pinyin",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince---Mandarin-(simplified-Chinese)-with-pinyin.jpeg",
         "language": "Mandarin with pinyin",
-        "script": "simplified Chinese",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince---Mandarin-(simplified-Chinese)-with-pinyin.jpeg",
         "langPairs": [
           {
             "lang": "cmn",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Hans"
         ]
       }
     },
@@ -3547,7 +3606,6 @@
         "publication-country": "Morocco",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince---Tamashek,-Tamazight,-Tamacheq-(Morocco).jpeg",
         "language": "Tamashek, Tamazight, Tamacheq (Berber)",
-        "script": "Amazigh, Tifinagh",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince---Tamashek,-Tamazight,-Tamacheq-(Morocco).jpeg",
         "language-spoken-in": "North-West Africa",
         "langPairs": [
@@ -3559,6 +3617,9 @@
             "lang": "tzm",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Tfng"
         ]
       }
     },
@@ -3611,6 +3672,9 @@
             "lang2": "fa",
             "langTag": "fas-x-farsi"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -3848,6 +3912,10 @@
             "lang": "tur",
             "lang2": "tr"
           }
+        ],
+        "scripts": [
+          "Latn", 
+          "Arab"
         ]
       }
     },
@@ -3947,7 +4015,6 @@
         "translation-title-transliterated": "Maleńki prync",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/the-little-prince---Маленькі-прынц-(Malieńki-Pryntc)---Belarusian.jpeg",
         "language": "Belarusian",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/the-little-prince---Маленькі-прынц-(Malieńki-Pryntc)---Belarusian.jpeg",
         "format": "hardcover",
         "illustrator": "",
@@ -3963,6 +4030,9 @@
             "lang": "bel",
             "lang2": "be"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -3987,7 +4057,6 @@
         "search-words": "malenky malen'ky malenkiy malen'kiy malenkyi malen'kyi malenkii malen'kii prints princ",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/the-little-prince---Malenkii-Prints---Russian,-English-(diglot).jpeg",
         "language": "Russian, French",
-        "script": "Cyrillic, Latin",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/the-little-prince---Malenkii-Prints---Russian,-English-(diglot).jpeg",
         "tags": [
           "dual-language"
@@ -4001,6 +4070,10 @@
             "lang": "fra",
             "lang2": "fr"
           }
+        ],
+        "scripts": [
+          "Cyrl",
+          "Latn"
         ]
       }
     },
@@ -4125,7 +4198,6 @@
         "illustrator": "Vladyslav Yerka",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince---Malen'kiy-princ-(large-edition)-(illustrated-by-Vladislav-Erka)---Ukrainian.jpg",
         "language": "Український, Ukrainian",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince---Malen'kiy-princ-(large-edition)-(illustrated-by-Vladislav-Erka)---Ukrainian.jpg",
         "langPairs": [
           {
@@ -4133,6 +4205,9 @@
             "lang2": "uk",
             "langTag": "ukr-x-ukrainian"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -4189,7 +4264,6 @@
         "title": "The Little Prince, in Mandarin and English",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/the-little-prince---Mandarin-(Simplified-Chinese)-and-English-(diglot).jpeg",
         "language": "Mandarin and English",
-        "script": "simplified Chinese",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/the-little-prince---Mandarin-(Simplified-Chinese)-and-English-(diglot).jpeg",
         "tags": [
           "dual-language"
@@ -4203,6 +4277,9 @@
             "lang": "eng",
             "lang2": "en"
           }
+        ],
+        "scripts": [
+          "Hans"
         ]
       }
     },
@@ -4212,7 +4289,6 @@
         "search-words": "malenky malen'ky malenkiy malen'kiy malenkyi malen'kyi malenkii malen'kii prints princ",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince---Malenkiy-Prints---Russian-&-English-(diglot).jpeg",
         "language": "Russian & English",
-        "script": "Cyrillic, Latin",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince---Malenkiy-Prints---Russian-&-English-(diglot).jpeg",
         "tags": [
           "dual-language"
@@ -4226,6 +4302,10 @@
             "lang": "eng",
             "lang2": "en"
           }
+        ],
+        "scripts": [
+          "Cyrl",
+          "Latn"
         ]
       }
     },
@@ -4331,13 +4411,15 @@
         "search-words": "malenky malen'ky malenkiy malen'kiy malenkyi malen'kyi malenkii malen'kii prints princ",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/Stories-by-Antoine-de-Saint-Exupéry,-including-The-Little-Prince---Russian.jpeg",
         "language": "Russian",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/Stories-by-Antoine-de-Saint-Exupéry,-including-The-Little-Prince---Russian.jpeg",
         "langPairs": [
           {
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -4410,12 +4492,14 @@
           "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/saneteeegezupeeri-anetwane-da-taadaagiwe-leule-sentekziuperi.pdf"
         ],
         "language": "Amharic",
-        "script": "Amharic (Ge'ez, Fidel)",
         "langPairs": [
           {
             "lang": "amh",
             "lang2": "am"
           }
+        ],
+        "scripts": [
+          "Ethi"
         ]
       }
     },
@@ -4701,6 +4785,9 @@
             "lang": "hun",
             "lang2": "hu"
           }
+        ],
+        "scripts": [
+          "Hung"
         ]
       }
     },
@@ -4843,7 +4930,6 @@
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince---Cíta-Mapaskírí---Laz-(latin-script)-1.jpeg",
         "language": "ლაზური ნენა [lazuri nena], Ardeşen dialect of Laz, Art̆aşenuri",
         "language-spoken-in": "Turkey, Georgia (although generally written in the Georgian script in Georgia",
-        "script": "Latin script",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince---Cíta-Mapaskírí---Laz-(latin-script)-1.jpeg",
         "langPairs": [
           {
@@ -4851,6 +4937,9 @@
             "lang2": null,
             "langTag": "atz-x-ardesen-dialect-of-laz-artasenuri"
           }
+        ],
+        "scripts": [
+          "Latn"
         ]
       }
     },
@@ -5198,7 +5287,6 @@
         "title": "The Little Prince, in Hakka, with pinyin",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince---Hakka,-with-pinyin.jpeg",
         "language": "Hakka, with pinyin",
-        "script": "Traditional Chinese",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince---Hakka,-with-pinyin.jpeg",
         "langPairs": [
           {
@@ -5206,6 +5294,9 @@
             "lang2": null,
             "langTag": "hak-x-with-pinyin"
           }
+        ],
+        "scripts": [
+          "Hant"
         ]
       }
     },
@@ -5350,7 +5441,6 @@
         "translation-title": "Kaniyaan RaajakumaaraH",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince---Kaniyaan-RaajakumaaraH---Sanskrit.jpeg",
         "language": "Sanskrit",
-        "script": "Devanagari",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince---Kaniyaan-RaajakumaaraH---Sanskrit.jpeg",
         "language-spoken-in": "India",
         "langPairs": [
@@ -5358,6 +5448,9 @@
             "lang": "san",
             "lang2": "sa"
           }
+        ],
+        "scripts": [
+          "Deva"
         ]
       }
     },
@@ -5448,6 +5541,10 @@
             "lang": "xmf",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Geok",
+          "Geor"
         ]
       }
     },
@@ -5535,13 +5632,15 @@
         "publication-country": "Azerbaijan",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince---Malen'kiy-Prints-(published-in-Baku)---Russian.jpeg",
         "language": "Russian",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince---Malen'kiy-Prints-(published-in-Baku)---Russian.jpeg",
         "langPairs": [
           {
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -5554,13 +5653,15 @@
         "year": "1978",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince---Malenkiy-Prints---Russian-(1978).jpeg",
         "language": "Russian",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince---Malenkiy-Prints---Russian-(1978).jpeg",
         "langPairs": [
           {
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -5739,7 +5840,6 @@
         "search-words": "malenky malen'ky malenkiy malen'kiy malenkyi malen'kyi malenkii malen'kii prints princ",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince---Stories-by-Mark-Twain-and-Antoine-de-St.-Exupery,-including-The-Little-Prince---Azerbaijani-(Cyrillic-script)-and-Russian-(dual-language).jpeg",
         "language": "Azeri / Azerbaijani (Cyrillic script) and Russian",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince---Stories-by-Mark-Twain-and-Antoine-de-St.-Exupery,-including-The-Little-Prince---Azerbaijani-(Cyrillic-script)-and-Russian-(dual-language).jpeg",
         "tags": [
           "dual-language"
@@ -5753,6 +5853,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -5916,7 +6019,6 @@
         "translation-title": "Žulu Prensina",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince---Žulu-Prensina---Laz-(latin-script).jpeg",
         "language": "ლაზური ნენა [lazuri nena], Laz, Laze Çxala, Çxaluri",
-        "script": "Latin script",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince---Žulu-Prensina---Laz-(latin-script).jpeg",
         "langPairs": [
           {
@@ -5924,6 +6026,9 @@
             "lang2": null,
             "langTag": "lzz-x-laz-laze-cxala-cxaluri"
           }
+        ],
+        "scripts": [
+          "Latn"
         ]
       }
     },
@@ -5971,7 +6076,7 @@
           "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/Chota-Shahzada-The-Little-Prince.pdf"
         ],
         "language": "Urdu",
-        "script": "Perso-Arabic",
+        "script": "Persian",
         "format": "PDF",
         "illustrator": "",
         "isbn13": "",
@@ -5988,6 +6093,9 @@
             "lang": "urd",
             "lang2": "ur"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -6099,6 +6207,12 @@
             "lang": "arc",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Syrc",
+          "Syre",
+          "Syrj",
+          "Syrn"
         ]
       }
     },
@@ -6245,6 +6359,9 @@
             "lang2": "fa",
             "langTag": "fas-x-persian"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -6356,13 +6473,15 @@
         "format": "compact hardcover",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/the little prince - Malen'kiy prints - Russian (small hardback).jpeg",
         "language": "Russian",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/the little prince - Malen'kiy prints - Russian (small hardback).jpeg",
         "langPairs": [
           {
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -6396,6 +6515,9 @@
             "lang": "arc",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Latn"
         ]
       }
     },
@@ -6429,6 +6551,10 @@
             "lang": "arc",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Armi",
+          "Latn"
         ]
       }
     },
@@ -6583,6 +6709,9 @@
             "lang": "pus",
             "lang2": "ps"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -6672,7 +6801,6 @@
           "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/jan-lawa-lili.mp3"
         ],
         "language": "Toki Pona",
-        "script": "Latin script",
         "format": "pdf, mp3 (audio)",
         "tags": [
           "constructed language"
@@ -6682,6 +6810,9 @@
             "lang": "tok",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Latn"
         ]
       }
     },
@@ -6718,13 +6849,15 @@
           "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/«Маленький-принц»-на-татарском.-Экзюпери.docx"
         ],
         "language": "Tatar",
-        "script": "Cyrillic",
         "format": "pdf, docx, mp3 (audio)",
         "langPairs": [
           {
             "lang": "tat",
             "lang2": "tt"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -6732,7 +6865,6 @@
       "littlePrinceItem": {
         "title": "The Little Prince in Tamashek",
         "publication-country": "Morocco",
-        "script": "Amazigh",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/the-little-prince-in-tamazight-cover.png",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/150/the-little-prince-in-tamazight-cover.png",
         "files": [
@@ -6749,6 +6881,9 @@
             "lang": "tmh",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Tfng"
         ]
       }
     },
@@ -6952,7 +7087,6 @@
         "title": "The Little Prince, in Kabardian, Circassian",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Kabardian, Circassian.jpeg",
         "language": "Kabardian, Circassian",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Kabardian, Circassian.jpeg",
         "langPairs": [
           {
@@ -6960,6 +7094,9 @@
             "lang2": null,
             "langTag": "kbd-x-circassian"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -7212,6 +7349,9 @@
             "lang": "kel",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -7233,6 +7373,9 @@
             "lang": "qxq",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -7242,7 +7385,6 @@
         "translation-title": "kumbuca paşa",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - kumbuca paşa - Qashqai (Latin script) (edition with two scripts, 3 written variations, and CD).jpeg",
         "language": "Qashqai",
-        "script": "Latin",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - kumbuca paşa - Qashqai (Latin script) (edition with two scripts, 3 written variations, and CD).jpeg",
         "comments": [
           "Left-to-right (\"front\") cover. The other cover in this dual-script book is in the Persian script. This is a unique edition with two scripts, three written variations, and a CD)"
@@ -7256,6 +7398,9 @@
             "lang": "qxq",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Latn"
         ]
       }
     },
@@ -7271,6 +7416,9 @@
             "lang": "ckb",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -7307,6 +7455,9 @@
             "lang": "fas",
             "lang2": "fa"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -7350,13 +7501,15 @@
         "translation-title-transliterated": "Gytstsyl prints",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Гыццыл принц (Gytstsyl prints) - Ossetian (Iron).jpeg",
         "language": "Ossetian (Iron)",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Гыццыл принц (Gytstsyl prints) - Ossetian (Iron).jpeg",
         "langPairs": [
           {
             "lang": "oss",
             "lang2": "os"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -7389,13 +7542,15 @@
         "translation-title-transliterated": "Mink'iy prints",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Минкъий принц (Mink'iy prints) - Ossetian Digor.jpeg",
         "language": "Ossetian Digor",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Минкъий принц (Mink'iy prints) - Ossetian Digor.jpeg",
         "langPairs": [
           {
             "lang": "oss",
             "lang2": "os"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -7832,7 +7987,6 @@
         "translation-title-transliterated": "Byatskhan khuntaydzh",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - mongolian traditional pocket.png",
         "language": "Mongolian",
-        "script": "Mongolian",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - mongolian traditional pocket.png",
         "format": "Small (pocket-sized) paperback, with secure paper slip (so that the book does not open when in your pocket!)",
         "langPairs": [
@@ -7840,6 +7994,9 @@
             "lang": "mon",
             "lang2": "mn"
           }
+        ],
+        "scripts": [
+          "Mong"
         ]
       }
     },
@@ -7850,13 +8007,15 @@
         "translation-title-transliterated": "Maljut Princ",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Малют принц [Maljut Princ] - macedonian.png",
         "language": "Macedonian",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Малют принц [Maljut Princ] - macedonian.png",
         "langPairs": [
           {
             "lang": "mkd",
             "lang2": "mk"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -7916,7 +8075,6 @@
         "isbn13": "978-605-5753-65-8",
         "publisher": "Արաս [Aras]",
         "date-added": "2021-06-24",
-        "script": "Armenian",
         "tags": [
           "language isolate*"
         ],
@@ -7925,6 +8083,9 @@
             "lang": "hyw",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Armn"
         ]
       }
     },
@@ -8053,7 +8214,6 @@
         "search-words": "malenky malen'ky malenkiy malen'kiy malenkyi malen'kyi malenkii malen'kii prints princ",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Malenkiy Prints - French, Russian.png",
         "language": "French, Russian",
-        "script": "Cyrillic, Latin",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Malenkiy Prints - French, Russian.png",
         "publisher": "Izdael'stvo AST",
         "publication-location": "",
@@ -8077,6 +8237,10 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl",
+          "Latn"
         ]
       }
     },
@@ -8088,7 +8252,6 @@
         "search-words": "malenky malen'ky malenkiy malen'kiy malenkyi malen'kyi malenkii malen'kii prints princ",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Malenkiy Prints - Russian, illustrated, abridged.png",
         "language": "Russian",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Malenkiy Prints - Russian, illustrated, abridged.png",
         "publisher": "",
         "publication-location": "Moscow",
@@ -8105,6 +8268,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -8114,7 +8280,6 @@
         "translation-title": "Маλкият Принц [Malkiyat prints] / Le petit prince",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Malkiyat prints - French, Bulgarian.png",
         "language": "French, Bulgarian",
-        "script": "Cyrillic, Latin",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Malkiyat prints - French, Bulgarian.png",
         "publisher": "VESY publishing house",
         "publication-location": "",
@@ -8142,6 +8307,10 @@
             "lang": "bul",
             "lang2": "bg"
           }
+        ],
+        "scripts": [
+          "Cyrl",
+          "Latn"
         ]
       }
     },
@@ -8435,7 +8604,6 @@
         "translation-title-transliterated": "chhota raajakumaar",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - छोटा राजकुमार chhote raajakumaar - Hindi.png",
         "language": "Hindi",
-        "script": "Hindi, Devanagari",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - छोटा राजकुमार chhote raajakumaar - Hindi.png",
         "acquired-from": "https://www.tamakai-books.de/",
         "date-added": "2021-07-07",
@@ -8445,6 +8613,9 @@
             "lang": "hin",
             "lang2": "hi"
           }
+        ],
+        "scripts": [
+          "Deva"
         ]
       }
     },
@@ -8465,6 +8636,9 @@
             "lang": "kan",
             "lang2": "kn"
           }
+        ],
+        "scripts": [
+          "Knda"
         ]
       }
     },
@@ -8595,7 +8769,6 @@
         "translation-title-transliterated": "Ezden Zhashchik",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Ezden Zhashchik - Karachay-Balkar.png",
         "language": "Karachay-Balkar, Къарачай-Малкъар тилге",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Ezden Zhashchik - Karachay-Balkar.png",
         "publication-country": "Germany",
         "publication-location": "Neckarsteinach",
@@ -8607,6 +8780,9 @@
             "lang": "krc",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -8717,7 +8893,6 @@
         "search-words": "malenky malen'ky malenkiy malen'kiy malenkyi malen'kyi malenkii malen'kii prints princ",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Malen'kiy prints, Le Petit Prince - Russian and French (top and bottom of pages).png",
         "language": "Russian and French",
-        "script": "Cyrillic, Latin",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Malen'kiy prints, Le Petit Prince - Russian and French (top and bottom of pages).png",
         "publication-country": "Germany",
         "publication-location": "Neckarsteinach",
@@ -8735,6 +8910,10 @@
             "lang": "fra",
             "lang2": "fr"
           }
+        ],
+        "scripts": [
+          "Cyrl",
+          "Latn"
         ]
       }
     },
@@ -8744,7 +8923,6 @@
         "translation-title": "Malenky Princ",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Malenky Princ - Ukrainian.png",
         "language": "Ukrainian",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Malenky Princ - Ukrainian.png",
         "acquired-from": "Javier Tejerina (paverius on eBay)",
         "date-added": "Oct 2021",
@@ -8753,6 +8931,9 @@
             "lang": "ukr",
             "lang2": "uk"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -8814,12 +8995,14 @@
         "publication-location": "Neckarsteinach",
         "publisher": "Edition Tintenfaß",
         "date-added": "2022-01-10",
-        "script": "Cyrillic",
         "langPairs": [
           {
             "lang": "udm",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -8874,13 +9057,16 @@
         "title": "The Little Prince, in Arabic with transliteration",
         "translation-title": "il-'amir le-zgīr",
         "search-words": "al-amir as-saghir",
-        "script": "Arabic, Latin",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - il-'amir le-zgīr - Arabic with transliteration.png",
         "language": "Spoken Arabic with transliteration",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - il-'amir le-zgīr - Arabic with transliteration.png",
         "date-added": "2022-01-10",
         "format": "Hardcover, audio files",
-        "langPairs": []
+        "langPairs": [],
+        "scripts": [
+          "Arab",
+          "Latn"
+        ]
       }
     },
     {
@@ -8912,7 +9098,6 @@
         "notes": [
           "pdf: https://vk.com/doc257928583_487232826?"
         ],
-        "script": "Cyrillic",
         "language": "Bashkir",
         "format": "pdf",
         "langPairs": [
@@ -8920,6 +9105,9 @@
             "lang": "bak",
             "lang2": "ba"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -8935,13 +9123,15 @@
           "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/Zhima-Ela.doc"
         ],
         "language": "Chechen",
-        "script": "Cyrillic",
         "format": "pdf, doc",
         "langPairs": [
           {
             "lang": "che",
             "lang2": "ce"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -9526,7 +9716,6 @@
           "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/serbian-cyrillic-d0bcd0b0d0bbd0b8-d0bfd180d0b8d0bdd186.pdf"
         ],
         "language": "Serbian",
-        "script": "Cyrillic",
         "format": "pdf",
         "acquired-from": "https://profesorkamarina.files.wordpress.com/2017/11/d0bcd0b0d0bbd0b8-d0bfd180d0b8d0bdd186.pdf",
         "date-added": "2022-02-22",
@@ -9535,6 +9724,9 @@
             "lang": "srp",
             "lang2": "sr"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -10010,12 +10202,15 @@
         "acquired-from": "https://editiontintenfass.de",
         "description": "Translation of the world classic “Le Petit Prince” into Gothic, the extinct East Germanic language of the 4th century.",
         "tintenfassId": "385",
-        "script": "Gothic",
         "langPairs": [
           {
             "lang": "got",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Goth",
+          "Latn"
         ]
       }
     },
@@ -10106,12 +10301,14 @@
         "acquired-from": "https://editiontintenfass.de",
         "description": "Translation of the classic into Mari, a Finno-Ugric language, one of the official languages in the Russian Republic of Mari north of the Volga.",
         "tintenfassId": "367",
-        "script": "cyrillic",
         "langPairs": [
           {
             "lang": "chm",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -10133,13 +10330,15 @@
         "acquired-from": "https://editiontintenfass.de",
         "description": "Translation of the classic into Buryat, a Mongolian language spoken in the Republic of Buryatia in Russia, in China and in Mongolia.",
         "tintenfassId": "363",
-        "script": "cyrillic",
         "language-spoken-in": "Russian Federation, Mongolia",
         "langPairs": [
           {
             "lang": "bua",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -10161,12 +10360,14 @@
         "acquired-from": "https://editiontintenfass.de",
         "description": "A translation into the Jeollabuk-do dialect of the Korean language spoken in the North Jeolla Province of South Korea by about two million speakers.",
         "tintenfassId": "374",
-        "script": "korean",
         "langPairs": [
           {
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -10187,13 +10388,15 @@
         "acquired-from": "https://editiontintenfass.de",
         "description": "Translation of the classic into the Mansi language.",
         "tintenfassId": "394",
-        "script": "cyrillic",
         "language-spoken-in": "Siberia, Russian Federation",
         "langPairs": [
           {
             "lang": "mns",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -10215,13 +10418,15 @@
         "acquired-from": "https://editiontintenfass.de",
         "description": "Translation of the classic into Erzya, a Finno-Ugric language native to the Russian Republic of Mordovia.",
         "tintenfassId": "352",
-        "script": "cyrillic",
         "language-spoken-in": "Volga region, Russian Federation",
         "langPairs": [
           {
             "lang": "myv",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -10243,13 +10448,15 @@
         "acquired-from": "https://editiontintenfass.de",
         "description": "Translation of the classic into the Moksha language.",
         "tintenfassId": "393",
-        "script": "cyrillic",
         "language-spoken-in": "Volga region, Russian Federation",
         "langPairs": [
           {
             "lang": "mdf",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -10270,13 +10477,15 @@
         "acquired-from": "https://editiontintenfass.de",
         "description": "Translation of the classic into Komi, a Finno-Ugric (Permian) language spoken in the Komi Republic of Russia.",
         "tintenfassId": "358",
-        "script": "cyrillic",
         "language-spoken-in": "the Komi Republic and other parts of the Russian Federation such as Nenetsia and Yamalia",
         "langPairs": [
           {
             "lang": "kom",
             "lang2": "kv"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -10325,7 +10534,6 @@
       "littlePrinceItem": {
         "title": "The Little Prince in Dzongkha (eBook)",
         "translation-title": "Gyalse Zhan Nu",
-        "script": "Tibetan",
         "language-spoken-in": "Bhutan",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/little-prince-cover-Dzongkha.png",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/150/little-prince-cover-Dzongkha.png",
@@ -10345,6 +10553,9 @@
             "lang": "dzo",
             "lang2": "dz"
           }
+        ],
+        "scripts": [
+          "Tibt"
         ]
       }
     },
@@ -10561,6 +10772,9 @@
             "lang": "spa",
             "lang2": "es"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -10621,7 +10835,11 @@
         ],
         "script": "Latin, traditional Chinese with Bopomofo (Zhuyin fuhao)",
         "format": "pdf, mp3 (audio)",
-        "langPairs": []
+        "langPairs": [],
+        "scripts": [
+          "Bopo",
+          "Hant"
+        ]
       }
     },
     {
@@ -10649,6 +10867,10 @@
             "lang2": null,
             "langTag": "ckv-x-kavalan-mandarin"
           }
+        ],
+        "scripts": [
+          "Bopo",
+          "Hant"
         ]
       }
     },
@@ -10677,6 +10899,10 @@
             "lang2": null,
             "langTag": "bas-x-masami-mandarin"
           }
+        ],
+        "scripts": [
+          "Bopo",
+          "Hant"
         ]
       }
     },
@@ -10699,7 +10925,11 @@
         ],
         "script": "Latin, traditional Chinese with Bopomofo (Zhuyin fuhao)",
         "format": "pdf, mp3 (audio)",
-        "langPairs": []
+        "langPairs": [],
+        "scripts": [
+          "Bopo",
+          "Hant"
+        ]
       }
     },
     {
@@ -10727,7 +10957,10 @@
             "lang2": null,
             "langTag": "dru-x-rukai-mandarin"
           }
-        ]
+        ],
+        "scripts": [
+          "Bopo",
+          "Hant"        ]
       }
     },
     {
@@ -10755,6 +10988,10 @@
             "lang2": null,
             "langTag": "ami-x-amis-mandarin"
           }
+        ],
+        "scripts": [
+          "Bopo",
+          "Hant"
         ]
       }
     },
@@ -10783,6 +11020,10 @@
             "lang2": null,
             "langTag": "bnn-x-bunun-mandarin"
           }
+        ],
+        "scripts": [
+          "Bopo",
+          "Hant"
         ]
       }
     },
@@ -10811,6 +11052,10 @@
             "lang2": null,
             "langTag": "pwn-x-paiwan-mandarin"
           }
+        ],
+        "scripts": [
+          "Bopo",
+          "Hant"
         ]
       }
     },
@@ -10839,6 +11084,10 @@
             "lang2": null,
             "langTag": "bez-x-benan-mandarin"
           }
+        ],
+        "scripts": [
+          "Bopo",
+          "Hant"
         ]
       }
     },
@@ -10867,6 +11116,10 @@
             "lang2": null,
             "langTag": "tay-x-atayal-mandarin"
           }
+        ],
+        "scripts": [
+          "Bopo",
+          "Hant"
         ]
       }
     },
@@ -10889,7 +11142,11 @@
         ],
         "script": "Latin, traditional Chinese with Bopomofo (Zhuyin fuhao)",
         "format": "pdf, mp3 (audio)",
-        "langPairs": []
+        "langPairs": [],
+        "scripts": [
+          "Bopo",
+          "Hant"
+        ]
       }
     },
     {
@@ -10911,7 +11168,11 @@
         ],
         "script": "Latin, traditional Chinese with Bopomofo (Zhuyin fuhao)",
         "format": "pdf, mp3 (audio)",
-        "langPairs": []
+        "langPairs": [],
+        "scripts": [
+          "Bopo",
+          "Hant"
+        ]
       }
     },
     {
@@ -10939,6 +11200,10 @@
             "lang2": null,
             "langTag": "pis-x-kanakanafu-mandarin"
           }
+        ],
+        "scripts": [
+          "Bopo",
+          "Hant"
         ]
       }
     },
@@ -10967,6 +11232,10 @@
             "lang2": null,
             "langTag": "trv-x-taroko-mandarin"
           }
+        ],
+        "scripts": [
+          "Bopo",
+          "Hant"
         ]
       }
     },
@@ -10995,6 +11264,10 @@
             "lang2": null,
             "langTag": "trv-x-seediq-mandarin"
           }
+        ],
+        "scripts": [
+          "Bopo",
+          "Hant"
         ]
       }
     },
@@ -11027,6 +11300,10 @@
             "lang": "eng",
             "lang2": "en"
           }
+        ],
+        "scripts": [
+          "Hant",
+          "Latn"
         ]
       }
     },
@@ -11059,6 +11336,10 @@
             "lang": "eng",
             "lang2": "en"
           }
+        ],
+        "scripts": [
+          "Hans",
+          "Latn"
         ]
       }
     },
@@ -11091,6 +11372,10 @@
             "lang": "eng",
             "lang2": "en"
           }
+        ],
+        "scripts": [
+          "Bopo",
+          "Hant"
         ]
       }
     },
@@ -11673,6 +11958,10 @@
             "lang": "nan",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Hant",
+          "Latn"
         ]
       }
     },
@@ -11773,7 +12062,6 @@
         "translator": "Nuryana Arslanova Idrisova",
         "ibn13": "978-5-91462-033-9",
         "quantity": 2,
-        "script": "Cyrillic",
         "comments": [
           "Signed by the translator"
         ],
@@ -11786,6 +12074,9 @@
             "lang2": null,
             "langTag": "kum-x-qumuq-til"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -11935,13 +12226,15 @@
         "title": "The Little Prince, in Mongolian",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Mongloian cyrillic 3.png",
         "language": "Mongolian",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Mongloian cyrillic 3.png",
         "langPairs": [
           {
             "lang": "mon",
             "lang2": "mn"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -12003,6 +12296,9 @@
             "lang": "fas",
             "lang2": "fa"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -12017,6 +12313,9 @@
             "lang": "fas",
             "lang2": "fa"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -12038,6 +12337,10 @@
             "lang": "eng",
             "lang2": "en"
           }
+        ],
+        "scripts": [
+          "Arab",
+          "Latn"
         ]
       }
     },
@@ -12062,6 +12365,10 @@
             "lang": "eng",
             "lang2": "en"
           }
+        ],
+        "scripts": [
+          "Arab",
+          "Latn"
         ]
       }
     },
@@ -12080,6 +12387,10 @@
             "lang": "eng",
             "lang2": "en"
           }
+        ],
+        "scripts": [
+          "Arab",
+          "Latn"
         ]
       }
     },
@@ -12105,6 +12416,10 @@
             "lang": "eng",
             "lang2": "en"
           }
+        ],
+        "scripts": [
+          "Arab",
+          "Latn"
         ]
       }
     },
@@ -12126,6 +12441,10 @@
             "lang": "eng",
             "lang2": "en"
           }
+        ],
+        "scripts": [
+          "Arab",
+          "Latn"
         ]
       }
     },
@@ -12147,6 +12466,10 @@
             "lang": "eng",
             "lang2": "en"
           }
+        ],
+        "scripts": [
+          "Arab",
+          "Latn"
         ]
       }
     },
@@ -12162,6 +12485,9 @@
             "lang": "fas",
             "lang2": "fa"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -12465,13 +12791,15 @@
         "translation-title-transliterated": "Byatskhan khuntaydzh",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Бяцхан Хунтайж [Byatskhan khuntaydzh] - Mongolian Cyrillic 2.png",
         "language": "Mongolian",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Бяцхан Хунтайж [Byatskhan khuntaydzh] - Mongolian Cyrillic 2.png",
         "langPairs": [
           {
             "lang": "mon",
             "lang2": "mn"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -12674,6 +13002,9 @@
             "lang": "fas",
             "lang2": "fa"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -12689,6 +13020,9 @@
             "lang": "fas",
             "lang2": "fa"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -12804,9 +13138,12 @@
         "publisher": "Etesam (January 1, 2009)",
         "langPairs": [
           {
-            "lang": "fas",
+            "lang": "prs",
             "lang2": "fa"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -13073,7 +13410,6 @@
     {
       "littlePrinceItem": {
         "title": "The Little Prince in S'gaw Karen",
-        "script": "Mon/Burmese",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Khmer Surin (Northern Khmer).jpeg",
         "language": "S'gaw Karen",
         "language-synonyms": "Sgaw Karen, Burmese Karen, Kanyaw, Kayinpyu, Kyetho, Paganyaw, Pchcknya, Pwakenyaw, S’gau, S’gaw, S’gaw Kayin, White Karen or Yang Khao",
@@ -13093,6 +13429,9 @@
             "lang": "ksw",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Mymr"
         ]
       }
     },
@@ -13118,6 +13457,9 @@
             "lang": "nod",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Lana"
         ]
       }
     },
@@ -13443,7 +13785,6 @@
         "translation-title": "Prabu Anom",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Prabu Anom - Sundanese.png",
         "language": "Sundanese, Basa Sunda",
-        "script": "Sundanese and Latin",
         "language-spoken-in": "Western Java (ꦗꦮ), Indonesia",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Prabu Anom - Sundanese.png",
         "isbn10": "978-979-3631-42-4",
@@ -13464,6 +13805,10 @@
             "lang2": "su",
             "langTag": "sun-x-basa-sunda"
           }
+        ],
+        "scripts": [
+          "Latn",
+          "Sund"
         ]
       }
     },
@@ -13508,12 +13853,15 @@
         "comments": [
           "Many thanks to Jean-Marc Probst"
         ],
-        "script": "Balinese and latin (dual-script)",
         "langPairs": [
           {
             "lang": "ban",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Bali",
+          "Latn"
         ]
       }
     },
@@ -14325,6 +14673,9 @@
             "lang": "tha",
             "lang2": "th"
           }
+        ],
+        "scripts": [
+          "Thai"
         ]
       }
     },
@@ -14360,7 +14711,6 @@
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Azeri, Persian script.png",
         "language": "South Azerbaijani",
         "language-spoken-in": "Iran",
-        "script": "Arabic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Azeri, Persian script.png",
         "comments": [
           "Thanks to Javier Tejerina"
@@ -14373,6 +14723,9 @@
             "lang": "azb",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -16191,6 +16544,9 @@
             "lang": "urd",
             "lang2": "ur"
           }
+        ],
+        "scripts": [
+          "Aran"
         ]
       }
     },
@@ -17177,7 +17533,6 @@
         "translation-title": "Кичкина Шаҳзода",
         "translation-title-transliterated": "Kichkina Shahzoda",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Кичкина Шаҳзода [Kichkina Shahzoda] - Uzbek (Cyrillic, 2020).jpeg",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Кичкина Шаҳзода [Kichkina Shahzoda] - Uzbek (Cyrillic, 2020).jpeg",
         "language": "Uzbek",
         "translator": "Khayriddin Sultonov & Abduġopir Kosimov",
@@ -17196,6 +17551,9 @@
             "lang": "uzb",
             "lang2": "uz"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -18929,7 +19287,6 @@
         "translator": "Igor Creţu",
         "publication-location": "Chişinău, Moldavian SSR",
         "language": "Romanian (Moldovan, Moldavian)",
-        "script": "Cyrillic",
         "isbn13": "-",
         "lpid": "PP-1607",
         "langPairs": [
@@ -18937,6 +19294,9 @@
             "lang": "ron",
             "lang2": "ro"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -19049,7 +19409,6 @@
           "https://annaslittleprincecollection.com/public/mycollection#!/filter/tlp/"
         ],
         "year": "2016",
-        "script": "Cyrillic",
         "language": "Uzbek",
         "publication-location": "Tashkent",
         "langPairs": [
@@ -19057,6 +19416,9 @@
             "lang": "uzb",
             "lang2": "uz"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -19292,7 +19654,6 @@
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/little-prince-cover-Tigray.png",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/150/little-prince-cover-Tigray.png",
         "language": "Tigrinya",
-        "script": "Ge'ez",
         "language-spoken-in": "Eritrea / ኤርትራ - Hagärä Ertra",
         "publisher": "Alliance Française - Asmara",
         "translator": "Afeworki Aferaine",
@@ -19302,6 +19663,9 @@
             "lang": "tir",
             "lang2": "ti"
           }
+        ],
+        "scripts": [
+          "Ethi"
         ]
       }
     },
@@ -19603,6 +19967,9 @@
             "lang": "fas",
             "lang2": "fa"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -20607,7 +20974,6 @@
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Karachay-Balkar PP-6623.gif",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Karachay-Balkar PP-6623.gif",
         "language": "Karachay Turkish, Karachay-Balkar",
-        "script": "Cyrillic",
         "translator": "Kemal Yapici",
         "year": "2021",
         "publication-country": "Turkey",
@@ -20622,6 +20988,9 @@
             "lang2": null,
             "langTag": "krc-x-karachay-balkar"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -21699,13 +22068,15 @@
         "isbn13": "978-9943-6304-9-9",
         "translator": "Gulnara Ibragimova",
         "date-added": "2023-01-27",
-        "script": "Cyrillic",
         "lpid": "PP-5918",
         "langPairs": [
           {
             "lang": "kaa",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -22000,6 +22371,9 @@
             "lang": "fas",
             "lang2": "fa"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -22461,6 +22835,9 @@
             "lang": "haz",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -22613,11 +22990,14 @@
         "lpid": "PP-7203",
         "langPairs": [
           {
-            "lang": "fas",
+            "lang": "prs",
             "lang2": "fa"
           }
         ]
-      }
+      },
+        "scripts": [
+          "Arab"
+        ]
     },
     {
       "littlePrinceItem": {
@@ -24989,6 +25369,9 @@
             "lang": "fas",
             "lang2": "fa"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -25010,6 +25393,9 @@
             "lang": "fas",
             "lang2": "fa"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -26244,6 +26630,9 @@
             "lang": "pan",
             "lang2": "pa"
           }
+        ],
+        "scripts": [
+          "Guru"
         ]
       }
     },
@@ -26269,6 +26658,9 @@
             "lang": "pan",
             "lang2": "pa"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -26447,7 +26839,6 @@
         "title": "The Little Prince, in Микул Принц [Micul Prinț]- Romanian (Cyrillic). Facsimilie of 1974 edition",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Микул Принц [Micul Prinț]- Romanian (Cyrillic). Facsimilie of 1974 edition.jpeg",
         "language": "Romanian (Cyrillic from Moldova)",
-        "script": "Cyrillic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Микул Принц [Micul Prinț]- Romanian (Cyrillic). Facsimilie of 1974 edition.jpeg",
         "acquired-from": "https://www.lulu.com/shop/antoine-de-saint-exup%C3%A9ry/%D0%BC%D0%B8%D0%BA%D1%83%D0%BB-%D0%BF%D1%80%D0%B8%D0%BD%D1%86/paperback/product-q6zmq2r.html?page=1&pageSize=4",
         "date-added": "2024-09-10",
@@ -26457,6 +26848,9 @@
             "lang": "ron",
             "lang2": "ro"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -26571,7 +26965,7 @@
         "language-spoken-in": "Afghanistan",
         "langPairs": [
           {
-            "lang": "fas",
+            "lang": "prs",
             "lang2": "fa"
           }
         ]
@@ -27250,6 +27644,9 @@
             "lang2": "fa",
             "langTag": "fas-x-farsi"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -27272,6 +27669,9 @@
             "lang2": "fa",
             "langTag": "fas-x-farsi"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -27604,6 +28004,9 @@
             "lang": "fas",
             "lang2": "fa"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -28625,6 +29028,9 @@
             "lang": "fas",
             "lang2": "fa"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -29724,6 +30130,9 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Latn"
         ]
       }
     },
@@ -30020,9 +30429,12 @@
         "owned": "false",
         "langPairs": [
           {
-            "lang": "fas",
+            "lang": "prs",
             "lang2": "fa"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -31790,6 +32202,9 @@
             "lang": "fas",
             "lang2": "fa"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -31840,7 +32255,8 @@
     {
       "littlePrinceItem": {
         "title": "The Little Prince, in Amharic, with the drawings of the children of Bosco Children Addis Ababa",
-        "translation-title": "ታዳጊው ልዑል",
+        "translation-title": "ታዳጊው ልዑል", 
+        "translation-title-transliterated": "tadagīwi li‘uli",
         "owned": "false",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Amharic  PP-6016.gif",
         "language": "Amharic",
@@ -31863,7 +32279,8 @@
     {
       "littlePrinceItem": {
         "title": "The Little Prince, in Persian Farsi and Tajik?, dual script",
-        "translation-title": "شازده کوچولو (Шоҳзодакучулу) (Şohzodakuculu)",
+        "translation-title": "شازده کوچولو (Шоҳзодакучулу)",
+        "translation-title-transliterated": "Şohzodakuculu",
         "owned": "false",
         "search-words": "shohzodakuchulu sohzodakuchulu shohzodakujulu sohzodakuculu",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Persian Farsi PP-4623.gif",
@@ -31888,6 +32305,10 @@
             "lang": "tgk",
             "lang2": "tg"
           }
+        ],
+        "scripts": [
+          "Arab",
+          "Cyrl"
         ]
       }
     },
