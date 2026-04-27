@@ -18403,6 +18403,84 @@
     "scripts": []
   },
   {
+    "lang": "prs",
+    "autonym": "دری",
+    "name": "Dari",
+    "family": [
+      "Indo-European",
+      "Indo-Iranian",
+      "Iranian",
+      "Western Iranian",
+      "Southwestern Iranian"
+    ],
+    "familyHierarchy": [
+      {
+        "id": "Q19860",
+        "label": "Indo-European",
+        "parentIds": [],
+        "childIds": [
+          "Q33514"
+        ]
+      },
+      {
+        "id": "Q33514",
+        "label": "Indo-Iranian",
+        "parentIds": [
+          "Q19860"
+        ],
+        "childIds": [
+          "Q33527"
+        ]
+      },
+      {
+        "id": "Q33527",
+        "label": "Iranian",
+        "parentIds": [
+          "Q33514"
+        ],
+        "childIds": [
+          "Q129850"
+        ]
+      },
+      {
+        "id": "Q129850",
+        "label": "Western Iranian",
+        "parentIds": [
+          "Q33527"
+        ],
+        "childIds": [
+          "Q390424"
+        ]
+      },
+      {
+        "id": "Q390424",
+        "label": "Southwestern Iranian",
+        "parentIds": [
+          "Q129850"
+        ],
+        "childIds": []
+      }
+    ],
+    "aliases": [
+      "Afghan Persian",
+      "Dari language",
+      "Eastern Persian"
+    ],
+    "regions": [
+      "Afghanistan",
+      "Canada",
+      "Germany",
+      "Iran",
+      "Pakistan",
+      "Tajikistan",
+      "United States"
+    ],
+    "scripts": [
+      "Arabic script",
+      "Persian alphabet"
+    ]
+  },
+  {
     "lang": "pus",
     "autonym": "پښتو",
     "name": "Pashto",
