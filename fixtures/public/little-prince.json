@@ -48,6 +48,9 @@
             "lang": "grc",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Grek"
         ]
       }
     },
@@ -100,6 +103,9 @@
             "lang": "yue",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Hant"
         ]
       }
     },
@@ -120,6 +126,9 @@
             "lang": "yue",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Hant"
         ]
       }
     },
@@ -208,6 +217,9 @@
             "lang": "khm",
             "lang2": "km"
           }
+        ],
+        "scripts": [
+          "Khmer"
         ]
       }
     },
@@ -264,6 +276,9 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -570,6 +585,9 @@
             "lang": "ell",
             "lang2": "el"
           }
+        ],
+        "scripts": [
+          "Grek"
         ]
       }
     },
@@ -588,6 +606,9 @@
             "lang": "ell",
             "lang2": "el"
           }
+        ],
+        "scripts": [
+          "Grek"
         ]
       }
     },
@@ -605,6 +626,9 @@
             "lang": "heb",
             "lang2": "he"
           }
+        ],
+        "scripts": [
+          "Hebr"
         ]
       }
     },
@@ -730,6 +754,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -748,6 +775,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -804,6 +834,9 @@
             "lang": "lld",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Hebr"
         ]
       }
     },
@@ -838,6 +871,9 @@
             "lang": "lld",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Latn"
         ]
       }
     },
@@ -1207,6 +1243,9 @@
             "lang": "sin",
             "lang2": "si"
           }
+        ],
+        "scripts": [
+          "Sinh"
         ]
       }
     },
@@ -1263,6 +1302,9 @@
             "lang": "bod",
             "lang2": "bo"
           }
+        ],
+        "scripts": [
+          "Tibt"
         ]
       }
     },
@@ -1518,6 +1560,9 @@
             "lang": "tha",
             "lang2": "th"
           }
+        ], 
+        "scripts": [
+          "Thai"
         ]
       }
     },
@@ -1697,6 +1742,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -1877,6 +1925,9 @@
             "lang": "hye",
             "lang2": "hy"
           }
+        ],
+        "scripts": [
+          "Armn"
         ]
       }
     },
@@ -1897,6 +1948,9 @@
             "lang": "hye",
             "lang2": "hy"
           }
+        ],
+        "scripts": [
+          "Armn"
         ]
       }
     },
@@ -1942,6 +1996,9 @@
             "lang": "kat",
             "lang2": "ka"
           }
+        ],
+        "scripts": [
+          "Geor"
         ]
       }
     },
@@ -1960,6 +2017,10 @@
             "lang": "eng",
             "lang2": "en"
           }
+        ],
+        "scripts": [
+          "Geor",
+          "Latn"
         ]
       }
     },
@@ -1975,6 +2036,9 @@
             "lang": "kat",
             "lang2": "ka"
           }
+        ],
+        "scripts": [
+          "Geor"
         ]
       }
     },
@@ -2103,6 +2167,9 @@
             "lang": "mya",
             "lang2": "my"
           }
+        ],
+        "scripts": [
+          "Mymr"
         ]
       }
     },
@@ -2332,6 +2399,9 @@
             "lang": "ben",
             "lang2": "bn"
           }
+        ],
+        "scripts": [
+          "Beng"
         ]
       }
     },
@@ -2405,6 +2475,9 @@
             "lang": "kan",
             "lang2": "kn"
           }
+        ],
+        "scripts": [
+          "Knda"
         ]
       }
     },
@@ -2452,6 +2525,9 @@
             "lang": "mal",
             "lang2": "ml"
           }
+        ],
+        "scripts": [
+          "Mlym"
         ]
       }
     },
@@ -2467,6 +2543,9 @@
             "lang": "ori",
             "lang2": "or"
           }
+        ],
+        "scripts": [
+          "Orya"
         ]
       }
     },
@@ -2523,6 +2602,9 @@
             "lang": "mya",
             "lang2": "my"
           }
+        ],
+        "scripts": [
+          "Mymr"
         ]
       }
     },
@@ -2614,6 +2696,9 @@
             "lang": "tam",
             "lang2": "ta"
           }
+        ],
+        "scripts": [
+          "Taml"
         ]
       }
     },
@@ -3369,6 +3454,10 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore",
+          "Latn"
         ]
       }
     },
@@ -3434,6 +3523,10 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab",
+          "Hebr"
         ]
       }
     },
@@ -3692,6 +3785,9 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -3914,7 +4010,7 @@
           }
         ],
         "scripts": [
-          "Latn", 
+          "Latn",
           "Arab"
         ]
       }
@@ -4131,6 +4227,10 @@
             "lang": "eng",
             "lang2": "en"
           }
+        ],
+        "scripts": [
+          "Arab",
+          "Latn"
         ]
       }
     },
@@ -4400,6 +4500,9 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -4550,6 +4653,7 @@
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/ancient-greek-cover.png",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/150/ancient-greek-cover.png",
         "format": "pdf",
+        "script": "Ancient Greek",
         "files": [
           "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/ancient-greek-little-prince.pdf"
         ],
@@ -4563,6 +4667,9 @@
             "lang": "grc",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Grek"
         ]
       }
     },
@@ -4857,6 +4964,10 @@
             "lang": "fra",
             "lang2": "fr"
           }
+        ],
+        "scripts": [
+          "Egyp",
+          "Latn"
         ]
       }
     },
@@ -4877,6 +4988,9 @@
             "lang": "tur",
             "lang2": "tr"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -4929,7 +5043,7 @@
         "search-words": "cita mapaskiri",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince---Cíta-Mapaskírí---Laz-(latin-script)-1.jpeg",
         "language": "ლაზური ნენა [lazuri nena], Ardeşen dialect of Laz, Art̆aşenuri",
-        "language-spoken-in": "Turkey, Georgia (although generally written in the Georgian script in Georgia",
+        "language-spoken-in": "Turkey, Georgia (although generally written in the Georgian script in Georgia)",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince---Cíta-Mapaskírí---Laz-(latin-script)-1.jpeg",
         "langPairs": [
           {
@@ -5328,6 +5442,10 @@
             "lang": "fra",
             "lang2": "fr"
           }
+        ],
+        "scripts": [
+          "Hebr",
+          "Latn"
         ]
       }
     },
@@ -5481,6 +5599,10 @@
             "lang": "fra",
             "lang2": "fr"
           }
+        ],
+        "scripts": [
+          "Kore",
+          "Latn"
         ]
       }
     },
@@ -5504,6 +5626,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -5543,7 +5668,6 @@
           }
         ],
         "scripts": [
-          "Geok",
           "Geor"
         ]
       }
@@ -5929,6 +6053,9 @@
             "lang": "bod",
             "lang2": "bo"
           }
+        ],
+        "scripts": [
+          "Tibt"
         ]
       }
     },
@@ -6064,6 +6191,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -6095,7 +6225,7 @@
           }
         ],
         "scripts": [
-          "Arab"
+          "Aran"
         ]
       }
     },
@@ -6134,6 +6264,9 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -6176,6 +6309,9 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -6192,6 +6328,9 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -6285,6 +6424,9 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -6595,7 +6737,10 @@
             "lang": "ind",
             "lang2": "id"
           }
-        ]
+        ],
+        "scripts": [
+          "Deva"
+         ]
       }
     },
     {
@@ -6730,6 +6875,9 @@
             "lang2": null,
             "langTag": "hyw-x-western-armenian"
           }
+        ],
+        "scripts": [
+          "Latn"
         ]
       }
     },
@@ -7062,6 +7210,9 @@
             "lang": "mey",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -7120,6 +7271,9 @@
             "lang": "fra",
             "lang2": "fr"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -7190,7 +7344,8 @@
             "lang": "nep",
             "lang2": "ne"
           }
-        ]
+        ],
+        "script": "Brahmic family"
       }
     },
     {
@@ -7260,6 +7415,9 @@
             "lang": "pan",
             "lang2": "pa"
           }
+        ],
+        "scripts": [
+          "Guru"
         ]
       }
     },
@@ -7312,7 +7470,8 @@
             "lang": "tel",
             "lang2": "te"
           }
-        ]
+        ],
+        "script": "Brahmic family"
       }
     },
     {
@@ -7329,6 +7488,9 @@
             "lang": "uig",
             "lang2": "ug"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -7434,6 +7596,9 @@
             "lang": "mar",
             "lang2": "mr"
           }
+        ],
+        "scripts": [
+          "Deva"
         ]
       }
     },
@@ -7491,6 +7656,9 @@
             "lang": "chv",
             "lang2": "cv"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -7569,7 +7737,8 @@
             "lang2": "as",
             "langTag": "asm-x-asamiya"
           }
-        ]
+        ],
+        "script": "Assamese (related to Bengali)"
       }
     },
     {
@@ -7586,6 +7755,9 @@
             "lang": "tam",
             "lang2": "ta"
           }
+        ],
+        "scripts": [
+          "Taml"
         ]
       }
     },
@@ -7605,6 +7777,9 @@
             "lang": "mar",
             "lang2": "mr"
           }
+        ],
+        "scripts": [
+          "Deva"
         ]
       }
     },
@@ -8146,6 +8321,10 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab",
+          "Latn"
         ]
       }
     },
@@ -8329,6 +8508,9 @@
             "lang": "cmn",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Hant"
         ]
       }
     },
@@ -8347,6 +8529,9 @@
             "lang": "cmn",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Hant"
         ]
       }
     },
@@ -8365,6 +8550,9 @@
             "lang": "cmn",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Hant"
         ]
       }
     },
@@ -8667,6 +8855,9 @@
             "lang": "ben",
             "lang2": "bn"
           }
+        ],
+        "scripts": [
+          "Beng"
         ]
       }
     },
@@ -9152,6 +9343,9 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -9172,6 +9366,9 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -9530,6 +9727,9 @@
             "lang": "bul",
             "lang2": "bg"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -9552,6 +9752,9 @@
             "lang": "bul",
             "lang2": "bg"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -9702,6 +9905,9 @@
             "lang": "srp",
             "lang2": "sr"
           }
+        ],
+        "scripts": [
+          "Latn"
         ]
       }
     },
@@ -10506,6 +10712,10 @@
             "lang": "eng",
             "lang2": "en"
           }
+        ],
+        "scripts": [
+          "Jpan",
+          "Latn"
         ]
       }
     },
@@ -10527,6 +10737,11 @@
             "lang": "jpn",
             "lang2": "ja"
           }
+        ],
+        "scripts": [
+          "Jpan",
+          "Latn",
+          "Cyrl"
         ]
       }
     },
@@ -10672,12 +10887,15 @@
             "lang": "tat",
             "lang2": "tt"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
     {
       "littlePrinceItem": {
-        "title": "The Little Prince, in Kyrgy (eBook)",
+        "title": "The Little Prince, in Kyrgyz (eBook)",
         "translation-title": "Кичинекей ханзада",
         "translation-title-transliterated": "Kichinekei Khahzada",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/little-prince-cover-kirgiz.png",
@@ -10693,6 +10911,9 @@
             "lang2": "ky",
             "langTag": "kir-x-kyrgyz-kyrgyz-tili"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -10714,6 +10935,9 @@
             "lang2": "be",
             "langTag": "bel-x-belarusan-byelorussian-belarussian-white-russian"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -10960,7 +11184,8 @@
         ],
         "scripts": [
           "Bopo",
-          "Hant"        ]
+          "Hant"
+        ]
       }
     },
     {
@@ -11583,6 +11808,9 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -11684,6 +11912,9 @@
             "lang": "ben",
             "lang2": "bn"
           }
+        ],
+        "scripts": [
+          "Beng"
         ]
       }
     },
@@ -11921,6 +12152,9 @@
             "lang": "kat",
             "lang2": "ka"
           }
+        ],
+        "scripts": [
+          "Geor"
         ]
       }
     },
@@ -11935,6 +12169,9 @@
             "lang": "kat",
             "lang2": "ka"
           }
+        ],
+        "scripts": [
+          "Geor"
         ]
       }
     },
@@ -12092,6 +12329,9 @@
             "lang": "ckb",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -12113,6 +12353,10 @@
             "lang": "eng",
             "lang2": "en"
           }
+        ],
+        "scripts": [
+          "Arab",
+          "Latn"
         ]
       }
     },
@@ -12169,6 +12413,9 @@
             "lang": "mal",
             "lang2": "ml"
           }
+        ],
+        "scripts": [
+          "Mlym"
         ]
       }
     },
@@ -12502,6 +12749,9 @@
             "lang": "pnt",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Grek"
         ]
       }
     },
@@ -12516,6 +12766,9 @@
             "lang": "pnt",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Grek"
         ]
       }
     },
@@ -12531,6 +12784,9 @@
             "lang": "pan",
             "lang2": "pa"
           }
+        ],
+        "scripts": [
+          "Guru"
         ]
       }
     },
@@ -12551,6 +12807,9 @@
             "lang": "ukr",
             "lang2": "uk"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -12567,6 +12826,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -12582,6 +12844,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -12638,6 +12903,9 @@
             "lang": "sin",
             "lang2": "si"
           }
+        ],
+        "scripts": [
+          "Sinh"
         ]
       }
     },
@@ -12696,6 +12964,10 @@
             "lang": "eng",
             "lang2": "en"
           }
+        ],
+        "scripts": [
+          "Thai",
+          "Latn"
         ]
       }
     },
@@ -12713,6 +12985,9 @@
             "lang": "bod",
             "lang2": "bo"
           }
+        ],
+        "scripts": [
+          "Tibt"
         ]
       }
     },
@@ -12764,7 +13039,9 @@
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Ο Μικρός Πρίγκιπας στα Κυπριακά [O Mikrós Prínkipas sta Kypriaká] - Cypriot Greek.png",
         "language": "Cypriot Greek",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Ο Μικρός Πρίγκιπας στα Κυπριακά [O Mikrós Prínkipas sta Kypriaká] - Cypriot Greek.png",
-        "langPairs": []
+        "scripts": [
+          "Grek"
+        ]
       }
     },
     {
@@ -12924,6 +13201,9 @@
             "lang": "ukr",
             "lang2": "uk"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -12938,6 +13218,9 @@
             "lang": "ukr",
             "lang2": "uk"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -13088,6 +13371,10 @@
             "lang": "fra",
             "lang2": "fr"
           }
+        ],
+        "scripts": [
+          "Cyrl",
+          "Latn"
         ]
       }
     },
@@ -13107,6 +13394,10 @@
             "lang": "zho",
             "lang2": "zh"
           }
+        ],
+        "scripts": [
+          "Kore",
+          "Hans"
         ]
       }
     },
@@ -13404,6 +13695,9 @@
             "lang2": null,
             "langTag": "lld-x-jaquetia-djudeo-spanol-ladino-occidental-western-judaeo-spanish"
           }
+        ],
+        "scripts": [
+          "Latn"
         ]
       }
     },
@@ -13529,6 +13823,9 @@
             "lang": "dzo",
             "lang2": "dz"
           }
+        ],
+        "scripts": [
+          "Tibt"
         ]
       }
     },
@@ -13890,6 +14187,9 @@
             "lang": "khm",
             "lang2": "km"
           }
+        ],
+        "scripts": [
+          "Khmer"
         ]
       }
     },
@@ -13961,6 +14261,9 @@
             "lang2": "ky",
             "langTag": "kir-x-kirgiz-tili"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -13986,6 +14289,9 @@
             "lang": "sah",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -14373,6 +14679,9 @@
             "lang": "bcw",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Latn"
         ]
       }
     },
@@ -14390,7 +14699,8 @@
             "lang": "nep",
             "lang2": "ne"
           }
-        ]
+        ],
+        "script": "Brahmic family"
       }
     },
     {
@@ -14423,6 +14733,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -14468,6 +14781,9 @@
             "lang": "ude",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -14494,7 +14810,9 @@
           "Assembled from several PDFs downloaded from source"
         ],
         "date-added": "2023-01-21",
-        "langPairs": []
+        "scripts": [
+          "Cyrl"
+        ]
       }
     },
     {
@@ -14700,6 +15018,9 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -14772,6 +15093,9 @@
             "lang": "bua",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -15154,6 +15478,10 @@
             "lang": "ukr",
             "lang2": "uk"
           }
+        ],
+        "scripts": [
+          "Cyrl",
+          "Latn"
         ]
       }
     },
@@ -15180,6 +15508,10 @@
             "lang": "ukr",
             "lang2": "uk"
           }
+        ],
+        "scripts": [
+          "Cyrl",
+          "Latn"
         ]
       }
     },
@@ -15392,6 +15724,9 @@
             "lang2": null,
             "langTag": "ude-x-i"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -15414,7 +15749,9 @@
         "translator": "Elena A. Bibikova",
         "lpid": "PP-5533",
         "language-spoken-in": "Poronaysky and Nogliksky Administrative Divisions of Sakhalin, Russian Federation",
-        "langPairs": []
+        "scripts": [
+          "Cyrl"
+        ]
       }
     },
     {
@@ -15496,6 +15833,9 @@
             "lang": "raj",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Deva"
         ]
       }
     },
@@ -15521,6 +15861,9 @@
             "lang": "tha",
             "lang2": "th"
           }
+        ], 
+        "scripts": [
+          "Thai"
         ]
       }
     },
@@ -15637,12 +15980,16 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab",
+          "Latn"
         ]
       }
     },
     {
       "littlePrinceItem": {
-        "title": "The Little Prince, bilinguial, in For Korean-speakers learning Spanish",
+        "title": "The Little Prince, bilingual, in For Korean-speakers learning Spanish",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - For Koreans learning Spanish.jpeg",
         "language": "Spanish and Korean, with translations of Spanish words into Korean",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - For Koreans learning Spanish.jpeg",
@@ -15655,7 +16002,15 @@
           {
             "lang": "spa",
             "lang2": "es"
+          },
+          {
+            "lang": "kor",
+            "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Latn",
+          "Kore"
         ]
       }
     },
@@ -15679,6 +16034,10 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab",
+          "Latn"
         ]
       }
     },
@@ -15702,6 +16061,10 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab",
+          "Latn"
         ]
       }
     },
@@ -15725,6 +16088,10 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab",
+          "Latn"
         ]
       }
     },
@@ -16112,6 +16479,10 @@
             "lang2": "ar",
             "langTag": "ara-x-standard-modern-arabic"
           }
+        ],
+        "scripts": [
+          "Arab",
+          "Latn"
         ]
       }
     },
@@ -16240,6 +16611,10 @@
             "lang2": "uk",
             "langTag": "ukr-x-ukrainian-italian"
           }
+        ],
+        "scripts": [
+          "Cyrl",
+          "Latn"
         ]
       }
     },
@@ -16264,7 +16639,9 @@
         "year": "2022",
         "lpid": "PP-6527",
         "date-added": "2023-09-15",
-        "langPairs": []
+        "scripts": [
+          "Cyrl"
+        ]
       }
     },
     {
@@ -16567,6 +16944,9 @@
             "lang2": null,
             "langTag": "egy-x-egyptien-ancien"
           }
+        ],
+        "scripts": [
+          "Egyp"
         ]
       }
     },
@@ -16631,6 +17011,9 @@
             "lang2": null,
             "langTag": "cjm-x-vietnam"
           }
+        ],
+        "scripts": [
+          "Cham"
         ]
       }
     },
@@ -16845,6 +17228,9 @@
             "lang": "grk",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Grek"
         ]
       }
     },
@@ -16902,6 +17288,9 @@
             "lang2": null,
             "langTag": "arq-DZ"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -16931,6 +17320,10 @@
             "lang": "fra",
             "lang2": "fr"
           }
+        ],
+        "scripts": [
+          "Hans",
+          "Latn"
         ]
       }
     },
@@ -17030,6 +17423,10 @@
             "lang": "fra",
             "lang2": "fr"
           }
+        ],
+        "scripts": [
+          "Jpan",
+          "Latn"
         ]
       }
     },
@@ -17293,7 +17690,7 @@
     {
       "littlePrinceItem": {
         "title": "The Little Prince, in Mandarin Chinese",
-        "script": " \"complex\" (traditional)",
+        "script": "Chinese \"complex\" (traditional), as sold in Malaysia",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Chinese (traditional), Malaysia.jpeg",
         "language": "Mandarin Chinese (traditional)",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Chinese (traditional), Malaysia.jpeg",
@@ -17310,6 +17707,9 @@
             "lang": "cmn",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Hant"
         ]
       }
     },
@@ -17524,6 +17924,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -17776,6 +18179,10 @@
             "lang2": null,
             "langTag": "shi-x-chleuh-chelha-tashelhit-tashelhiyt-tachelhit-shilha-tachlhit"
           }
+        ],
+        "scripts": [
+          "Tfng",
+          "Latn"
         ]
       }
     },
@@ -17802,6 +18209,9 @@
             "lang": "ori",
             "lang2": "or"
           }
+        ],
+        "scripts": [
+          "Orya"
         ]
       }
     },
@@ -17822,6 +18232,9 @@
             "lang": "jpn",
             "lang2": "ja"
           }
+        ],
+        "scripts": [
+          "Jpan"
         ]
       }
     },
@@ -17935,6 +18348,9 @@
             "lang": "inh",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -17971,7 +18387,7 @@
     },
     {
       "littlePrinceItem": {
-        "title": "The Little Prince, in español aljamiado (Arabic script)",
+        "title": "The Little Prince, in español aljamiado",
         "translation-title": "ءَالْ بّْرِنْسِّبِّتٝ - El Principito",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince - El Principito - español aljamiado (Arabic script).png",
         "language": "Español aljamiado (Arabic script)",
@@ -17988,11 +18404,8 @@
         "owned": "true",
         "date-added": "2024-07-20",
         "lpid": "PP-7096",
-        "langPairs": [
-          {
-            "lang": "ara",
-            "lang2": "ar"
-          }
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -18022,6 +18435,9 @@
             "lang2": "ko",
             "langTag": "kor-x-gangwon-do-dialect"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -18371,6 +18787,10 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore",
+          "Latn"
         ]
       }
     },
@@ -18476,6 +18896,9 @@
             "lang": "zho",
             "lang2": "zh"
           }
+        ],
+        "scripts": [
+          "Hans"
         ]
       }
     },
@@ -18502,6 +18925,9 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -18526,12 +18952,17 @@
             "lang": "tam",
             "lang2": "ta"
           }
+        ],
+        "scripts": [
+          "Taml"
         ]
       }
     },
     {
       "littlePrinceItem": {
-        "title": "[Al Amir Al Saghroun] الأمير الصّغرون",
+        "title": "The Little Prince in Arabic",
+        "translation-title": "الأمير الصّغرون",
+        "translation-title-transliterated": "Al Amir Al Saghroun",
         "format": "Audible audiobook",
         "author": "Antoine de Saint-Exupéry",
         "narrator": "Jamel Madani",
@@ -18546,6 +18977,9 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -18806,6 +19240,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -18971,6 +19408,10 @@
             "lang": "eng",
             "lang2": "en"
           }
+        ],
+        "scripts": [
+          "Kore",
+          "Latn"
         ]
       }
     },
@@ -19267,6 +19708,9 @@
             "lang": "bua",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -19842,7 +20286,9 @@
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - demotic greek.gif",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - demotic greek.gif",
         "language": "Demotic Greek",
-        "langPairs": []
+        "scripts": [
+          "Grek"
+        ]
       }
     },
     {
@@ -20308,6 +20754,9 @@
             "lang": "tha",
             "lang2": "th"
           }
+        ],
+        "scripts": [
+          "Thai"
         ]
       }
     },
@@ -20329,6 +20778,9 @@
             "lang": "tha",
             "lang2": "th"
           }
+        ],
+        "scripts": [
+          "Thai"
         ]
       }
     },
@@ -20390,6 +20842,9 @@
             "lang": "tha",
             "lang2": "th"
           }
+        ],
+        "scripts": [
+          "Thai"
         ]
       }
     },
@@ -20548,6 +21003,9 @@
             "lang2": "ar",
             "langTag": "ara-DZ"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -20565,6 +21023,9 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -20599,6 +21060,9 @@
             "lang": "hye",
             "lang2": "hy"
           }
+        ],
+        "scripts": [
+          "Armn"
         ]
       }
     },
@@ -20617,6 +21081,9 @@
             "lang": "hye",
             "lang2": "hy"
           }
+        ],
+        "scripts": [
+          "Armn"
         ]
       }
     },
@@ -20633,6 +21100,9 @@
             "lang": "tam",
             "lang2": "ta"
           }
+        ],
+        "scripts": [
+          "Taml"
         ]
       }
     },
@@ -20661,6 +21131,9 @@
             "lang": "guj",
             "lang2": "gu"
           }
+        ],
+        "scripts": [
+          "Gujr"
         ]
       }
     },
@@ -20743,6 +21216,9 @@
             "lang": "tam",
             "lang2": "ta"
           }
+        ],
+        "scripts": [
+          "Taml"
         ]
       }
     },
@@ -20801,6 +21277,9 @@
             "lang": "tha",
             "lang2": "th"
           }
+        ],
+        "scripts": [
+          "Thai"
         ]
       }
     },
@@ -20817,6 +21296,9 @@
             "lang": "tha",
             "lang2": "th"
           }
+        ],
+        "scripts": [
+          "Thai"
         ]
       }
     },
@@ -20832,6 +21314,9 @@
             "lang": "urd",
             "lang2": "ur"
           }
+        ],
+        "scripts": [
+          "Aran"
         ]
       }
     },
@@ -21365,7 +21850,9 @@
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince - Prakrit Bengali.gif",
         "language": "Prakrit Bengali",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince - Prakrit Bengali.gif",
-        "langPairs": []
+        "scripts": [
+          "Beng"
+        ]
       }
     },
     {
@@ -21402,6 +21889,9 @@
             "lang": "grc",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Grek"
         ]
       }
     },
@@ -21424,6 +21914,10 @@
             "lang": "fra",
             "lang2": "fr"
           }
+        ],
+        "scripts": [
+          "Sinh",
+          "Latn"
         ]
       }
     },
@@ -21441,6 +21935,9 @@
             "lang": "mkd",
             "lang2": "mk"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -21515,6 +22012,9 @@
             "lang": "kir",
             "lang2": "ky"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -21574,6 +22074,9 @@
             "lang": "bul",
             "lang2": "bg"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -21605,6 +22108,9 @@
             "lang": "gaf",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Hebr"
         ]
       }
     },
@@ -21697,6 +22203,10 @@
             "lang": "uig",
             "lang2": "ug"
           }
+        ],
+        "scripts": [
+          "Arab",
+          "Hans"
         ]
       }
     },
@@ -22003,6 +22513,9 @@
             "lang": "yue",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Hant"
         ]
       }
     },
@@ -22221,6 +22734,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -22395,6 +22911,9 @@
             "lang": "hye",
             "lang2": "hy"
           }
+        ],
+        "scripts": [
+          "Armn"
         ]
       }
     },
@@ -22484,6 +23003,9 @@
             "lang": "kat",
             "lang2": "ka"
           }
+        ],
+        "scripts": [
+          "Geor"
         ]
       }
     },
@@ -22505,6 +23027,9 @@
             "lang": "kat",
             "lang2": "ka"
           }
+        ],
+        "scripts": [
+          "Geor"
         ]
       }
     },
@@ -22526,6 +23051,9 @@
             "lang": "heb",
             "lang2": "he"
           }
+        ],
+        "scripts": [
+          "Hebr"
         ]
       }
     },
@@ -22573,6 +23101,9 @@
             "lang": "lao",
             "lang2": "lo"
           }
+        ],
+        "scripts": [
+          "Laoo"
         ]
       }
     },
@@ -22727,6 +23258,9 @@
             "lang": "tat",
             "lang2": "tt"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -22770,6 +23304,9 @@
             "lang": "ukr",
             "lang2": "uk"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -22882,6 +23419,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -22903,6 +23443,9 @@
             "lang": "tha",
             "lang2": "th"
           }
+        ],
+        "scripts": [
+          "Thai"
         ]
       }
     },
@@ -22949,6 +23492,9 @@
             "lang": "mya",
             "lang2": "my"
           }
+        ],
+        "scripts": [
+          "Mymr"
         ]
       }
     },
@@ -22971,6 +23517,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -22995,9 +23544,9 @@
           }
         ]
       },
-        "scripts": [
-          "Arab"
-        ]
+      "scripts": [
+        "Arab"
+      ]
     },
     {
       "littlePrinceItem": {
@@ -23260,6 +23809,9 @@
             "lang": "ben",
             "lang2": "bn"
           }
+        ],
+        "scripts": [
+          "Beng"
         ]
       }
     },
@@ -23578,6 +24130,9 @@
             "lang": "ckb",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -25064,6 +25619,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -25106,6 +25664,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -25128,6 +25689,9 @@
             "lang2": "ar",
             "langTag": "ara-EG"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -25153,6 +25717,10 @@
             "lang": "jpn",
             "lang2": "ja"
           }
+        ],
+        "scripts": [
+          "Jpan",
+          "Latn"
         ]
       }
     },
@@ -25282,6 +25850,9 @@
             "lang": "khm",
             "lang2": "km"
           }
+        ],
+        "scripts": [
+          "Khmer"
         ]
       }
     },
@@ -25304,6 +25875,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -25326,6 +25900,9 @@
             "lang2": "ky",
             "langTag": "kir-x-khyrghyz-khyrgyz-kyrghyz-kirgiz"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -25662,7 +26239,9 @@
         "date-added": "2024-10-29",
         "acquired-from": "https://www.indoaryanabookco.com/home/product_view/4469/",
         "quantity": 2,
-        "langPairs": []
+        "scripts": [
+          "Arab"
+        ]
       }
     },
     {
@@ -25767,6 +26346,9 @@
             "lang": "urd",
             "lang2": "ur"
           }
+        ],
+        "scripts": [
+          "Aran"
         ]
       }
     },
@@ -25891,6 +26473,9 @@
             "lang2": null,
             "langTag": "bal-x-balochi"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -25926,6 +26511,9 @@
             "lang": "zho",
             "lang2": "zh"
           }
+        ],
+        "scripts": [
+          "Hans"
         ]
       }
     },
@@ -26162,6 +26750,10 @@
             "lang": "zho",
             "lang2": "zh"
           }
+        ],
+        "scripts": [
+          "Hans",
+          "Latn"
         ]
       }
     },
@@ -26206,6 +26798,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -26252,6 +26847,9 @@
             "lang2": null,
             "langTag": "ckb-x-kurdish-sorani"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -26280,6 +26878,9 @@
             "lang": "kur",
             "lang2": "ku"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -26347,6 +26948,9 @@
             "lang": "lld",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Hebr"
         ]
       }
     },
@@ -26478,6 +27082,9 @@
             "lang": "kcl",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -26537,6 +27144,9 @@
             "lang": "ota",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -26562,6 +27172,9 @@
             "lang": "pus",
             "lang2": "ps"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -26587,6 +27200,9 @@
             "lang2": "ps",
             "langTag": "pus-x-pashto"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -26605,12 +27221,15 @@
             "lang": "hyw",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Armn"
         ]
       }
     },
     {
       "littlePrinceItem": {
-        "title": "The Little Prince, in Punjabi (Gurmukhi script)",
+        "title": "The Little Prince, in Punjabi",
         "translation-title": "شاهزاده کوچک به زبان پنجابی گورموکی",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Punjabi (Gurmukhi script) PP-7335.jpeg",
         "language": "Punjabi (Gurmukhi) / پنجابی گورموکی",
@@ -26813,6 +27432,9 @@
             "lang": "urd",
             "lang2": "ur"
           }
+        ],
+        "scripts": [
+          "Aran"
         ]
       }
     },
@@ -26872,6 +27494,9 @@
             "lang": "tha",
             "lang2": "th"
           }
+        ], 
+        "scripts": [
+          "Thai"
         ]
       }
     },
@@ -26958,6 +27583,7 @@
         "translation-title-transliterated": "Shahzadagak",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Dari from Lulu.jpeg",
         "language": "Dari",
+        "script": "Perso-Arabic",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Dari from Lulu.jpeg",
         "acquired-from": "https://www.lulu.com/shop/antoine-de-saint-exup%C3%A9ry-and-akbar-barialai/shahzadagak/hardcover/product-1mm2wk9e.html?q=the+little+prince+in+dari&page=1&pageSize=4",
         "date-added": "2024-11-25",
@@ -26968,6 +27594,9 @@
             "lang": "prs",
             "lang2": "fa"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -26992,6 +27621,9 @@
             "lang": "guj",
             "lang2": "gu"
           }
+        ],
+        "scripts": [
+          "Gujr"
         ]
       }
     },
@@ -27059,6 +27691,9 @@
             "lang": "mal",
             "lang2": "ml"
           }
+        ],
+        "scripts": [
+          "Mlym"
         ]
       }
     },
@@ -27082,6 +27717,9 @@
             "lang": "mal",
             "lang2": "ml"
           }
+        ],
+        "scripts": [
+          "Mlym"
         ]
       }
     },
@@ -27235,7 +27873,7 @@
         "translation-title": "პატარა პრინცი",
         "translation-title-transliterated": "Pahtahrah printsi",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Georgian cursive.jpg",
-        "language": "Georgian cursive",
+        "language": "Georgian",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Georgian cursive.jpg",
         "notes": [
           "https://www.abebooks.com/Patara-uplistsuli-Pahtahrah-printsiSaint-Exup%C3%A9ry-Antoine/31788553369/bd"
@@ -27252,6 +27890,9 @@
             "lang": "kat",
             "lang2": "ka"
           }
+        ],
+        "scripts": [
+          "Geor"
         ]
       }
     },
@@ -27369,6 +28010,9 @@
             "lang": "ckb",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -27391,6 +28035,9 @@
             "lang": "mal",
             "lang2": "ml"
           }
+        ],
+        "scripts": [
+          "Mlym"
         ]
       }
     },
@@ -27460,6 +28107,9 @@
             "lang": "ell",
             "lang2": "el"
           }
+        ],
+        "scripts": [
+          "Grek"
         ]
       }
     },
@@ -27521,6 +28171,9 @@
             "lang": "urd",
             "lang2": "ur"
           }
+        ],
+        "scripts": [
+          "Aran"
         ]
       }
     },
@@ -27542,6 +28195,9 @@
             "lang": "mon",
             "lang2": "mn"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -27694,7 +28350,10 @@
             "lang2": "ru"
           }
         ]
-      }
+      },
+        "scripts": [
+          "Cyrl"
+        ]
     },
     {
       "littlePrinceItem": {
@@ -27778,6 +28437,9 @@
             "lang": "hye",
             "lang2": "hy"
           }
+        ],
+        "scripts": [
+          "Armn"
         ]
       }
     },
@@ -27825,6 +28487,9 @@
             "lang": "lao",
             "lang2": "lo"
           }
+        ],
+        "scripts": [
+          "Laoo"
         ]
       }
     },
@@ -27846,7 +28511,8 @@
             "lang": "nep",
             "lang2": "ne"
           }
-        ]
+        ],
+        "script": "Brahmic family"
       }
     },
     {
@@ -27870,6 +28536,9 @@
             "lang": "tha",
             "lang2": "th"
           }
+        ],
+        "scripts": [
+          "Thai"
         ]
       }
     },
@@ -27893,6 +28562,9 @@
             "lang": "che",
             "lang2": "ce"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -27962,6 +28634,9 @@
             "lang": "hye",
             "lang2": "hy"
           }
+        ],
+        "scripts": [
+          "Armn"
         ]
       }
     },
@@ -27983,6 +28658,9 @@
             "lang": "hye",
             "lang2": "hy"
           }
+        ],
+        "scripts": [
+          "Armn"
         ]
       }
     },
@@ -28028,6 +28706,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -28071,6 +28752,9 @@
             "lang": "ukr",
             "lang2": "uk"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -28094,6 +28778,9 @@
             "lang": "ukr",
             "lang2": "uk"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -28117,6 +28804,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -28138,6 +28828,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28159,6 +28852,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28180,6 +28876,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28201,6 +28900,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28222,6 +28924,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28243,6 +28948,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28264,6 +28972,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28285,6 +28996,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28307,6 +29021,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28328,6 +29045,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28349,6 +29069,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28370,6 +29093,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28391,6 +29117,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28412,6 +29141,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28433,6 +29165,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28454,6 +29189,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28475,6 +29213,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28496,6 +29237,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28517,6 +29261,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28538,6 +29285,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28559,6 +29309,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28580,6 +29333,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28601,6 +29357,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28622,6 +29381,9 @@
             "lang": "kor",
             "lang2": "ko"
           }
+        ],
+        "scripts": [
+          "Kore"
         ]
       }
     },
@@ -28645,6 +29407,9 @@
             "lang": "bel",
             "lang2": "be"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -28666,6 +29431,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -28687,6 +29455,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -28708,6 +29479,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -28730,6 +29504,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -28751,6 +29528,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -28772,6 +29552,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -28793,6 +29576,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -28814,6 +29600,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -28836,6 +29625,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -28857,6 +29649,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -28879,6 +29674,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -28901,6 +29699,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -28922,6 +29723,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -28943,6 +29747,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -28964,6 +29771,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -28985,6 +29795,9 @@
             "lang": "rus",
             "lang2": "ru"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -29007,6 +29820,9 @@
             "lang": "ukr",
             "lang2": "uk"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -29290,6 +30106,9 @@
             "lang": "ukr",
             "lang2": "uk"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -29672,6 +30491,9 @@
             "lang": "tat",
             "lang2": "tt"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -29695,6 +30517,9 @@
             "lang": "tat",
             "lang2": "tt"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -29718,6 +30543,9 @@
             "lang": "tat",
             "lang2": "tt"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -29744,6 +30572,9 @@
             "lang": "tat",
             "lang2": "tt"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -29761,6 +30592,9 @@
             "lang": "tat",
             "lang2": "tt"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -29782,6 +30616,9 @@
             "lang": "hye",
             "lang2": "hy"
           }
+        ],
+        "scripts": [
+          "Armn"
         ]
       }
     },
@@ -29803,6 +30640,9 @@
             "lang": "hrv",
             "lang2": "hr"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -30132,7 +30972,7 @@
           }
         ],
         "scripts": [
-          "Latn"
+          "Arab"
         ]
       }
     },
@@ -30445,7 +31285,9 @@
         "language": "West Armenian",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - West Armenian wW-106.gif.jpeg",
         "owned": "false",
-        "langPairs": []
+        "scripts": [
+          "Armn"
+        ]
       }
     },
     {
@@ -30508,6 +31350,9 @@
             "lang": "sin",
             "lang2": "si"
           }
+        ],
+        "scripts": [
+          "Sinh"
         ]
       }
     },
@@ -30620,6 +31465,9 @@
             "lang": "tgk",
             "lang2": "tg"
           }
+        ],
+        "scripts": [
+          "Cyrl"
         ]
       }
     },
@@ -30966,6 +31814,9 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -30987,6 +31838,9 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -31137,6 +31991,9 @@
             "lang": "ben",
             "lang2": "bn"
           }
+        ],
+        "scripts": [
+          "Beng"
         ]
       }
     },
@@ -32115,6 +32972,9 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -32136,6 +32996,9 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -32158,6 +33021,9 @@
             "lang": "ara",
             "lang2": "ar"
           }
+        ],
+        "scripts": [
+          "Arab"
         ]
       }
     },
@@ -32255,7 +33121,7 @@
     {
       "littlePrinceItem": {
         "title": "The Little Prince, in Amharic, with the drawings of the children of Bosco Children Addis Ababa",
-        "translation-title": "ታዳጊው ልዑል", 
+        "translation-title": "ታዳጊው ልዑል",
         "translation-title-transliterated": "tadagīwi li‘uli",
         "owned": "false",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Amharic  PP-6016.gif",
@@ -32504,6 +33370,9 @@
             "lang": "lao",
             "lang2": "lo"
           }
+        ],
+        "scripts": [
+          "Laoo"
         ]
       }
     },
@@ -32592,6 +33461,9 @@
             "lang": "tha",
             "lang2": "th"
           }
+        ],
+        "scripts": [
+          "Thai"
         ]
       }
     },
@@ -32615,6 +33487,9 @@
             "lang": "tha",
             "lang2": "th"
           }
+        ],
+        "scripts": [
+          "Thai"
         ]
       }
     },
@@ -33099,6 +33974,9 @@
             "lang": "mwt",
             "lang2": null
           }
+        ],
+        "script": [
+          "Thai"
         ]
       }
     },
