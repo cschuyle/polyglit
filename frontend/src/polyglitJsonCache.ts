@@ -1,5 +1,5 @@
 import type {Trove} from "./Showcase";
-import type {Iso6391Row, Iso6393Row, LangIsoMaps} from "./langIsoLookup";
+import type {Iso15924Row, Iso6391Row, Iso6393Row, LangIsoMaps} from "./langIsoLookup";
 import {langIsoMapsFromRows, languageJsonUrlsFromTroveUrl} from "./langIsoLookup";
 import {trovePublicJson} from "./troveUrls";
 
@@ -39,7 +39,7 @@ function fetchJsonOnce<T>(url: string): Promise<T> {
 let preloadPromise: Promise<void> | null = null;
 
 async function loadOneTroveBundle(troveUrl: string): Promise<void> {
-    const {iso6393, iso6391} = languageJsonUrlsFromTroveUrl(troveUrl);
+    const {iso6393, iso6391, iso15924} = languageJsonUrlsFromTroveUrl(troveUrl);
 
     const troveP = fetchJsonOnce<Trove>(troveUrl)
         .then((trove) => {
@@ -50,9 +50,18 @@ async function loadOneTroveBundle(troveUrl: string): Promise<void> {
             troveByUrl.set(troveUrl, {id: "", name: "", shortName: "", items: []});
         });
 
-    const langP = Promise.all([fetchJsonOnce<Iso6393Row[]>(iso6393), fetchJsonOnce<Iso6391Row[]>(iso6391)])
-        .then(([j3, j1]) => {
-            langIsoByUrl.set(troveUrl, langIsoMapsFromRows(j3, j1));
+    const iso15924P = fetchJsonOnce<Iso15924Row[]>(iso15924).catch((err) => {
+        console.error(`[polyglitJsonCache] ISO 15924 failed for trove ${troveUrl}`, err);
+        return [] as Iso15924Row[];
+    });
+
+    const langP = Promise.all([
+        fetchJsonOnce<Iso6393Row[]>(iso6393),
+        fetchJsonOnce<Iso6391Row[]>(iso6391),
+        iso15924P,
+    ])
+        .then(([j3, j1, j15924]) => {
+            langIsoByUrl.set(troveUrl, langIsoMapsFromRows(j3, j1, j15924));
         })
         .catch((err) => {
             console.error(`[polyglitJsonCache] language ISO failed for trove ${troveUrl}`, err);

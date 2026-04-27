@@ -22,7 +22,7 @@ import {
 } from "@material-ui/core";
 import ViewList from "@material-ui/icons/ViewList";
 import ViewModule from "@material-ui/icons/ViewModule";
-import {LangIsoMaps, LangPair, nameFor6391, nameFor6393} from "./langIsoLookup";
+import {displayForIso15924Scripts, LangIsoMaps, LangPair, nameFor15924, nameFor6391, nameFor6393} from "./langIsoLookup";
 import {ensurePolyglitDataPreloaded, getCachedLangIsoMaps, getCachedTrove} from "./polyglitJsonCache";
 
 enum CaptionMode {
@@ -72,6 +72,8 @@ export interface TroveItemDetails {
     "publication-country"?: string,
     "publication-location"?: string,
     "script"?: string,
+    /** ISO 15924 script subtags (e.g. Cyrl, Latn). */
+    scripts?: string[],
     "script-family"?: string,
     "search-words"?: string
     "tags"?: string[],
@@ -222,7 +224,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     if (item.polyglitStableRowKey == null) {
                         item.polyglitStableRowKey = `${trove.shortName || trove.id}#${idx}`;
                     }
-                    item.littlePrinceItem.lumpOfText = this.searchableText(item);
+                    item.littlePrinceItem.lumpOfText = this.searchableText(item, langIsoMaps);
                     return item;
                 })
                 .sort(compareTroveItem);
@@ -760,17 +762,73 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         return labels.map((label) => ({label, items: groups.get(label)!}));
     }
 
+    private scriptGroupOrDetailLabel(
+        littlePrinceItem: TroveItemDetails,
+        maps: LangIsoMaps | null,
+    ): string {
+        const s = littlePrinceItem.scripts;
+        if (s != null && s.length > 0) {
+            const fromIso = displayForIso15924Scripts(s, maps);
+            if (fromIso.trim() !== "") {
+                return fromIso;
+            }
+        }
+        const raw = littlePrinceItem.script;
+        return raw != null && String(raw).trim() !== "" ? String(raw).trim() : "(script N/A)";
+    }
+
+    private scriptGroupLabelsForItem(
+        littlePrinceItem: TroveItemDetails,
+        maps: LangIsoMaps | null,
+    ): string[] {
+        const scripts = littlePrinceItem.scripts
+            ?.map((s) => String(s ?? "").trim())
+            .filter((s) => s !== "") ?? [];
+        const labels: string[] = [];
+        const seen = new Set<string>();
+        const pushLabel = (label: string | null | undefined) => {
+            if (label == null) {
+                return;
+            }
+            const trimmed = String(label).trim();
+            if (trimmed === "" || seen.has(trimmed)) {
+                return;
+            }
+            seen.add(trimmed);
+            labels.push(trimmed);
+        };
+
+        // Rule: if there are several `scripts[]` entries, group only by each script code display label.
+        if (scripts.length > 1) {
+            for (const code of scripts) {
+                pushLabel(nameFor15924(code, maps));
+            }
+        } else {
+            // Rule: otherwise group by `script`, plus any `scripts[]` display label if present.
+            pushLabel(littlePrinceItem.script);
+            if (scripts.length === 1) {
+                pushLabel(nameFor15924(scripts[0], maps));
+            }
+        }
+
+        if (labels.length === 0) {
+            return ["(script N/A)"];
+        }
+        return labels;
+    }
+
     private groupItemsByScript(items: TroveItem[]): Array<{label: string; items: TroveItem[]}> {
+        const maps = this.state.langIsoMaps;
         const groups = new Map<string, TroveItem[]>();
         for (const item of items) {
-            const raw = item.littlePrinceItem.script;
-            const label =
-                raw != null && String(raw).trim() !== "" ? String(raw).trim() : "(script N/A)";
-            const existing = groups.get(label);
-            if (existing) {
-                existing.push(item);
-            } else {
-                groups.set(label, [item]);
+            const labels = this.scriptGroupLabelsForItem(item.littlePrinceItem, maps);
+            for (const label of labels) {
+                const existing = groups.get(label);
+                if (existing) {
+                    existing.push(item);
+                } else {
+                    groups.set(label, [item]);
+                }
             }
         }
         const labels = Array.from(groups.keys()).sort((a, b) =>
@@ -1502,8 +1560,12 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         "Title transliterated",
                         troveItem.littlePrinceItem["translation-title-transliterated"],
                     );
-                case 'script':
-                    return createRow("Script", troveItem.littlePrinceItem.script)
+                case "script": {
+                    const maps = this.state.langIsoMaps;
+                    const lp = troveItem.littlePrinceItem;
+                    const v = this.scriptGroupOrDetailLabel(lp, maps);
+                    return v === "(script N/A)" ? null : createRow("Script", v);
+                }
                 case 'translator':
                     return createRow("Translated by", troveItem.littlePrinceItem.translator)
                 case 'illustrator':
@@ -1532,8 +1594,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     return createRow("Note!", this.constructWantedMessage(troveItem.littlePrinceItem))
                 case 'trade-message':
                     return createRow("Note!", this.constructTradeMessage(troveItem.littlePrinceItem))
-                // case 'lumpOfText':
-                //     return createRow("Lump Of Text", troveItem.littlePrinceItem.lumpOfText)
+                case "lumpOfText":
+                    return null;
+                default:
+                    return null;
             }
         }).filter(e => e != null && this.isPresent(e.value))
 
@@ -1718,8 +1782,9 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         return ["file", popoutFlat]
     }
 
-    private searchableText(item: TroveItem) {
+    private searchableText(item: TroveItem, maps: LangIsoMaps | null) {
         let lpItem = item.littlePrinceItem;
+        const scriptsBlurb = displayForIso15924Scripts(lpItem.scripts, maps);
 
         return "" +
 `
@@ -1736,6 +1801,8 @@ ${lpItem.lpid}
 ${lpItem.narrator}
 ${lpItem.publisher}
 ${lpItem.script}
+${lpItem.scripts?.join(" ")}
+${scriptsBlurb}
 ${lpItem["search-words"]}
 ${lpItem["script-family"]}
 ${lpItem["tags"]?.join(" || ")}
