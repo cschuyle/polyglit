@@ -1084,21 +1084,7 @@
         "publication-location": "Lausanne",
         "isbn13": "978-2-8289-1656-5",
         "publisher": "Editions Favre SA",
-        "lpid": "PP-4555",
-        "langPairs": [
-          {
-            "lang": "frp",
-            "lang2": null
-          },
-          {
-            "lang": "jam",
-            "lang2": null
-          },
-          {
-            "lang": "sth",
-            "lang2": null
-          }
-        ]
+        "lpid": "PP-4555"
       }
     },
     {
@@ -2864,9 +2850,8 @@
         "tintenfassId": "77",
         "langPairs": [
           {
-            "lang": "ymm",
-            "lang2": null,
-            "langTag": "ymm-x-maya-yucateco"
+            "lang": "yua",
+            "lang2": null
           }
         ]
       }
@@ -3101,10 +3086,6 @@
         "language": "Kambaatissata (Toophita), Kambaata (Ethiopia)",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/the-little-prince---Qakkichchu-Laaha---Kambaatissata-(Toophita),-Kambaata-(Ethiopia).jpeg",
         "langPairs": [
-          {
-            "lang": "kam",
-            "lang2": null
-          },
           {
             "lang": "ktb",
             "lang2": null
@@ -5023,7 +5004,7 @@
         "translation-title": "Ch'in Ajvalil",
         "search-words": "ch'in ajvalil",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince---Ch'in-Ajvalil---Tsotsil.jpeg",
-        "language": "Tsotsil, Tzotzil",
+        "language": "Mayan Tzotzil, Tsotsil",
         "language-spoken-in": "Chiapas, Mexico",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince---Ch'in-Ajvalil---Tsotsil.jpeg",
         "acquired-from": "Javier from Los Injunables: losinjunables@yahoo.com",
@@ -5033,7 +5014,14 @@
             "lang2": null,
             "langTag": "tzo-x-tzotzil"
           }
-        ]
+        ],
+        "translator": "Xun Betan",
+        "year": "2018",
+        "publication-location": "Buenos Aires",
+        "isbn13": "978-987-42-9055-7",
+        "publisher": "Javier Merás",
+        "illustrator": "Héctor Morales Urbina",
+        "lpid": "PP-4982"
       }
     },
     {
@@ -5047,9 +5035,9 @@
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince---Cíta-Mapaskírí---Laz-(latin-script)-1.jpeg",
         "langPairs": [
           {
-            "lang": "atz",
+            "lang": "lzz",
             "lang2": null,
-            "langTag": "atz-x-ardesen-dialect-of-laz-artasenuri"
+            "langTag": "lzz-x-ardesen-dialect-of-laz-artasenuri"
           }
         ],
         "scripts": [
@@ -5340,13 +5328,7 @@
         "translation-title": "El príncep xiquet",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince---El-príncep-xiquet---Valencià-(Valancian).jpeg",
         "language": "Valencià (Valencian)",
-        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince---El-príncep-xiquet---Valencià-(Valancian).jpeg",
-        "langPairs": [
-          {
-            "lang": "vae",
-            "lang2": null
-          }
-        ]
+        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince---El-príncep-xiquet---Valencià-(Valancian).jpeg"
       }
     },
     {
@@ -6977,12 +6959,6 @@
         "format": "pdf",
         "tags": [
           "constructed language"
-        ],
-        "langPairs": [
-          {
-            "lang": "smx",
-            "lang2": null
-          }
         ]
       }
     },
@@ -7053,12 +7029,17 @@
     },
     {
       "littlePrinceItem": {
-        "title": "The Little Prince, in Tseltal",
+        "title": "The Little Prince, in Tzeltal",
         "translation-title": "Ch'in yajwalil ek'",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Ch'in yajwalil ek' - Tseltal.jpeg",
-        "language": "Tseltal",
+        "language": "Mayan Tzeltal of Chiapas",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Ch'in yajwalil ek' - Tseltal.jpeg",
-        "langPairs": []
+        "translator": "Alberto Gómez Pérez",
+        "year": "2020",
+        "publication-location": "Mexico",
+        "isbn13": "978-2-11-162082-7",
+        "publisher": "Centro de Estudios Mexicanos et Centramericanos",
+        "lpid": "PP-5710"
       }
     },
     {
@@ -7433,6 +7414,9 @@
             "lang": "pan",
             "lang2": "pa"
           }
+        ],
+        "scripts": [
+          "Guru"
         ]
       }
     },
@@ -7505,10 +7489,6 @@
         "langPairs": [
           {
             "lang": "mfa",
-            "lang2": null
-          },
-          {
-            "lang": "kel",
             "lang2": null
           }
         ],
@@ -8098,10 +8078,6 @@
           {
             "lang": "lat",
             "lang2": "la"
-          },
-          {
-            "lang": "pli",
-            "lang2": "pi"
           }
         ]
       }
@@ -9269,10 +9245,15 @@
         "files": [
           "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/cdi-principito-lengua-tseltal-chiapas.pdf"
         ],
-        "language": "Tseltal",
+        "language": "Mayan Tzeltal of Chiapas",
         "language-spoken-in": "Chiapas, Mexico",
         "format": "pdf",
-        "langPairs": []
+        "translator": "Victor Manuel Gómez López",
+        "year": "2016",
+        "publication-location": "Mexico",
+        "isbn13": "-",
+        "publisher": "Comisión Nacional para el Desarollo de los Pueblos  Indígenas",
+        "lpid": "PP-5158"
       }
     },
     {
@@ -9483,7 +9464,7 @@
         "translation-title": "Eth petit prince",
         "search-words": "aranes",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Eth petit prince - Aranés.png",
-        "language": "Aranés",
+        "language": "Aranés",
         "language-spoken-in": "Val d'Aran, Catalonia, Spain",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Eth petit prince - Aranés.png",
         "publisher": "Jaume Arbonés (ed.) (https://www.auquicu.com/)",
@@ -11563,7 +11544,7 @@
           }
         ],
         "scripts": [
-          "Hans",
+          "Hant",
           "Latn"
         ]
       }
@@ -11742,7 +11723,7 @@
           "constructed language"
         ],
         "translator": "Thomas Schmidt",
-        "acquired-from": "https://occidental-lang.com/LiLittPrince/print.html",
+        "acquired-from": "https://occidental-lang.com/LiLittPrince/print.html or https://occidental-lang.com/resources/Li_Litt_Prince.pdf",
         "date-added": "Sept 18, 2022",
         "langPairs": [
           {
@@ -13179,7 +13160,7 @@
         "lpid": "PP-6245",
         "langPairs": [
           {
-            "lang": "ppl",
+            "lang": "nah",
             "lang2": null
           },
           {
@@ -13479,10 +13460,6 @@
           {
             "lang": "roh",
             "lang2": "rm"
-          },
-          {
-            "lang": "lld",
-            "lang2": null
           }
         ]
       }
@@ -13997,12 +13974,7 @@
         "comments": [
           "Many thanks to Jean-Marc Probst"
         ],
-        "langPairs": [
-          {
-            "lang": "txo",
-            "lang2": null
-          }
-        ]
+        "lpid": "PP-4747"
       }
     },
     {
@@ -14481,13 +14453,7 @@
         "isbn13": "978-88-94998-47-4",
         "translator": "Francesco Polopoli",
         "year": "2021",
-        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - 'U picculu Principi 'i santu Tidoru - Lamentino.png",
-        "langPairs": [
-          {
-            "lang": "lbn",
-            "lang2": null
-          }
-        ]
+        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - 'U picculu Principi 'i santu Tidoru - Lamentino.png"
       }
     },
     {
@@ -14852,10 +14818,6 @@
             "lang2": "fr"
           },
           {
-            "lang": "npy",
-            "lang2": null
-          },
-          {
             "lang": "ita",
             "lang2": "it"
           }
@@ -15141,7 +15103,9 @@
         "publisher": "CoolLibri.com, and Fondation Jean-Marc Probst pour le Petit Prince",
         "publication-location": "Toulouse, France",
         "date-added": "2023-01-27",
-        "langPairs": []
+        "scripts": [
+          "Latn"
+        ]
       }
     },
     {
@@ -15356,13 +15320,7 @@
         "acquired-from": "https://editiontintenfass.de",
         "description": "Translation of the classic into “Archignat“ in the French department “Allier“ in the Massif Central. Linguistically, this variety is located between the “langues d’oil“ and the “langues d’oc“.",
         "tintenfassId": "370",
-        "date-added": "2022-03-01",
-        "langPairs": [
-          {
-            "lang": "aqc",
-            "lang2": null
-          }
-        ]
+        "date-added": "2022-03-01"
       }
     },
     {
@@ -15697,7 +15655,9 @@
         "publisher": "Fondation JMP pour le Petit Prince",
         "translator": "Jan van Steenbergen",
         "lpid": "PP-6041",
-        "langPairs": []
+        "scripts": [
+          "Cyrl"
+        ]
       }
     },
     {
@@ -16119,8 +16079,7 @@
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Le Petit Prince, Polyglotte, Édition anniversaire exclusive - multilingual.jpeg",
         "language": "multilingual",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Le Petit Prince, Polyglotte, Édition anniversaire exclusive - multilingual.jpeg",
-        "date-added": "2023-04-21",
-        "langPairs": []
+        "date-added": "2023-04-21"
       }
     },
     {
@@ -16188,8 +16147,7 @@
         "year": "2023",
         "isbn13": "9783943052114",
         "acquired-from": "Carosello Carugate, near Milan, Italy",
-        "date-added": "2023-06-08",
-        "langPairs": []
+        "date-added": "2023-06-08"
       }
     },
     {
@@ -16233,8 +16191,7 @@
         "translator": "Christine de Luca",
         "year": "2022",
         "lpid": "PP-6394",
-        "date-added": "2023-09-15",
-        "langPairs": []
+        "date-added": "2023-09-15"
       }
     },
     {
@@ -16255,8 +16212,7 @@
         "translator": "Peter Stein",
         "year": "2022",
         "lpid": "PP-6457",
-        "date-added": "2023-09-15",
-        "langPairs": []
+        "date-added": "2023-09-15"
       }
     },
     {
@@ -16335,8 +16291,7 @@
         "translator": "Quint, Nicolas; Migaud, Jean-Francois",
         "year": "2023",
         "lpid": "PP-6658",
-        "date-added": "2023-09-15",
-        "langPairs": []
+        "date-added": "2023-09-15"
       }
     },
     {
@@ -16358,8 +16313,7 @@
         "translator": "Souris, Claude; Quint, Nicolas",
         "year": "2022",
         "lpid": "PP-6458",
-        "date-added": "2023-09-15",
-        "langPairs": []
+        "date-added": "2023-09-15"
       }
     },
     {
@@ -16426,8 +16380,7 @@
         "translator": "Maryse Bouzet, Serge Dallot et autres",
         "year": "2022",
         "lpid": "PP-6338",
-        "date-added": "2023-09-15",
-        "langPairs": []
+        "date-added": "2023-09-15"
       }
     },
     {
@@ -18458,17 +18411,7 @@
         "description": "In this multilingual edition, The Little Prince speaks 32 languages of France, one per chapter (and in the dedication and epilogue).\r\nWe are especially proud that we were able to publish this book in cooperation with the \"Cité internationale de la langue française\" in Villers-Cotterêts, France and the \"Centre des monuments nationaux\". Accompagnied by a foreword by Paul de Sinety, the \"Délégué général à la langue française et aux langues de France\" of the French \"Ministère de la Culture\" in Paris.",
         "tintenfassId": "461",
         "owned": "true",
-        "date-added": "2024-07-20",
-        "langPairs": [
-          {
-            "lang": "fra",
-            "lang2": "fr"
-          },
-          {
-            "lang": "jam",
-            "lang2": null
-          }
-        ]
+        "date-added": "2024-07-20"
       }
     },
     {
@@ -19968,16 +19911,24 @@
     {
       "littlePrinceItem": {
         "title": "The Little Prince, in Patriżju",
-        "translation-title": "Ip-Pringeddu",
+        "translation-title": "Ip-Prinġeddu",
+        "search-words": "ip pringeddu patrizju",
         "owned": "false",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Ip-Pringeddu - Patriżju.jpeg",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Ip-Pringeddu - Patriżju.jpeg",
         "comments": [
-          "https://www.leslanguesdupetitprince.net/doubles"
+          "About Patriżju: https://patrizju.webnode.be/"
+        ],
+        "tags": [
+          "constructed language"
         ],
         "year": "2020",
         "language": "Patriżju",
-        "langPairs": []
+        "lpid": "PP-5727",
+        "publisher": "Patrick Baert",
+        "publication-location": "Brussels",
+        "translator": "Patrick Baert",
+        "illustrator": "Carmen Nogales"
       }
     },
     {
@@ -22414,17 +22365,7 @@
         "comments": [
           "Many thanks to Jean-Marc Probst"
         ],
-        "date-added": "July 8, 2024",
-        "langPairs": [
-          {
-            "lang": "sth",
-            "lang2": null
-          },
-          {
-            "lang": "spa",
-            "lang2": "es"
-          }
-        ]
+        "date-added": "July 8, 2024"
       }
     },
     {
@@ -26873,10 +26814,6 @@
           {
             "lang": "ckb",
             "lang2": null
-          },
-          {
-            "lang": "kur",
-            "lang2": "ku"
           }
         ],
         "scripts": [
@@ -27027,17 +26964,7 @@
         "acquired-from": "https://editiontintenfass.de",
         "description": "Translation of \"The Little Prince\" into the dialect (langue d'oïl) of the Val d'Ajol in the southern Vosges.",
         "tintenfassId": "463",
-        "date-added": "2025-10-07",
-        "langPairs": [
-          {
-            "lang": "fra",
-            "lang2": "fr"
-          },
-          {
-            "lang": "jam",
-            "lang2": null
-          }
-        ]
+        "date-added": "2025-10-07"
       }
     },
     {
@@ -27077,12 +27004,6 @@
         "acquired-from": "https://www.indoaryanabookco.com/home/product_view/3957/",
         "date-added": "2024-10-29",
         "quantity": 2,
-        "langPairs": [
-          {
-            "lang": "kcl",
-            "lang2": null
-          }
-        ],
         "scripts": [
           "Arab"
         ]
@@ -29982,10 +29903,6 @@
         "date-added": "Feb 18 2025",
         "langPairs": [
           {
-            "lang": "vae",
-            "lang2": null
-          },
-          {
             "lang": "cat",
             "lang2": "ca"
           }
@@ -30049,10 +29966,6 @@
         "lpid": "PP-5647",
         "owned": "false",
         "langPairs": [
-          {
-            "lang": "vae",
-            "lang2": null
-          },
           {
             "lang": "cat",
             "lang2": "ca"
@@ -31481,7 +31394,7 @@
           "Thanks to Clyde for guiding me to it",
           "Not on LP foundation yet"
         ],
-        "acquired-from": "Ernster, Cloche d'Or Shoppping Center, Luxembourg",
+        "acquired-from": "Ernster, Cloche d'Or Shopping Center, Luxembourg",
         "date-added": "Sept 22, 2025",
         "langPairs": [
           {
@@ -34088,6 +34001,26 @@
         "publisher": "Edition Tintenfass",
         "lpid": "PP-7777",
         "owned": "false"
+      }
+    },
+    {
+      "littlePrinceItem": {
+        "title": "The Little prince in Kah",
+        "translation-title": "Kimbu Sin",
+        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/little-prince-Kimbu-Sin-Kah-cover.png",
+        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/150/little-prince-Kimbu-Sin-Kah-cover.png",
+        "files": [
+          "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/little-prince-Kimbu-Sin-Kah.pdf"
+        ],
+        "language": "Kah",
+        "format": "pdf",
+        "tags": [
+          "constructed language"
+        ],
+        "comments": [
+          "Source: https://docs.google.com/document/d/1Cf3pQ9NdfEWE3erOfpfc6ac3hJ3XebAuwuENcK0zGxw/pub"
+        ],
+        "date-added": "2026-04-26"
       }
     }
   ]
