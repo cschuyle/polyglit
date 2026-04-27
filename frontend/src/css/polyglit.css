@@ -24,6 +24,8 @@
     gap: 6px;
     width: 100%;
     box-sizing: border-box;
+    /* Row height follows the tallest tile in that row; captions can grow without clipping. */
+    align-items: start;
 }
 
 #main_content .gallery-grid > * {
@@ -55,7 +57,7 @@ div.thumbnail{
     margin: 10px 0 0 0;
     horizontal-align:center;
     text-align:center;
-    max-height: 90px;
+    overflow-wrap: break-word;
 }
 .thumbnail a{
     horizontal-align:center;
