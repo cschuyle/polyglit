@@ -1149,6 +1149,50 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     }
 
     /**
+     * Letter runs in `s`, lowercased (for caption word matching). ASCII + Latin-1 supplement +
+     * Latin extended-A/B + Cyrillic (no `u` / `\p{}` regex flag so ES5 TS target stays valid).
+     */
+    private captionLetterTokens(s: string): string[] {
+        const m = s
+            .toLowerCase()
+            .match(/[a-z\u00c0-\u024f\u0400-\u04ff]+/g);
+        return m ?? [];
+    }
+
+    /**
+     * True when every language word (length ≥ 2 letters) appears as a whole word in `title`
+     * (case-insensitive), e.g. "The Little Prince in Mongolian" + "Mongolian".
+     */
+    private titleCaptionIncludesAllLanguageWords(title: string, language: string): boolean {
+        const langWords = this.captionLetterTokens(language).filter((w) => w.length >= 2);
+        if (langWords.length === 0) {
+            return false;
+        }
+        const titleWords = new Set(this.captionLetterTokens(title));
+        return langWords.every((w) => titleWords.has(w));
+    }
+
+    /**
+     * Gallery when `translation-title` is absent and captions are titles: plain `title` if it
+     * already names the language; otherwise *title*, line break, then `language`.
+     */
+    private renderGalleryNoTranslationTitleCaption(troveItem: TroveItem) {
+        const lp = troveItem.littlePrinceItem;
+        const title = lp.title ?? "";
+        const language = lp.language ?? "";
+        if (!this.isPresent(language) || this.titleCaptionIncludesAllLanguageWords(title, language)) {
+            return <div className="caption">{title}</div>;
+        }
+        return (
+            <div className="caption">
+                <em>{title}</em>
+                <br />
+                {language}
+            </div>
+        );
+    }
+
+    /**
      * Gallery caption when `translation-title` is set: *title*, optional [transliteration], line break, then
      * (ISO lang lines) and/or (language field) using parentheses; see code for substring / dedupe rules.
      */
@@ -1209,6 +1253,9 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         const lp = troveItem.littlePrinceItem;
         if (this.state.viewMode === ViewMode.GALLERY && this.isPresent(lp["translation-title"])) {
             return this.renderGalleryTranslationTitleCaption(troveItem);
+        }
+        if (this.state.viewMode === ViewMode.GALLERY && this.state.captionMode === CaptionMode.TITLES) {
+            return this.renderGalleryNoTranslationTitleCaption(troveItem);
         }
         if (this.state.captionMode === CaptionMode.TITLES) {
             return <div className="caption">{lp.language}</div>;
