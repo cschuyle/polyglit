@@ -2808,13 +2808,7 @@
         "translation-title": "Ar Picin Prinsi",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/the-little-prince---Ar-Picin-Prinsi---Patois-Tendasque.jpeg",
         "language": "Patois Tendasque",
-        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/the-little-prince---Ar-Picin-Prinsi---Patois-Tendasque.jpeg",
-        "langPairs": [
-          {
-            "lang": "jam",
-            "lang2": null
-          }
-        ]
+        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/the-little-prince---Ar-Picin-Prinsi---Patois-Tendasque.jpeg"
       }
     },
     {
@@ -4109,20 +4103,6 @@
     },
     {
       "littlePrinceItem": {
-        "title": "The Little Prince, in Creole of Réunion",
-        "translation-title": "Lo Pti Prins",
-        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/the-little-prince---Lo-Pti-Prins---Kreol-la-Renion.jpeg",
-        "language": "Kréol la Rénion (Créole de La Réunion)",
-        "search-words": "reunion",
-        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/the-little-prince---Lo-Pti-Prins---Kreol-la-Renion.jpeg",
-        "tags": [
-          "creole"
-        ],
-        "langPairs": []
-      }
-    },
-    {
-      "littlePrinceItem": {
         "title": "The Little Prince, in Russian and French",
         "translation-title": "Маленький принц (Malenkii Prints)",
         "search-words": "malenky malen'ky malenkiy malen'kiy malenkyi malen'kyi malenkii malen'kii prints princ",
@@ -4173,12 +4153,6 @@
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/the-little-prince---Ti-Prens-Lan---Kreyol-Matinik-(Crealo-of-Martinique).jpeg",
         "tags": [
           "creole"
-        ],
-        "langPairs": [
-          {
-            "lang": "lou",
-            "lang2": null
-          }
         ]
       }
     },
@@ -4668,23 +4642,32 @@
     },
     {
       "littlePrinceItem": {
-        "title": "The Little Prince in Tamashek (Berber)",
-        "publication-country": "Algeria",
-        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/tamashek-cover.png",
-        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/150/tamashek-cover.png",
-        "format": "pdf",
+        "title": "The Little Prince in Berber Kabyle, Tamashek (eBook)",
+        "translation-title": "Ageldun amecṭuḥ",
+        "search-words": "Ageldun amectuh",
+        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/little-prince-cover-Berber-Kabyle.png",
+        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/150/little-prince-cover-Berber-Kabyle.png",
         "files": [
-          "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/Berber-04-Ageldun-Amectuh.pdf"
+          "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/little-prince-Ageldun-amectuh-Kabyle.pdf",
+          "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/Berber-04-Ageldun-Amectuh.pdf",
+          "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/le-petit-prince-en-kabyle-text.pdf",
+          "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/-var-tmp-tmp-generated-lepetitprinceenkabyle-le+petit+prince+en+kabyle.mobi",
+          "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/lepetitprinceenkabyle-le+petit+prince+en+kabyle.epub"
         ],
-        "language": "Tamashek, Amazigh (Berber) (Algeria)",
-        "language-spoken-in": "Algeria, Africa",
+        "language": "Berber Kabyle, Tamasheq, Tamashek, Amazigh",
+        "language-spoken-in": "Algeria",
+        "format": "pdf, mobi, epub (eBook)",
+        "acquired-from": "https://archive.org/details/lepetitprinceenkabyle",
+        "date-added": "Sept 17, 2022",
         "langPairs": [
           {
             "lang": "tmh",
             "lang2": null,
-            "langTag": "tmh-DZ"
+            "langTag": "tmh-x-tamasheq",
+            "langTag2": "tmh-DZ"
           }
-        ]
+        ],
+        "script": "Latin"
       }
     },
     {
@@ -6735,7 +6718,8 @@
     {
       "littlePrinceItem": {
         "title": "The Little Prince, in Tahitian",
-        "translation-title": "Te tamaiti ari'i iti (hardcover)",
+        "translation-title": "Te tamaiti ari'i iti",
+        "format": "hardback",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/the little prince - Te tamaiti ari'i iti (hardback) - Tahitian.jpeg",
         "language": "Tahitian",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/the little prince - Te tamaiti ari'i iti (hardback) - Tahitian.jpeg",
@@ -6869,13 +6853,6 @@
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/the little prince in kreyol gwiyane.jpeg",
         "tags": [
           "creole"
-        ],
-        "langPairs": [
-          {
-            "lang": "lou",
-            "lang2": null,
-            "langTag": "lou-x-creole-of-guyana"
-          }
         ]
       }
     },
@@ -9346,27 +9323,6 @@
     },
     {
       "littlePrinceItem": {
-        "title": "The Little Prince, in Papamiento, Créole des Petites Antilles",
-        "translation-title": "E Prens Chikí",
-        "search-words": "e prens chiki",
-        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince  - E Prens Chikí - Papamiento.png",
-        "language": "Papamiento, Créole des Petites Antilles",
-        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince  - E Prens Chikí - Papamiento.png",
-        "publisher": "Editoryal Antiyano",
-        "translator": "Edward de Jongh, Stanley Cros",
-        "isbn10": "none",
-        "year": "1982",
-        "comments": [
-          "Thanks to Jaume!"
-        ],
-        "tags": [
-          "creole"
-        ],
-        "langPairs": []
-      }
-    },
-    {
-      "littlePrinceItem": {
         "title": "The Little Prince, in Italian Altotibarino (Città di Castello ) dialect",
         "translation-title": "Chel Fiol Prįncipi",
         "search-words": "chel fiol principi",
@@ -9537,7 +9493,7 @@
         "title": "The Little Prince, in kréol réunioné",
         "translation-title": "Lo Ti Prins",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Lo Ti Prins - kréol réunioné.png",
-        "language": "kréol réunioné",
+        "language": "kréol réunioné, Kréol la Réunion, Creole of Réunion Créole de La Réunion",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Lo Ti Prins - kréol réunioné.png",
         "publisher": "Du Point de Vue",
         "translator": "Arlette Nourly, André Payet",
@@ -9546,6 +9502,20 @@
         "comments": [
           "Thanks to Jaume!"
         ],
+        "tags": [
+          "creole"
+        ],
+        "langPairs": []
+      }
+    },
+    {
+      "littlePrinceItem": {
+        "title": "The Little Prince, in Creole of Réunion",
+        "translation-title": "Lo Pti Prins",
+        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/the-little-prince---Lo-Pti-Prins---Kreol-la-Renion.jpeg",
+        "language": "kréol réunioné, Kréol la Réunion, Creole of Réunion Créole de La Réunion",
+        "search-words": "reunion",
+        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/the-little-prince---Lo-Pti-Prins---Kreol-la-Renion.jpeg",
         "tags": [
           "creole"
         ],
@@ -11671,44 +11641,18 @@
     },
     {
       "littlePrinceItem": {
-        "title": "The Little Prince in Berber Kabyle (eBook)",
-        "translation-title": "Ageldun amecṭuḥ",
-        "search-words": "Ageldun amectuh",
-        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/little-prince-cover-Berber-Kabyle.png",
-        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/150/little-prince-cover-Berber-Kabyle.png",
-        "files": [
-          "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/little-prince-Ageldun-amectuh-Kabyle.pdf",
-          "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/-var-tmp-tmp-generated-lepetitprinceenkabyle-le+petit+prince+en+kabyle.mobi",
-          "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/le-petit-prince-en-kabyle-text.pdf",
-          "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/lepetitprinceenkabyle-le+petit+prince+en+kabyle.epub"
-        ],
-        "language": "Berber Kabyle, Tamasheq",
-        "format": "pdf, mobi, epub (eBook)",
-        "acquired-from": "https://archive.org/details/lepetitprinceenkabyle",
-        "date-added": "Sept 17, 2022",
-        "language-spoken-in": "North-Western Africa",
-        "langPairs": [
-          {
-            "lang": "tmh",
-            "lang2": null,
-            "langTag": "tmh-x-tamasheq"
-          }
-        ]
-      }
-    },
-    {
-      "littlePrinceItem": {
-        "title": "The Little Prince in Interlingue-Occidental (eBook)",
+        "title": "The Little Prince in Interlingue Occidental (eBook)",
         "translation-title": "Li Litt Prince",
-        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/little-prince-cover-Li-Litt-Prince-Interlingue-Occidental.png",
-        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/150/little-prince-cover-Li-Litt-Prince-Interlingue-Occidental.png",
+        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Li Litt Prince - Interlingue-Occidental-printed.png",
+        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Li Litt Prince - Interlingue-Occidental-printed.png",
         "files": [
-          "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/little-prince-Li-Litt-Prince-Interlingue-Occidental.pdf"
+          "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/Li-Litt-Prince-printed-from-url.pdf"
         ],
-        "language": "Interlingue-Occidental",
+        "language": "Interlingue Occidental",
         "format": "pdf",
         "comments": [
-          "Not to be confused with Interlingua nor Occitan."
+            "URL: https://occidental-lang.com/LiLittPrince/",
+            "Not to be confused with Interlingua nor Occitan."
         ],
         "tags": [
           "constructed language"
@@ -11716,6 +11660,32 @@
         "translator": "Thomas Schmidt",
         "acquired-from": "https://occidental-lang.com/LiLittPrince/print.html or https://occidental-lang.com/resources/Li_Litt_Prince.pdf",
         "date-added": "Sept 18, 2022",
+        "langPairs": [
+          {
+            "lang": "ile",
+            "lang2": "ie"
+          }
+        ]
+      }
+    },
+    {
+      "littlePrinceItem": {
+        "title": "The Little Prince in Interlingue Occidental (eBook)",
+        "translation-title": "Li Litt Prince",
+        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Li Litt Prince - Interlingue-Occidental.png",
+        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Li Litt Prince - Interlingue-Occidental.png",
+        "files": [
+          "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince-ebooks/Li-Litt-Prince.pdf"
+        ],
+        "language": "Interlingue Occidental",
+        "format": "pdf",
+        "comments": [
+          "Not to be confused with Interlingua nor Occitan."
+        ],
+        "tags": [
+          "constructed language"
+        ],
+        "date-added": "Apr 30, 2026",
         "langPairs": [
           {
             "lang": "ile",
@@ -14650,7 +14620,12 @@
             "lang2": "ne"
           }
         ],
-        "script": "Brahmic family"
+        "script": "Brahmic family",
+        "translator": "Badri Prasad Ghimire",
+        "year": "2023",
+        "publication-location": "Kathmandu",
+        "publisher": "Shital Subbu",
+        "lpid": "PP-7712"
       }
     },
     {
@@ -18590,7 +18565,7 @@
     },
     {
       "littlePrinceItem": {
-        "title": "Il Piccolo Principe, dramma in tre atti- Adattamento teatrale dell’opera in prosa omonima di Antoine de Saint-Exupéry (Italian Edition)",
+        "title": "Il Piccolo Principe, dramma in tre atti- Adattamento teatrale dell’opera in prosa omonima di Antoine de Saint-Exupéry",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/Il Piccolo Principe, dramma in tre atti- Adattamento teatrale dell’opera in prosa omonima di Antoine de Saint-Exupéry (Italian Edition) 81uQwEWy1cL.jpg",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/Il Piccolo Principe, dramma in tre atti- Adattamento teatrale dell’opera in prosa omonima di Antoine de Saint-Exupéry (Italian Edition) 81uQwEWy1cL.jpg",
         "format": "kindle",
@@ -18606,6 +18581,20 @@
         "print-length": "116 pages",
         "customer-rating": "4.7",
         "number-reviews": "55",
+        "langPairs": [
+          {
+            "lang": "ita",
+            "lang2": "it"
+          }
+        ]
+      }
+    },
+    {
+      "littlePrinceItem": {
+        "title": "Il Piccolo Principe in tre atti (The Little Prince, adaptation in Italian) (eBook)",
+        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Il Piccolo Principe in tre atti - Italian adaptation.jpeg",
+        "language": "Italian",
+        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Il Piccolo Principe in tre atti - Italian adaptation.jpeg",
         "langPairs": [
           {
             "lang": "ita",
@@ -19315,18 +19304,18 @@
     },
     {
       "littlePrinceItem": {
-        "title": "The Little Prince in Korean, Spanish, and English",
         "owned": "false",
-        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Korean, English, Spanish.jpg",
-        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Korean, English, Spanish.jpg",
-        "comments": [
-          "https://www.amazon.com/gp/product/B01JO4C8FM"
-        ],
+        "title": "The Little Prince, in Korean, Spanish, and English",
+        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Korean PP-4160.gif",
         "language": "Korean, Spanish, English",
-        "format": "paperback, MP3 download",
-        "isbn13": "979-1195559824",
+        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Korean PP-4160.gif",
+        "translator": "",
         "year": "2016",
+        "publication-location": "Seoul",
+        "isbn13": "978-11-955598-2-4",
+        "publisher": "-",
         "lpid": "PP-4160",
+        "format": "paperback, MP3 download",
         "langPairs": [
           {
             "lang": "kor",
@@ -19501,7 +19490,7 @@
     },
     {
       "littlePrinceItem": {
-        "title": "The Little Prince, in Bashkir",
+        "title": "The Little Prince, in Bashkir (eBook)",
         "translation-title": "Бәләкәй шаһзат",
         "translation-title-transliterated": "Bäläkäy şahzat",
         "owned": "false",
@@ -19514,7 +19503,9 @@
         "translator": "Denis Ömötbaev",
         "year": "2018",
         "publisher": "self-edited",
-        "pdf": "https://vk.com/doc257928583_487232826?",
+        "files": [
+          "https://vk.com/doc257928583_487232826?"
+        ],
         "language": "Bashkir",
         "publication-location": "Spain",
         "format": "PDF",
@@ -19522,6 +19513,34 @@
           {
             "lang": "bak",
             "lang2": "ba"
+          }
+        ]
+      }
+    },
+    {
+      "littlePrinceItem": {
+        "title": "The Little Prince, in Bashkir",
+        "translation-title": "Бәләкәй шаһзат",
+        "translation-title-transliterated": "Bäläkäy şahzat",
+        "owned": "false",
+        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Bashkir PP-5009.gif",
+        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Bashkir PP-5009.gif",
+        "language": "Bashkir, Bashkır",
+        "translator": "Dennis Umutbaev (Denis Ömötbaev)",
+        "year": "2018",
+        "isbn13": "",
+        "lpid": "PP-5009",
+        "search-words": "balakay belekey sahzat shahzat bashkir",
+        "comments": [
+          "http://petit-prince.at"
+        ],
+        "publisher": "self-edited",
+        "publication-location": "Spain",
+        "langPairs": [
+          {
+            "lang": "bak",
+            "lang2": "ba",
+            "langTag": "bak-x-bashkr"
           }
         ]
       }
@@ -20820,17 +20839,6 @@
     },
     {
       "littlePrinceItem": {
-        "title": "The Little Prince, in Eoniavian",
-        "translation-title": "El Principín",
-        "owned": "false",
-        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - El Principín - Eoniavian.jpg",
-        "language": "Eoniavian",
-        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - El Principín - Eoniavian.jpg",
-        "langPairs": []
-      }
-    },
-    {
-      "littlePrinceItem": {
         "title": "The Little Prince, in Friulian",
         "translation-title": "Il pičul princip",
         "owned": "false",
@@ -20902,7 +20910,7 @@
         "translator": "Raimundo Isidro Alavez",
         "year": "2012",
         "publisher": "MIQ",
-        "search-words": "ra zi ts'unt'u danganda daengandae",
+        "search-words": "ra zi ts'unt'u danganda daengandae otomi",
         "isbn13": "978-607-95971-0-8",
         "language": "Otomí of the Mezquital Valley",
         "publication-location": "Mexico",
@@ -21205,26 +21213,25 @@
     },
     {
       "littlePrinceItem": {
-        "title": "The Little Prince, in Even",
-        "translation-title": "Коченьеекэн Хуркэн (Kocenyiekèn Khurkèn)",
         "owned": "false",
-        "language": "Even, Evenki, Lamut, Ewen, Eben, Orich, Ilqan (Эве́нский язы́к, Ламутский язы́к)",
+        "title": "The Little Prince, in Even",
+        "translation-title": "Коченьеекэн Хуркэн (Kocenyiekèn Khurkèn)",
+        "language": "Even, Lamut, Ewen, Eben, Orich, Ilqan (Эве́нский язы́к, Ламутский язы́к)",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Коченьеекэн хуркэн [Kotxienyeeken khurken] - Evenki.png",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Коченьеекэн хуркэн [Kotxienyeeken khurken] - Evenki.png",
+        "translator": "Zinaida Babtseva",
+        "year": "2013",
+        "publication-location": "Magadan",
+        "isbn13": "097039163-3B",
+        "publisher": "Dikiy Sever",
+        "lpid": "PP-4608",
         "langPairs": [
           {
             "lang": "eve",
             "lang2": null
-          },
-          {
-            "lang": "evn",
-            "lang2": null
-          },
-          {
-            "lang": "llh",
-            "lang2": null
           }
-        ]
+        ],
+        "script": "Even Cyrillic script"
       }
     },
     {
@@ -21684,19 +21691,6 @@
         "language": "Castuo-Ehtremeñu",
         "year": "1999",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince - El Principinu - Castuo-Ehtremeñu 1999.jpg",
-        "langPairs": []
-      }
-    },
-    {
-      "littlePrinceItem": {
-        "title": "The Little Prince, in Eonaviego",
-        "translation-title": "El Principín",
-        "owned": "false",
-        "search-words": "principin",
-        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince - El Principín - Eonaviego 2008.gif",
-        "language": "Eonaviego",
-        "year": "2008",
-        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince - El Principín - Eonaviego 2008.gif",
         "langPairs": []
       }
     },
@@ -24197,16 +24191,23 @@
     },
     {
       "littlePrinceItem": {
-        "title": "The Little Prince in Papiamento",
-        "translation-title": "E Prens Chikí",
-        "owned": "false",
+        "title": "The Little Prince, in Papamiento",
+        "translation-title": "E Prens Chikí",
+        "search-words": "e prens chiki",
+        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince  - E Prens Chikí - Papamiento.png",
+        "language": "Papamiento, Créole des Petites Antilles",
+        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince  - E Prens Chikí - Papamiento.png",
+        "publisher": "Editoryal Antiyano",
+        "translator": "Edward de Jongh, Stanley Cros",
+        "isbn10": "none",
+        "year": "1982",
+        "language-spoken-in": "Dutch Caribbean (Aruba, Bonaire, Curaçao)",
+        "comments": [
+          "Thanks to Jaume!"
+        ],
         "tags": [
           "creole"
         ],
-        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/papiamento b328ff_2f962abc53724cc08d03580118092414~mv2.gif",
-        "language": "Papiamento",
-        "language-spoken-in": "Dutch Caribbean (Aruba, Bonaire, Curaçao)",
-        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/papiamento b328ff_2f962abc53724cc08d03580118092414~mv2.gif",
         "langPairs": [
           {
             "lang": "pap",
@@ -26692,23 +26693,6 @@
     },
     {
       "littlePrinceItem": {
-        "title": "Il Piccolo Principe in tre atti (The Little Prince, adaptation in Italian)",
-        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Il Piccolo Principe in tre atti - Italian adaptation.jpeg",
-        "language": "Italian",
-        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Il Piccolo Principe in tre atti - Italian adaptation.jpeg",
-        "tags": [
-          "adaptation"
-        ],
-        "langPairs": [
-          {
-            "lang": "ita",
-            "lang2": "it"
-          }
-        ]
-      }
-    },
-    {
-      "littlePrinceItem": {
         "title": "The Little Prince, in Korean (Chungcheongnam-do dialect)",
         "translation-title": "어린왕자",
         "translation-title-transliterated": "Eorin Wangja",
@@ -28751,30 +28735,6 @@
     {
       "littlePrinceItem": {
         "title": "The Little Prince, in Korean",
-        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Korean PP-1021.gif",
-        "language": "Korean",
-        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Korean PP-1021.gif",
-        "translator": "",
-        "year": "2009",
-        "publication-location": "",
-        "isbn13": "978-89-8497-559-0",
-        "publisher": "-",
-        "lpid": "PP-1021",
-        "owned": "false",
-        "langPairs": [
-          {
-            "lang": "kor",
-            "lang2": "ko"
-          }
-        ],
-        "scripts": [
-          "Kore"
-        ]
-      }
-    },
-    {
-      "littlePrinceItem": {
-        "title": "The Little Prince, in Korean",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Korean PP-1027.gif",
         "language": "Korean",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Korean PP-1027.gif",
@@ -29040,15 +29000,15 @@
     {
       "littlePrinceItem": {
         "title": "The Little Prince, in Korean",
-        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Korean PP-4160.gif",
+        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Korean PP-1021.gif",
         "language": "Korean",
-        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Korean PP-4160.gif",
+        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Korean PP-1021.gif",
         "translator": "",
-        "year": "2016",
-        "publication-location": "Seoul",
-        "isbn13": "978-11-955598-2-4",
+        "year": "2009",
+        "publication-location": "",
+        "isbn13": "978-89-8497-559-0",
         "publisher": "-",
-        "lpid": "PP-4160",
+        "lpid": "PP-1021",
         "owned": "false",
         "langPairs": [
           {
@@ -30688,11 +30648,11 @@
     },
     {
       "littlePrinceItem": {
-        "title": "The Little Prince, in Eonaviega",
+        "title": "The Little Prince, in Galician–Asturian",
         "translation-title": "El Principín",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - El Principín - Eonaviega PP-4978.jpeg",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - El Principín - Eonaviega PP-4978.jpeg",
-        "language": "Eonaviega (Galician-Asturian, Eonavian)",
+        "language": "Galician–Asturian, Eonavian, Eonaviego",
         "translator": "Francisco Xavier Frías Conde",
         "year": "2018",
         "publication-location": "Japan (see notes)",
@@ -30705,6 +30665,30 @@
         "notes": [
           "Purchased and just-in-time printed at Amazon Japan"
         ],
+        "langPairs": []
+      }
+    },
+        {
+      "littlePrinceItem": {
+        "title": "The Little Prince, in Eonaviego",
+        "translation-title": "El Principín",
+        "owned": "false",
+        "search-words": "principin",
+        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince - El Principín - Eonaviego 2008.gif",
+        "language": "Galician–Asturian, Eonavian, Eonaviego",
+        "year": "2008",
+        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince - El Principín - Eonaviego 2008.gif",
+        "langPairs": []
+      }
+    },
+        {
+      "littlePrinceItem": {
+        "title": "The Little Prince, in Eonavian",
+        "translation-title": "El Principín",
+        "owned": "false",
+        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - El Principín - Eoniavian.jpg",
+        "language": "Galician–Asturian, Eonavian, Eonaviego",
+        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - El Principín - Eoniavian.jpg",
         "langPairs": []
       }
     },
@@ -31052,7 +31036,7 @@
         "description": "Translation of the classic into Gascon, a variety of Occitan spoken in the South of France, west of Toulouse.",
         "tintenfassId": "481",
         "date-added": "May 15 2025",
-        "language-spoke-in": "west of Toulouse, France",
+        "language-spoken-in": "west of Toulouse, France",
         "langPairs": [
           {
             "lang": "oci",
@@ -31853,34 +31837,6 @@
     },
     {
       "littlePrinceItem": {
-        "title": "The Little Prince, in Bashkir",
-        "translation-title": "Бәләкәй шаһзат",
-        "translation-title-transliterated": "Bäläkäy şahzat",
-        "owned": "false",
-        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Bashkir PP-5009.gif",
-        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Bashkir PP-5009.gif",
-        "language": "Bashkir, Bashkır",
-        "translator": "Dennis Umutbaev (Denis Ömötbaev)",
-        "year": "2018",
-        "isbn13": "",
-        "lpid": "PP-5009",
-        "search-words": "balakay belekey sahzat shahzat",
-        "comments": [
-          "http://petit-prince.at"
-        ],
-        "publisher": "self-edited",
-        "publication-location": "Spain",
-        "langPairs": [
-          {
-            "lang": "bak",
-            "lang2": "ba",
-            "langTag": "bak-x-bashkr"
-          }
-        ]
-      }
-    },
-    {
-      "littlePrinceItem": {
         "title": "The Little Prince, in Bengali",
         "owned": "false",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Bengali PP-7172.gif",
@@ -32347,27 +32303,6 @@
     },
     {
       "littlePrinceItem": {
-        "title": "The Little Prince, in Nepalese",
-        "owned": "false",
-        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Nepalese PP-7712.gif",
-        "language": "Nepalese",
-        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Nepalese PP-7712.gif",
-        "translator": "Badri Prasad Ghimire",
-        "year": "2023",
-        "publication-location": "Kathmandu",
-        "isbn13": "978-9937-711-11-1",
-        "publisher": "Shital Subbu",
-        "lpid": "PP-7712",
-        "langPairs": [
-          {
-            "lang": "nep",
-            "lang2": "ne"
-          }
-        ]
-      }
-    },
-    {
-      "littlePrinceItem": {
         "title": "The Little Prince, in Italian alphabet of butterflies",
         "owned": "false",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Italianalphabet of butterflies PP-7732.gif",
@@ -32705,31 +32640,6 @@
       "littlePrinceItem": {
         "title": "The Little Prince, in Spanish Manchego dialect",
         "translation-title": "El Principete",
-        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - SpanishManchego dialect PP-7741.gif",
-        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - SpanishManchego dialect PP-7741.gif",
-        "language": "Spanish Manchego dialect",
-        "translator": "Álvaro Benito Fernández",
-        "year": "2025",
-        "publication-location": "Madrid",
-        "isbn13": "-",
-        "publisher": "desde tuma",
-        "lpid": "PP-7741",
-        "comments": [
-          "Possibly duplication of PP-7587"
-        ],
-        "owned": "false",
-        "langPairs": [
-          {
-            "lang": "spa",
-            "lang2": "es"
-          }
-        ]
-      }
-    },
-    {
-      "littlePrinceItem": {
-        "title": "The Little Prince, in Spanish Manchego dialect",
-        "translation-title": "El Principete",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - SpanishManchego dialect PP-7742.gif",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - SpanishManchego dialect PP-7742.gif",
         "language": "Spanish Manchego dialect",
@@ -32771,6 +32681,7 @@
     },
     {
       "littlePrinceItem": {
+        "owned": "false",
         "title": "The Little Prince, in Spanish Manchego dialect",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - SpanishManchego dialect PP-7587.gif",
         "language": "Spanish Manchego dialect",
@@ -32781,10 +32692,6 @@
         "isbn13": "-",
         "publisher": "Desde Tuma",
         "lpid": "PP-7587",
-        "comments": [
-          "Possibly duplication of PP-7741"
-        ],
-        "owned": "false",
         "langPairs": [
           {
             "lang": "spa",

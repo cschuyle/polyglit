@@ -5,8 +5,11 @@ See envrc-template:
 
 ```
 npm install # once
-npm run start
+npm run start-s3.   # Use data in S3
+npm run start-local # Use local data in `fixtures`
 ```
+
+Languages are maintained in the moocho/languages trove.
 
 ## Deploying
 
