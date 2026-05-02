@@ -804,7 +804,7 @@
     },
     {
       "littlePrinceItem": {
-        "title": "The Little Prince in Ladino (Hebraic script section)",
+        "title": "The Little Prince in Ladino (Hebrew script section)",
         "translation-title": "El Princhipiko",
         "comments": [
           "Right-to-left (\"back\") cover. The other cover in this dual-script book is in the Latin script"
@@ -829,12 +829,6 @@
         "owned": "true",
         "lpid": "PP-7094",
         "date-added": "2019-07-07",
-        "langPairs": [
-          {
-            "lang": "lld",
-            "lang2": null
-          }
-        ],
         "scripts": [
           "Hebr"
         ]
@@ -865,12 +859,6 @@
         ],
         "tags": [
           "dual-script"
-        ],
-        "langPairs": [
-          {
-            "lang": "lld",
-            "lang2": null
-          }
         ],
         "scripts": [
           "Latn"
@@ -3407,14 +3395,26 @@
         "title": "The Little Prince, in Ladin Anpezan",
         "translation-title": "El Prinzipin",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince---El-Prinzipin---Ladin-Anpezan.jpeg",
-        "language": "Ladin Anpezan",
+        "language": "Ladino Anpezano (Ampezzan)",
+        "language-spoken-in": "Cortina d’Ampezzo (Anpezo), Italy",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince---El-Prinzipin---Ladin-Anpezan.jpeg",
         "langPairs": [
           {
             "lang": "lld",
             "lang2": null
           }
-        ]
+        ],
+        "titleInternal": "El Prinzipin",
+        "subTitle": "Traduzione in Ladin anpezan (Ladino ampezzano)",
+        "isbn13": "978-3-947994-18-2",
+        "publication-country": "Germany",
+        "publication-location": "Neckarsteinach",
+        "publisher": "Edition Tintenfaß",
+        "translator": "Majoni, Ernesto",
+        "year": "2019",
+        "acquired-from": "https://editiontintenfass.de",
+        "description": "Translation of the classic into “Ladin anpezan“ (“Ladino ampezzano”).",
+        "tintenfassId": "304"
       }
     },
     {
@@ -3718,10 +3718,10 @@
     },
     {
       "littlePrinceItem": {
-        "title": "The Little Prince, in Ladin",
-        "translation-title": "De Pice Prinz",
+        "title": "The Little Prince, in Ladin of Val Badia",
+        "translation-title": "Le Pice Prinz",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince---de-pice-prinz---Ladin-(Val-Badia).jpeg",
-        "language": "Ladin",
+        "language": "Ladin (Val Badia)",
         "language-spoken-in": "Val Badia, a valley of the Gran Ega river in South Tyrol, Italy",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince---de-pice-prinz---Ladin-(Val-Badia).jpeg",
         "langPairs": [
@@ -3729,7 +3729,18 @@
             "lang": "lld",
             "lang2": null
           }
-        ]
+        ],
+        "titleInternal": "Le Pice Prinz",
+        "subTitle": "Cun dessëgns dl autur. Traduziun tl ladin dla Val Badia",
+        "isbn13": "978-3-946190-54-7",
+        "publication-country": "Germany",
+        "publication-location": "Neckarsteinach",
+        "publisher": "Edition Tintenfaß",
+        "translator": "Mischi, Giovanni",
+        "year": "2017",
+        "acquired-from": "https://editiontintenfass.de",
+        "description": "Translation of the classic into Ladin (Val Badia).",
+        "tintenfassId": "253"
       }
     },
     {
@@ -3915,23 +3926,6 @@
           {
             "lang": "ita",
             "lang2": "it"
-          }
-        ]
-      }
-    },
-    {
-      "littlePrinceItem": {
-        "title": "El Principito (adaptation of The Little Prince, in Spanish)",
-        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/the-little-prince---El-Principito-(Adaptacion)---Spanish.jpeg",
-        "language": "Spanish",
-        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/the-little-prince---El-Principito-(Adaptacion)---Spanish.jpeg",
-        "tags": [
-          "adaptation"
-        ],
-        "langPairs": [
-          {
-            "lang": "spa",
-            "lang2": "es"
           }
         ]
       }
@@ -4881,12 +4875,14 @@
     },
     {
       "littlePrinceItem": {
-        "title": "A kis herceg - Igaz története (The Little Prince, The True Story) (adaptation of The Little Prince, in Hungarian)",
-        "search-words": "a kis herceg igaz tortenete",
+        "translation-title": "A kis herceg - igaz története",
+        "search-words": "a kis herceg igaz tortenete veritable",
+        "title": "Le petit prince, l'histoire véritable (The Little Prince, The True Story) (non-fiction)",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little-prince---A-kis-herceg,-igaz-története-(The-Little-Prince,-The-True-Story)-(adaptation)---Hungarian.jpeg",
         "language": "Hungarian",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little-prince---A-kis-herceg,-igaz-története-(The-Little-Prince,-The-True-Story)-(adaptation)---Hungarian.jpeg",
         "tags": [
+          "non-fiction",
           "adaptation"
         ],
         "langPairs": [
@@ -4894,7 +4890,8 @@
             "lang": "hun",
             "lang2": "hu"
           }
-        ]
+        ],
+        "author": "Alain Vircondelet"
       }
     },
     {
@@ -7809,13 +7806,7 @@
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - De kläne Prinz - (Kur-)Pälzisch.png",
         "language": "(Kur-)Pälzisch",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - De kläne Prinz - (Kur-)Pälzisch.png",
-        "quantity": 2,
-        "langPairs": [
-          {
-            "lang": "kuv",
-            "lang2": null
-          }
-        ]
+        "quantity": 2
       }
     },
     {
@@ -13666,13 +13657,6 @@
         "acquired-from": "https://desdetuma.wixsite.com/libros/shop",
         "language-spoken-in": "the Moroccan cities of Tétouan, Tangier, Asilah, Larache, Chefchaouen, Ksar el-Kebir, and the Spanish towns of Ceuta and Melilla",
         "quantity": 5,
-        "langPairs": [
-          {
-            "lang": "lld",
-            "lang2": null,
-            "langTag": "lld-x-jaquetia-djudeo-spanol-ladino-occidental-western-judaeo-spanish"
-          }
-        ],
         "scripts": [
           "Latn"
         ]
@@ -15887,14 +15871,7 @@
         "date-added": "2023-05-01",
         "publisher": "Verlag M. Naumann",
         "publication-location": "Hanau",
-        "translator": "Alexander Krischnig",
-        "langPairs": [
-          {
-            "lang": "aci",
-            "lang2": null,
-            "langTag": "aci-x-karntnarisch"
-          }
-        ]
+        "translator": "Alexander Krischnig"
       }
     },
     {
@@ -16905,29 +16882,35 @@
     },
     {
       "littlePrinceItem": {
-        "title": "Le Petit Prince, L'espace, rêve de toujours, Édition collector (A history of The Little Prince, in French)",
+        "title": "Le Petit Prince, L'espace, rêve de toujours, Édition collector",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Le Petit Prince, L'espace, rêve de toujourse, Édition collector - French.jpeg",
         "language": "French",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Le Petit Prince, L'espace, rêve de toujourse, Édition collector - French.jpeg",
         "tags": [
-          "history"
+          "adaptation"
         ],
+        "year": "2023",
         "date-added": "2023-12-01",
         "langPairs": [
           {
             "lang": "fra",
             "lang2": "fr"
           }
-        ]
+        ],
+        "lpid": "SP-0847",
+        "author": "Eve Gandossi",
+        "publisher": "Prisma Presse",
+        "publication-location": "Gennevilliers",
+        "isbn13": "978-2-8104-3844-0"
       }
     },
     {
       "littlePrinceItem": {
-        "title": "Le Petit Prince-L'espace, rêve de toujours (A history of The Little Prince, in French)",
+        "title": "Le Petit Prince-L'espace, rêve de toujours",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Le Petit Prince-L'espace, rêve de toujours - French.jpeg",
         "language": "French",
         "tags": [
-          "history"
+          "adaptation"
         ],
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Le Petit Prince-L'espace, rêve de toujours - French.jpeg",
         "date-added": "2023-12-01",
@@ -16936,7 +16919,13 @@
             "lang": "fra",
             "lang2": "fr"
           }
-        ]
+        ],
+        "lpid": "SP-0846",
+        "author": "Eve Gandossi",
+        "publisher": "Prisma Presse",
+        "publication-location": "Gennevilliers",
+        "year": "2023",
+        "isbn13": "978-2-8104-3844-0"
       }
     },
     {
@@ -21141,6 +21130,29 @@
     },
     {
       "littlePrinceItem": {
+        "title": "The Little Prince, in Ladin of Gherdëina",
+        "translation-title": "L pitl prinz",
+        "owned": "false",
+        "search-words": "Gherdeina",
+        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - L pitl prinz - Ladin Ghërdeina.gif",
+        "language": "Ladin of Gherdëina",
+        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - L pitl prinz - Ladin Ghërdeina.gif",
+        "translator": "Beatrix Prinoth",
+        "year": "1993",
+        "publication-location": "San Martin de Tor",
+        "isbn13": "-",
+        "publisher": "Istitut Cultural Ladin",
+        "lpid": "PP-0583",
+        "langPairs": [
+          {
+            "lang": "lld",
+            "lang2": null
+          }
+        ]
+      }
+    },
+    {
+      "littlePrinceItem": {
         "title": "The Little Prince, in Indonesian (Cyrillic)",
         "translation-title": "Si Pangeran Kechil",
         "owned": "false",
@@ -22240,29 +22252,6 @@
     },
     {
       "littlePrinceItem": {
-        "title": "The Little Prince, in Ladin of Gherdëina",
-        "translation-title": "L pitl prinz",
-        "owned": "false",
-        "search-words": "Gherdeina",
-        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - L pitl prinz - Ladin Ghërdeina.gif",
-        "language": "Ladin of Gherdëina",
-        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - L pitl prinz - Ladin Ghërdeina.gif",
-        "translator": "Beatrix Prinoth",
-        "year": "1993",
-        "publication-location": "San Martin de Tor",
-        "isbn13": "-",
-        "publisher": "Istitut Cultural Ladin",
-        "lpid": "PP-0583",
-        "langPairs": [
-          {
-            "lang": "lld",
-            "lang2": null
-          }
-        ]
-      }
-    },
-    {
-      "littlePrinceItem": {
         "title": "The Little Prince, in Ñe'engatú",
         "translation-title": "Muruxawamirī",
         "owned": "false",
@@ -23257,11 +23246,9 @@
         "translation-title": "Ang Gamay nga Prinsipe",
         "isbn13": "978-6-21-835407-4",
         "language": "Cebuano",
-        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Ang Gamay nga Prinsipe - Cebuano.jpeg",
         "lpid": "PP-7196",
         "publication-location": "Manila, Philippines",
         "publisher": "Southerns Voices",
-        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Ang Gamay nga Prinsipe - Cebuano.jpeg",
         "translator": "Maria Cora Larobis",
         "year": "2024",
         "language-spoken-in": "Philippines",
@@ -23270,7 +23257,9 @@
             "lang": "ceb",
             "lang2": null
           }
-        ]
+        ],
+        "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Cebuano  PP-7196.gif",
+        "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Cebuano  PP-7196.gif"
       }
     },
     {
@@ -26340,12 +26329,12 @@
     },
     {
       "littlePrinceItem": {
-        "title": "The Little Prince, in Cebuano/Babyin",
+        "title": "The Little Prince, in Cebuano (Baybayin script)",
         "translation-title": "Ang Gamay nga Prinsipe",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Ang Gamay nga Prinsipe - Ang Gamay nga Prinsipe - Cebuano:Baybayin,Alibata PP-6958.jpeg",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Ang Gamay nga Prinsipe - Ang Gamay nga Prinsipe - Cebuano:Baybayin,Alibata PP-6958.jpeg",
         "language": "Cebuano",
-        "script": "Babyin, Badlit",
+        "script": "Baybayin, Badlit, Bisaya, Visayan, Sulat Bisaya, Suwat Bisaya, Baybayin Bisaya",
         "translator": "Todd Sales Lucero",
         "year": "2023",
         "publication-location": "-",
@@ -26359,6 +26348,9 @@
             "lang": "ceb",
             "lang2": null
           }
+        ],
+        "scripts": [
+          "Tglg"
         ]
       }
     },
@@ -26865,11 +26857,12 @@
     },
     {
       "littlePrinceItem": {
-        "title": "El Princhipiko - The Little Prince - Ladino; Judeo-Spanish",
+        "title": "The Little Prince in Ladino",
+        "translation-title": "El Princhipiko",
         "subTitle": "Trezladado del franzes al ladino por Avner Perez i Gladys Pimienta (in lateinischer und Rashi-Schrift)",
         "largeImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/1500/little prince - Judeo-Spanish(Ladino) PP-7094.gif",
         "smallImageUrl": "https://moocho-test.s3-us-west-2.amazonaws.com/public/little-prince/images/150/little prince - Judeo-Spanish(Ladino) PP-7094.gif",
-        "language": "Ladino (Djudeo-Espanyol)",
+        "language": "Ladino (Djudeo-Espanyol) (Judeo-Spanish)",
         "isbn13": "978-3-98651-071-8",
         "publication-country": "Germany",
         "publication-location": "Neckarsteinach",
@@ -26880,14 +26873,14 @@
         "tintenfassId": "470",
         "year": "2024",
         "lpid": "PP-7094",
+        "scripts": [
+          "Hebr"
+        ],
         "langPairs": [
           {
             "lang": "lld",
             "lang2": null
           }
-        ],
-        "scripts": [
-          "Hebr"
         ]
       }
     },
