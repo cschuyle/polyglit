@@ -22,8 +22,11 @@ import {
 } from "@material-ui/core";
 import ViewList from "@material-ui/icons/ViewList";
 import ViewModule from "@material-ui/icons/ViewModule";
+import {groupByEnabled} from "./featureFlags";
 import {displayForIso15924Scripts, LangIsoMaps, LangPair, nameFor15924, nameFor6391, nameFor6393} from "./langIsoLookup";
 import {ensurePolyglitDataPreloaded, getCachedLangIsoMaps, getCachedTrove} from "./polyglitJsonCache";
+
+const GROUP_BY_ENABLED = groupByEnabled();
 
 enum CaptionMode {
     TITLES = "titles",
@@ -371,7 +374,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                 }}
                             >
                                 {!this.props.showWantedCheckboxes && this.renderMultilingualFilterToggle()}
-                                {this.renderGroupBySelect()}
+                                {GROUP_BY_ENABLED && this.renderGroupBySelect()}
                                 {this.state.viewMode === ViewMode.GALLERY && this.renderGallerySortSelect()}
                                 {this.renderViewModeToggle()}
                             </div>

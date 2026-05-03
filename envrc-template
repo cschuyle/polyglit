@@ -1,2 +1,5 @@
 # Set this to load data from the local fixtures instead of from S3.
-#export POLYGLIT_LOCAL=true
+#export REACT_APP_USE_FIXTURES_FLAG=true
+
+# Show Group By dropdown
+export REACT_APP_GROUP_BY_FLAG=true

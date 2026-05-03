@@ -1,14 +1,11 @@
+import {fixturesEnabled} from './featureFlags';
+
 const S3_PUBLIC_BASE = 'https://moocho-test.s3-us-west-2.amazonaws.com/public';
 const S3_CACHE_BUSTER = Date.now();
 
-function localFixturesEnabled(): boolean {
-  const v = process.env.REACT_APP_POLYGLIT_LOCAL;
-  return v === '1' || v === 'true' || Boolean(v && v !== '0' && v !== 'false');
-}
-
-/** Trove JSON URL: S3 in production, `/fixtures/public/...` when POLYGLIT_LOCAL is used with `npm start`. */
+/** Trove JSON URL: S3 in production, `/fixtures/public/...` when REACT_APP_USE_FIXTURES_FLAG is used with `npm start`. */
 export function trovePublicJson(filename: string): string {
-  if (!localFixturesEnabled()) {
+  if (!fixturesEnabled()) {
     const s3Url = `${S3_PUBLIC_BASE}/${filename}?${S3_CACHE_BUSTER}`;
     console.log('Using S3 URL: %s', s3Url);
     return s3Url;

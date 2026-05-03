@@ -2,8 +2,8 @@ const path = require('path');
 const express = require('express');
 
 function polyglitLocalEnabled() {
-  const v = process.env.POLYGLIT_LOCAL;
-  return Boolean(v && v !== '0' && v !== 'false');
+  const v = process.env.REACT_APP_USE_FIXTURES_FLAG;
+  return String(v ?? '').trim().toLowerCase() === 'true';
 }
 
 module.exports = function (app) {
