@@ -402,13 +402,17 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     }
 
     private onFocusStateChanged(e: React.ChangeEvent<{ name?: string; value: FocusState }>) {
-        let newFocusState = e.target.value;
-        console.log(`focus is ${newFocusState}`)
-        this.setState({
-            focusState: newFocusState
-        });
+        const newFocusState = e.target.value;
+        console.log(`focus is ${newFocusState}`);
+        const groupByOwnedDisabled =
+            newFocusState === FocusState.OWNED || newFocusState === FocusState.WANTED;
+        this.setState((prev) => ({
+            focusState: newFocusState,
+            groupBy:
+                groupByOwnedDisabled && prev.groupBy === "owned" ? "none" : prev.groupBy,
+        }));
         this.setFocus(newFocusState);
-        this.search(this.state.searchText, newFocusState)
+        this.search(this.state.searchText, newFocusState);
     }
 
     private onCaptionModeChanged(e: React.ChangeEvent<{ name?: string; value: unknown }>) {
@@ -636,7 +640,15 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     <MenuItem value="language">Language</MenuItem>
                     <MenuItem value="year">Year</MenuItem>
                     <MenuItem value="script">Script</MenuItem>
-                    <MenuItem value="owned">Owned</MenuItem>
+                    <MenuItem
+                        value="owned"
+                        disabled={
+                            this.state.focusState === FocusState.OWNED ||
+                            this.state.focusState === FocusState.WANTED
+                        }
+                    >
+                        Owned
+                    </MenuItem>
                 </Select>
             </FormControl>
         );
@@ -644,11 +656,16 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
     /** Count of distinct non-empty 639-3 `lang` codes across langPairs (case-insensitive). */
     /**
-     * Collection semantics: `owned` is false only when the JSON string is exactly `"false"`;
-     * otherwise (missing, empty, `"true"`, etc.) treat as owned / in collection.
+     * Collection semantics:
+     * - missing/empty `owned` defaults to true (Owned)
+     * - explicit `false` (string/boolean) is not owned (Looking For)
      */
     private editionOwnedDefaultTrue(lp: Pick<TroveItemDetails, "owned">): boolean {
-        return lp.owned !== "false";
+        if (lp.owned == null) {
+            return true;
+        }
+        const owned = String(lp.owned).trim();
+        return (owned === "" || owned === "true");
     }
 
     private distinctLangPairCodeCount(lp: TroveItemDetails): number {
@@ -852,7 +869,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             out.push({label: "Owned", items: ownedGroup});
         }
         if (lookingGroup.length > 0) {
-            out.push({label: "Looking for", items: lookingGroup});
+            out.push({label: "Looking For", items: lookingGroup});
         }
         return out;
     }
