@@ -8,6 +8,7 @@ import lpfoundIcon from "./images/lp-found-fox.png"
 import tintenfassIcon from "./images/tinten.png"
 
 import {
+    CircularProgress,
     FormControl,
     FormControlLabel,
     Grid,
@@ -54,6 +55,11 @@ type GallerySortBy =
 
 /** Gallery/list section grouping. */
 type GroupByOption = "none" | "language" | "year" | "script" | "owned";
+
+interface GroupNavMarker {
+    label: string;
+    documentTop: number;
+}
 
 /** List table columns that support client-side sort. */
 type ListSortColumn =
@@ -151,6 +157,11 @@ interface ShowcaseState {
     onlyMultilingualEditions: boolean,
     /** Split results into sections by language, year, script, or owned (none = flat). */
     groupBy: GroupByOption,
+    groupNavMarkers: GroupNavMarker[],
+    activeGroupNavLabel: string | null,
+    groupNavProgress: number,
+    /** Brief scroll / image-decode feedback so the viewport does not read as “empty”. */
+    resultsScrollCatchUp: boolean,
 }
 
 export interface ShowcaseProps {
@@ -191,6 +202,17 @@ const SmallTooltip = withStyles({
 
 
 class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
+    private groupSectionRefs = new Map<string, HTMLElement>();
+    private groupNavButtonRefs = new Map<string, HTMLButtonElement>();
+    private groupNavBodyRef = React.createRef<HTMLDivElement>();
+    private renderedGroupLabels: string[] = [];
+    private groupMeasureRafId: number | null = null;
+    private groupMeasureTimeoutId: number | null = null;
+    private scrollRafId: number | null = null;
+    private searchResultsRef = React.createRef<HTMLDivElement>();
+    private scrollCatchGen = 0;
+    private scrollCatchDebounceId: number | null = null;
+    private resultsScrollCatchSpinnerActive = false;
 
     constructor(props: ShowcaseProps) {
         super(props)
@@ -209,10 +231,16 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             listSortAsc: true,
             onlyMultilingualEditions: false,
             groupBy: "none",
+            groupNavMarkers: [],
+            activeGroupNavLabel: null,
+            groupNavProgress: 0,
+            resultsScrollCatchUp: false,
         }
     }
 
     componentDidMount() {
+        window.addEventListener("scroll", this.onWindowScroll, {passive: true});
+        window.addEventListener("resize", this.onWindowResize);
         ensurePolyglitDataPreloaded().then(() => {
             const trove = getCachedTrove(this.props.troveUrl);
             const langIsoMaps = getCachedLangIsoMaps(this.props.troveUrl) ?? null;
@@ -240,6 +268,79 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             });
             this.setFocus(this.props.focusState, troveItems);
         });
+    }
+
+    componentDidUpdate(prevProps: ShowcaseProps, prevState: ShowcaseState) {
+        const navRelevantChange =
+            prevState.displayedTroveItems !== this.state.displayedTroveItems ||
+            prevState.groupBy !== this.state.groupBy ||
+            prevState.viewMode !== this.state.viewMode ||
+            prevState.gallerySortBy !== this.state.gallerySortBy;
+
+        if (navRelevantChange) {
+            if (this.isGroupNavigatorEnabled()) {
+                this.scheduleGroupNavigatorMeasure();
+            } else if (
+                this.state.groupNavMarkers.length > 0 ||
+                this.state.activeGroupNavLabel != null ||
+                this.state.groupNavProgress !== 0
+            ) {
+                this.groupNavButtonRefs.clear();
+                this.setState({
+                    groupNavMarkers: [],
+                    activeGroupNavLabel: null,
+                    groupNavProgress: 0,
+                });
+            }
+        }
+
+        if (
+            this.isGroupNavigatorEnabled() &&
+            this.state.activeGroupNavLabel != null &&
+            prevState.activeGroupNavLabel !== this.state.activeGroupNavLabel
+        ) {
+            const label = this.state.activeGroupNavLabel;
+            window.requestAnimationFrame(() => this.maybeScrollActiveNavItemIntoView(label));
+        }
+    }
+
+    /** Keep the active label visible inside the scrollable nav column without fighting the user. */
+    private maybeScrollActiveNavItemIntoView(label: string) {
+        const btn = this.groupNavButtonRefs.get(label);
+        if (btn == null) {
+            return;
+        }
+        const body = this.groupNavBodyRef.current;
+        if (body == null) {
+            btn.scrollIntoView({block: "nearest", inline: "nearest"});
+            return;
+        }
+        const br = body.getBoundingClientRect();
+        const r = btn.getBoundingClientRect();
+        if (r.top < br.top || r.bottom > br.bottom) {
+            btn.scrollIntoView({block: "nearest", inline: "nearest"});
+        }
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("scroll", this.onWindowScroll);
+        window.removeEventListener("resize", this.onWindowResize);
+        if (this.groupMeasureRafId != null) {
+            window.cancelAnimationFrame(this.groupMeasureRafId);
+            this.groupMeasureRafId = null;
+        }
+        if (this.groupMeasureTimeoutId != null) {
+            window.clearTimeout(this.groupMeasureTimeoutId);
+            this.groupMeasureTimeoutId = null;
+        }
+        if (this.scrollRafId != null) {
+            window.cancelAnimationFrame(this.scrollRafId);
+            this.scrollRafId = null;
+        }
+        if (this.scrollCatchDebounceId != null) {
+            window.clearTimeout(this.scrollCatchDebounceId);
+            this.scrollCatchDebounceId = null;
+        }
     }
 
     render() {
@@ -293,7 +394,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                             </>
                         )}
 
-                        <div className="search-results" style={{width: "100%"}}>
+                        <div ref={this.searchResultsRef} className="search-results" style={{width: "100%"}}>
                         <div style={{width: "100%", marginTop: "12px"}}>
                             <div style={{position: "relative", width: "100%"}}>
                                 <TextField
@@ -387,6 +488,104 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         )}
                         </div>
                     </div>
+                    {this.renderScrollCatchUpOverlay()}
+                </div>
+            </div>
+        );
+    }
+
+    private noteScrollCatchUpActivity() {
+        if (this.state.displayedTroveItems.length === 0) {
+            return;
+        }
+        this.scrollCatchGen++;
+        const scheduledFor = this.scrollCatchGen;
+        if (!this.resultsScrollCatchSpinnerActive) {
+            this.resultsScrollCatchSpinnerActive = true;
+            this.setState({resultsScrollCatchUp: true});
+        }
+        if (this.scrollCatchDebounceId != null) {
+            window.clearTimeout(this.scrollCatchDebounceId);
+        }
+        this.scrollCatchDebounceId = window.setTimeout(() => {
+            this.scrollCatchDebounceId = null;
+            if (scheduledFor !== this.scrollCatchGen) {
+                return;
+            }
+            void this.whenVisibleImagesSettled().then(() => {
+                if (scheduledFor !== this.scrollCatchGen) {
+                    return;
+                }
+                this.resultsScrollCatchSpinnerActive = false;
+                this.setState({resultsScrollCatchUp: false});
+            });
+        }, 320);
+    }
+
+    private whenVisibleImagesSettled(): Promise<void> {
+        const root = this.searchResultsRef.current;
+        if (root == null) {
+            return Promise.resolve();
+        }
+        const imgs = Array.from(root.querySelectorAll<HTMLImageElement>("img"));
+        const margin = Math.round(window.innerHeight * 0.5);
+        const vTop = -margin;
+        const vBottom = window.innerHeight + margin;
+        const visiblePending = imgs.filter((img) => {
+            const r = img.getBoundingClientRect();
+            if (r.bottom < vTop || r.top > vBottom) {
+                return false;
+            }
+            return !img.complete;
+        });
+        if (visiblePending.length === 0) {
+            return Promise.resolve();
+        }
+        return Promise.all(
+            visiblePending.map(
+                (img) =>
+                    new Promise<void>((resolve) => {
+                        const done = () => resolve();
+                        img.addEventListener("load", done, {once: true});
+                        img.addEventListener("error", done, {once: true});
+                    }),
+            ),
+        ).then(() => undefined);
+    }
+
+    private renderScrollCatchUpOverlay() {
+        if (!this.state.resultsScrollCatchUp) {
+            return null;
+        }
+        return (
+            <div
+                className="showcase-scroll-catchup"
+                style={{
+                    position: "fixed",
+                    left: 0,
+                    right: 0,
+                    bottom: 28,
+                    display: "flex",
+                    justifyContent: "center",
+                    pointerEvents: "none",
+                    zIndex: 1200,
+                }}
+            >
+                <div
+                    role="status"
+                    aria-live="polite"
+                    aria-label="Loading covers"
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        padding: "10px 14px",
+                        borderRadius: 999,
+                        backgroundColor: "rgba(242, 242, 242, 0.94)",
+                        boxShadow: "0 1px 6px rgba(0, 0, 0, 0.12)",
+                    }}
+                >
+                    <CircularProgress size={26} thickness={4} color="primary" />
                 </div>
             </div>
         );
@@ -657,6 +856,201 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         );
     }
 
+    private isGroupNavigatorEnabled(): boolean {
+        return this.state.viewMode === ViewMode.GALLERY && this.state.groupBy !== "none";
+    }
+
+    private setGroupSectionRef = (label: string, el: HTMLElement | null) => {
+        if (el == null) {
+            this.groupSectionRefs.delete(label);
+            return;
+        }
+        this.groupSectionRefs.set(label, el);
+    };
+
+    private setGroupNavButtonRef = (label: string, el: HTMLButtonElement | null) => {
+        if (el == null) {
+            this.groupNavButtonRefs.delete(label);
+            return;
+        }
+        this.groupNavButtonRefs.set(label, el);
+    };
+
+    /** Live layout (e.g. images loading) moves section tops; keep scroll math in sync. */
+    private refreshGroupNavMarkerTops(markers: GroupNavMarker[]): GroupNavMarker[] {
+        const next = markers.map((m) => {
+            const el = this.groupSectionRefs.get(m.label);
+            if (el == null) {
+                return m;
+            }
+            return {
+                label: m.label,
+                documentTop: window.scrollY + el.getBoundingClientRect().top,
+            };
+        });
+        return next.slice().sort((a, b) => a.documentTop - b.documentTop);
+    }
+
+    private onWindowResize = () => {
+        if (!this.isGroupNavigatorEnabled()) {
+            return;
+        }
+        this.scheduleGroupNavigatorMeasure();
+    };
+
+    private onWindowScroll = () => {
+        this.noteScrollCatchUpActivity();
+        if (!this.isGroupNavigatorEnabled()) {
+            return;
+        }
+        if (this.scrollRafId != null) {
+            return;
+        }
+        this.scrollRafId = window.requestAnimationFrame(() => {
+            this.scrollRafId = null;
+            this.updateNavigatorFromScroll(this.state.groupNavMarkers);
+        });
+    };
+
+    private scheduleGroupNavigatorMeasure() {
+        if (this.groupMeasureRafId != null) {
+            window.cancelAnimationFrame(this.groupMeasureRafId);
+        }
+        this.groupMeasureRafId = window.requestAnimationFrame(() => {
+            this.groupMeasureRafId = null;
+            this.measureGroupNavigator();
+        });
+        if (this.groupMeasureTimeoutId != null) {
+            window.clearTimeout(this.groupMeasureTimeoutId);
+        }
+        // Late pass catches image load reflow so marker spacing stays accurate.
+        this.groupMeasureTimeoutId = window.setTimeout(() => {
+            this.groupMeasureTimeoutId = null;
+            this.measureGroupNavigator();
+        }, 250);
+    }
+
+    private calculateActiveGroupAndProgress(markers: GroupNavMarker[]): {
+        activeGroupNavLabel: string | null;
+        groupNavProgress: number;
+    } {
+        if (markers.length === 0) {
+            return {activeGroupNavLabel: null, groupNavProgress: 0};
+        }
+        const focusLine = window.scrollY + window.innerHeight * 0.35;
+        const firstTop = markers[0].documentTop;
+        const lastTop = markers[markers.length - 1].documentTop;
+        const span = Math.max(1, lastTop - firstTop);
+        const progress = Math.max(0, Math.min(1, (focusLine - firstTop) / span));
+        let activeLabel = markers[0].label;
+        for (const marker of markers) {
+            if (marker.documentTop <= focusLine) {
+                activeLabel = marker.label;
+            } else {
+                break;
+            }
+        }
+        return {
+            activeGroupNavLabel: activeLabel,
+            groupNavProgress: progress,
+        };
+    }
+
+    private updateNavigatorFromScroll(markers: GroupNavMarker[]) {
+        if (markers.length === 0) {
+            return;
+        }
+        const fresh = this.refreshGroupNavMarkerTops(markers);
+        const {activeGroupNavLabel, groupNavProgress} = this.calculateActiveGroupAndProgress(fresh);
+        if (
+            activeGroupNavLabel !== this.state.activeGroupNavLabel ||
+            Math.abs(groupNavProgress - this.state.groupNavProgress) > 0.01
+        ) {
+            this.setState({activeGroupNavLabel, groupNavProgress});
+        }
+    }
+
+    private measureGroupNavigator() {
+        if (!this.isGroupNavigatorEnabled() || this.renderedGroupLabels.length === 0) {
+            if (this.state.groupNavMarkers.length > 0 || this.state.activeGroupNavLabel != null) {
+                this.setState({
+                    groupNavMarkers: [],
+                    activeGroupNavLabel: null,
+                    groupNavProgress: 0,
+                });
+            }
+            return;
+        }
+
+        const measured: GroupNavMarker[] = this.renderedGroupLabels
+            .map((label) => {
+                const el = this.groupSectionRefs.get(label);
+                if (el == null) {
+                    return null;
+                }
+                return {
+                    label,
+                    documentTop: window.scrollY + el.getBoundingClientRect().top,
+                };
+            })
+            .filter((m): m is GroupNavMarker => m != null);
+
+        if (measured.length === 0) {
+            return;
+        }
+
+        measured.sort((a, b) => a.documentTop - b.documentTop);
+        const {activeGroupNavLabel, groupNavProgress} = this.calculateActiveGroupAndProgress(measured);
+        this.setState({groupNavMarkers: measured, activeGroupNavLabel, groupNavProgress});
+    }
+
+    private scrollToGroup(label: string) {
+        const el = this.groupSectionRefs.get(label);
+        if (el == null) {
+            return;
+        }
+        const top = window.scrollY + el.getBoundingClientRect().top - 12;
+        window.scrollTo({top, behavior: "smooth"});
+        this.setState({activeGroupNavLabel: label});
+    }
+
+    private renderGroupMarginNavigator(grouped: Array<{label: string; items: TroveItem[]}>) {
+        if (!this.isGroupNavigatorEnabled() || grouped.length === 0) {
+            return null;
+        }
+        return (
+            <aside className="group-margin-nav" aria-label="Group navigator">
+                <div className="group-margin-nav__shell">
+                    <div className="group-margin-nav__rail-column" aria-hidden>
+                        <div className="group-margin-nav__rail" />
+                        <div
+                            className="group-margin-nav__progress"
+                            style={{top: `${this.state.groupNavProgress * 100}%`}}
+                        />
+                    </div>
+                    <div ref={this.groupNavBodyRef} className="group-margin-nav__body">
+                        {grouped.map((group) => {
+                            const isActive = this.state.activeGroupNavLabel === group.label;
+                            return (
+                                <button
+                                    key={`group-nav-${group.label}`}
+                                    ref={(el) => this.setGroupNavButtonRef(group.label, el)}
+                                    type="button"
+                                    className={`group-margin-nav__item${isActive ? " is-active" : ""}`}
+                                    onClick={() => this.scrollToGroup(group.label)}
+                                    title={`Jump to ${group.label}`}
+                                    aria-label={`Jump to ${group.label}`}
+                                >
+                                    {group.label}
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+            </aside>
+        );
+    }
+
     /** Count of distinct non-empty 639-3 `lang` codes across langPairs (case-insensitive). */
     /**
      * Collection semantics:
@@ -896,6 +1290,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
     private renderGalleryView() {
         const items = this.sortItemsForGallery(this.state.displayedTroveItems);
+        this.renderedGroupLabels = [];
         if (this.state.groupBy === "none") {
             return (
                 <section className="gallery-grid">
@@ -909,10 +1304,16 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             label: group.label,
             items: this.sortItemsForGallery(group.items),
         }));
+        this.renderedGroupLabels = grouped.map((group) => group.label);
         return (
-            <div>
+            <div className="grouped-gallery-layout">
+                <div className="grouped-gallery-content">
                 {grouped.map((group) => (
-                    <section key={group.label} style={{marginBottom: "16px"}}>
+                    <section
+                        key={group.label}
+                        style={{marginBottom: "16px"}}
+                        ref={(el) => this.setGroupSectionRef(group.label, el)}
+                    >
                         <h3 style={{margin: "6px 0 8px 0"}}>{group.label}</h3>
                         <section className="gallery-grid">
                             {group.items.map((troveItem, index) =>
@@ -924,6 +1325,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         </section>
                     </section>
                 ))}
+                </div>
+                {this.renderGroupMarginNavigator(grouped)}
             </div>
         );
     }
