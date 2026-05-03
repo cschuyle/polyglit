@@ -24,9 +24,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:deploy": "env-cmd -f .env.deploy -- npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build && cp build/index.html build/404.html",
+    "predeploy": "npm run build:deploy && cp build/index.html build/404.html",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
@@ -50,6 +51,7 @@
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/react-router-dom": "^5.1.7",
+    "env-cmd": "^10.1.0",
     "gh-pages": "^3.1.0",
     "react-router-dom": "^5.2.0"
   }
