@@ -200,6 +200,9 @@ const SmallTooltip = withStyles({
     }
 })(Tooltip);
 
+const SCROLL_CATCH_UP_SHOW_DELAY_MS = 1500;
+const SCROLL_CATCH_UP_SETTLE_DEBOUNCE_MS = 320;
+
 
 class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     private groupSectionRefs = new Map<string, HTMLElement>();
@@ -212,6 +215,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     private searchResultsRef = React.createRef<HTMLDivElement>();
     private scrollCatchGen = 0;
     private scrollCatchDebounceId: number | null = null;
+    private scrollCatchShowDelayId: number | null = null;
     private resultsScrollCatchSpinnerActive = false;
 
     constructor(props: ShowcaseProps) {
@@ -340,6 +344,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         if (this.scrollCatchDebounceId != null) {
             window.clearTimeout(this.scrollCatchDebounceId);
             this.scrollCatchDebounceId = null;
+        }
+        if (this.scrollCatchShowDelayId != null) {
+            window.clearTimeout(this.scrollCatchShowDelayId);
+            this.scrollCatchShowDelayId = null;
         }
     }
 
@@ -500,9 +508,15 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         }
         this.scrollCatchGen++;
         const scheduledFor = this.scrollCatchGen;
-        if (!this.resultsScrollCatchSpinnerActive) {
-            this.resultsScrollCatchSpinnerActive = true;
-            this.setState({resultsScrollCatchUp: true});
+        if (!this.resultsScrollCatchSpinnerActive && this.scrollCatchShowDelayId == null) {
+            this.scrollCatchShowDelayId = window.setTimeout(() => {
+                this.scrollCatchShowDelayId = null;
+                if (scheduledFor !== this.scrollCatchGen || this.resultsScrollCatchSpinnerActive) {
+                    return;
+                }
+                this.resultsScrollCatchSpinnerActive = true;
+                this.setState({resultsScrollCatchUp: true});
+            }, SCROLL_CATCH_UP_SHOW_DELAY_MS);
         }
         if (this.scrollCatchDebounceId != null) {
             window.clearTimeout(this.scrollCatchDebounceId);
@@ -516,10 +530,16 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 if (scheduledFor !== this.scrollCatchGen) {
                     return;
                 }
+                if (this.scrollCatchShowDelayId != null) {
+                    window.clearTimeout(this.scrollCatchShowDelayId);
+                    this.scrollCatchShowDelayId = null;
+                }
                 this.resultsScrollCatchSpinnerActive = false;
-                this.setState({resultsScrollCatchUp: false});
+                if (this.state.resultsScrollCatchUp) {
+                    this.setState({resultsScrollCatchUp: false});
+                }
             });
-        }, 320);
+        }, SCROLL_CATCH_UP_SETTLE_DEBOUNCE_MS);
     }
 
     private whenVisibleImagesSettled(): Promise<void> {
