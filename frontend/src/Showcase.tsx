@@ -175,6 +175,8 @@ interface ShowcaseState {
     tooltipHoverLockedImageKey: string | null,
     /** Hover-show delay for image tooltips in ms. Default 600; range 0–1800. */
     tooltipDelayMs: number,
+    /** Active large image shown in the lightbox, if any. */
+    lightboxImage: { url: string; title: string } | null,
 }
 
 export interface ShowcaseProps {
@@ -261,6 +263,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             tooltipDismissNonce: 0,
             tooltipHoverLockedImageKey: null,
             tooltipDelayMs: 500,
+            lightboxImage: null,
         }
     }
 
@@ -533,6 +536,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     {this.renderScrollCatchUpOverlay()}
                 </div>
                 {this.renderTooltipToggleFooter()}
+                {this.renderLightbox()}
             </div>
         );
     }
@@ -574,6 +578,58 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 </div>
             </footer>
         );
+    }
+
+    private renderLightbox() {
+        const image = this.state.lightboxImage;
+        if (image == null) {
+            return null;
+        }
+        return (
+            <div
+                className="showcase-lightbox"
+                role="dialog"
+                aria-modal="true"
+                aria-label={image.title ? `Large image: ${image.title}` : "Large image"}
+                onClick={() => this.closeLightbox()}
+            >
+                <div className="showcase-lightbox__chrome">
+                    <button
+                        type="button"
+                        className="showcase-lightbox__close"
+                        onClick={(event) => {
+                            event.stopPropagation();
+                            this.closeLightbox();
+                        }}
+                        aria-label="Close large image"
+                        title="Close"
+                    >
+                        ×
+                    </button>
+                </div>
+                <div
+                    className="showcase-lightbox__content"
+                    onClick={(event) => event.stopPropagation()}
+                >
+                    <img
+                        className="showcase-lightbox__image"
+                        src={image.url}
+                        alt={image.title}
+                    />
+                </div>
+            </div>
+        );
+    }
+
+    private openLightbox(url: string, title: string) {
+        this.setState({lightboxImage: {url, title}});
+    }
+
+    private closeLightbox() {
+        if (this.state.lightboxImage == null) {
+            return;
+        }
+        this.setState({lightboxImage: null});
     }
 
     /** Returns tooltip enter-transition duration (ms), logarithmically scaled with delay.
@@ -660,6 +716,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
     private onWindowKeyDown = (event: KeyboardEvent) => {
         if (event.key !== "Escape") {
+            return;
+        }
+        if (this.state.lightboxImage != null) {
+            this.closeLightbox();
             return;
         }
         this.setState((prev) => ({
@@ -1755,7 +1815,15 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 onMouseEnter={() => this.onImageTooltipMouseEnter(reactListKey)}
                 onMouseLeave={() => this.onImageTooltipMouseLeave(reactListKey)}
             >
-                <a target="_blank" rel="noreferrer" href={troveItem.littlePrinceItem.largeImageUrl}>
+                <button
+                    type="button"
+                    className="showcase-lightbox-trigger"
+                    onClick={() => this.openLightbox(
+                        troveItem.littlePrinceItem.largeImageUrl,
+                        troveItem.littlePrinceItem.title,
+                    )}
+                    aria-label={`Open large image for ${troveItem.littlePrinceItem.title}`}
+                >
                     <div style={{position: "relative"}}>
                         <img width="150" height={"100%"}
                              src={troveItem.littlePrinceItem.smallImageUrl}
@@ -1763,7 +1831,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                              alt={troveItem.littlePrinceItem.title}
                         />
                     </div>
-                </a>
+                </button>
                 {this.renderThumbnailCaption(troveItem)}
             </div>
         </BigWhiteTooltip>
@@ -2140,10 +2208,11 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                                     enterNextDelay={this.state.tooltipDelayMs}
                                                     TransitionProps={{timeout: this.tooltipTransitionTimeout()}}
                                                 >
-                                                    <a
-                                                        href={lp.largeImageUrl}
-                                                        target="_blank"
-                                                        rel="noreferrer"
+                                                    <button
+                                                        type="button"
+                                                        className="showcase-lightbox-trigger"
+                                                        onClick={() => this.openLightbox(lp.largeImageUrl, lp.title)}
+                                                        aria-label={`Open large image for ${lp.title}`}
                                                         onMouseEnter={() => this.onImageTooltipMouseEnter(rowKey)}
                                                         onMouseLeave={() => this.onImageTooltipMouseLeave(rowKey)}
                                                     >
@@ -2154,7 +2223,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                                             alt={lp.title}
                                                             style={{display: "block"}}
                                                         />
-                                                    </a>
+                                                    </button>
                                                 </BigWhiteTooltip>
                                             </td>
                                             <td style={cellStyle}>{lp.title}</td>
@@ -2395,6 +2464,29 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
     private renderDocumentLink(file: string) {
         let [fileType, icon] = this.iconFor(file)
+        if (fileType === "cover image") {
+            return <button
+                type="button"
+                className="showcase-lightbox-trigger"
+                onClick={() => this.openLightbox(file, "Large image")}
+                aria-label="Open large image"
+            >
+                <SmallTooltip
+                    key={`${fileType}-${file}-tooltip-${this.state.tooltipDismissNonce}`}
+                    title="Open large image"
+                    placement="left-end"
+                    disableHoverListener={!this.state.tooltipsEnabled}
+                    disableFocusListener={!this.state.tooltipsEnabled}
+                    disableTouchListener={!this.state.tooltipsEnabled}
+                >
+                    <img style={{padding: 0, margin: 0, border: 0, boxShadow: "0", filter: "grayscale(50%)"}}
+                         src={icon}
+                         width={"32px"} height={"32px"}
+                         alt="Open large image"
+                    />
+                </SmallTooltip>
+            </button>
+        }
         return this.renderDocumentLinkForType(fileType, icon, file)
     }
 
