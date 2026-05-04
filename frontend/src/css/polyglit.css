@@ -384,7 +384,7 @@ html {
     gap: 10px;
     flex: 0 1 auto;
     width: max-content;
-    max-width: min(28vw, 240px);
+    max-width: min(32vw, 290px);
     min-width: 0;
     min-height: 0;
     overflow-y: auto;
