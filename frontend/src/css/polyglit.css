@@ -123,7 +123,7 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 28px;
+    padding: 8px 28px;
     background: rgba(10, 10, 10, 0.82);
 }
 
@@ -153,29 +153,58 @@ html {
 
 .showcase-lightbox__content {
     display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 48px;
+    width: min(96vw, 1580px);
+    max-width: min(96vw, 1580px);
+    max-height: calc(100vh - 16px);
+    overflow: auto;
+    padding: 0 0 6px;
+}
+
+.showcase-lightbox__media-column {
+    display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 14px;
-    max-width: min(92vw, 1400px);
-    max-height: calc(100vh - 56px);
-    overflow: auto;
-    padding: 8px 0 16px;
+    gap: 8px;
+    flex: 0 0 auto;
+    width: fit-content;
+    max-width: calc(100% - 332px);
 }
 
 .showcase-lightbox__image {
     display: block;
     max-width: 100%;
-    max-height: calc(100vh - 180px);
+    max-height: calc(100vh - 100px);
     width: auto;
     height: auto;
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+}
+
+.showcase-lightbox__details {
+    flex: 0 0 320px;
+    width: 320px;
+    max-width: 320px;
+    color: #f4f4f4;
+    line-height: 1.45;
+    overflow: auto;
+    padding-top: 2em;
+}
+
+.showcase-lightbox__details strong {
+    color: #ffffff;
+}
+
+.showcase-lightbox__details ul {
+    margin-top: 8px;
 }
 
 .showcase-lightbox__links {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 10px;
+    gap: 6px 8px;
     max-width: min(92vw, 960px);
 }
 
@@ -183,14 +212,15 @@ html {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 38px;
-    padding: 8px 14px;
+    min-height: 30px;
+    padding: 5px 12px;
     border: 1px solid rgba(255, 255, 255, 0.35);
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.1);
     color: #ffffff;
     text-decoration: none;
-    font-size: 0.92rem;
+    font-size: 0.88rem;
+    line-height: 1.1;
     cursor: pointer;
 }
 
@@ -198,6 +228,17 @@ html {
 .showcase-lightbox__link-button:focus-visible {
     background: rgba(255, 255, 255, 0.18);
     outline: none;
+}
+
+@media (max-width: 960px) {
+    .showcase-lightbox__content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .showcase-lightbox__details {
+        max-width: min(92vw, 720px);
+    }
 }
 
 .results-scroll-top-button {
