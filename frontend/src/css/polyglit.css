@@ -15,15 +15,16 @@ html {
     max-width: min(96vw, 1280px);
     width: 100%;
     box-sizing: border-box;
+    padding-bottom: 86px;
 }
 
 #main_content .search-results {
     background-color: #f2f2f2;
 }
 
-#main_content .results-scroll-top-dock {
+.results-scroll-top-dock {
     position: sticky;
-    bottom: 16px;
+    bottom: 74px;
     display: flex;
     justify-content: center;
     width: 100%;
@@ -32,7 +33,53 @@ html {
     margin-top: 10px;
 }
 
-#main_content .results-scroll-top-button {
+.showcase-tooltip-footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1300;
+    display: block;
+    padding: 10px 12px;
+    background: rgba(24, 24, 24, 0.68);
+    backdrop-filter: blur(3px);
+    transform: translateY(100%);
+    transition: transform 200ms ease;
+}
+
+.showcase-tooltip-footer.is-visible {
+    transform: translateY(0);
+}
+
+.showcase-tooltip-footer__inner {
+    max-width: min(96vw, 1280px);
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    position: relative;
+}
+
+.showcase-tooltip-footer__button {
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    background: rgba(255, 255, 255, 0.12);
+    color: #f4f4f4;
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-size: 0.92rem;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.showcase-tooltip-footer__button:hover,
+.showcase-tooltip-footer__button:focus-visible {
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+}
+
+.results-scroll-top-button {
     pointer-events: auto;
     border: 1px solid rgba(255, 255, 255, 0.4);
     background: rgba(70, 70, 70, 0.5);
@@ -51,14 +98,25 @@ html {
     transition: opacity 150ms ease, transform 150ms ease, background-color 150ms ease, border-color 150ms ease;
 }
 
-#main_content .results-scroll-top-dock.is-visible .results-scroll-top-button {
+.results-scroll-top-dock.is-visible .results-scroll-top-button {
     opacity: 1;
     transform: translateY(0) scale(1);
     pointer-events: auto;
 }
 
-#main_content .results-scroll-top-button:hover,
-#main_content .results-scroll-top-button:focus-visible {
+.results-scroll-top-dock.in-footer {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    bottom: auto;
+    width: auto;
+    margin-top: 0;
+    z-index: auto;
+}
+
+.results-scroll-top-button:hover,
+.results-scroll-top-button:focus-visible {
     background: rgba(52, 52, 52, 0.62);
     border-color: rgba(255, 255, 255, 0.5);
     outline: none;

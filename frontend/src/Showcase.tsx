@@ -167,6 +167,8 @@ interface ShowcaseState {
     showResultsScrollTopButton: boolean,
     /** Reveals the floating scroll-to-top affordance only when pointer is close. */
     resultsScrollTopButtonPointerNear: boolean,
+    /** Global tooltip visibility toggle controlled from fixed footer. */
+    tooltipsEnabled: boolean,
     /** Bumps to remount tooltip components and dismiss visible tooltips. */
     tooltipDismissNonce: number,
     /** After ESC, keep this image tooltip suppressed until pointer leaves that image. */
@@ -253,6 +255,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             resultsScrollCatchUp: false,
             showResultsScrollTopButton: false,
             resultsScrollTopButtonPointerNear: false,
+            tooltipsEnabled: true,
             tooltipDismissNonce: 0,
             tooltipHoverLockedImageKey: null,
         }
@@ -522,13 +525,45 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         ) : (
                             this.renderListView()
                         )}
-                        {this.renderResultsScrollTopButton()}
                         </div>
                     </div>
                     {this.renderScrollCatchUpOverlay()}
                 </div>
+                {this.renderTooltipToggleFooter()}
             </div>
         );
+    }
+
+    private renderTooltipToggleFooter() {
+        const enabled = this.state.tooltipsEnabled;
+        const footerVisible = this.state.resultsScrollTopButtonPointerNear;
+        return (
+            <footer className={`showcase-tooltip-footer${footerVisible ? " is-visible" : ""}`} aria-label="Results controls">
+                <div className="showcase-tooltip-footer__inner">
+                    {this.renderResultsScrollTopButton(true)}
+                <button
+                    type="button"
+                    className="showcase-tooltip-footer__button"
+                    onClick={() => this.toggleTooltipsEnabled()}
+                    aria-pressed={!enabled}
+                    title={enabled ? "Disable tooltips" : "Enable tooltips"}
+                >
+                    {enabled ? "Disable tooltips" : "Enable tooltips"}
+                </button>
+                </div>
+            </footer>
+        );
+    }
+
+    private toggleTooltipsEnabled() {
+        this.setState((prev) => {
+            const nextEnabled = !prev.tooltipsEnabled;
+            return {
+                tooltipsEnabled: nextEnabled,
+                tooltipDismissNonce: prev.tooltipDismissNonce + (nextEnabled ? 0 : 1),
+                tooltipHoverLockedImageKey: null,
+            };
+        });
     }
 
     private updateResultsScrollTopButtonVisibility() {
@@ -540,36 +575,13 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             const resultsStillOnScreen = rect.bottom > window.innerHeight * 0.2;
             show = scrolledPastResultsTop && resultsStillOnScreen;
         }
-        if (
-            show !== this.state.showResultsScrollTopButton ||
-            (!show && this.state.resultsScrollTopButtonPointerNear)
-        ) {
-            this.setState({
-                showResultsScrollTopButton: show,
-                resultsScrollTopButtonPointerNear: show ? this.state.resultsScrollTopButtonPointerNear : false,
-            });
-        }
-        if (show && this.lastPointerClientPos != null) {
-            this.updateResultsScrollTopButtonPointerProximity(
-                this.lastPointerClientPos.x,
-                this.lastPointerClientPos.y,
-            );
+        if (show !== this.state.showResultsScrollTopButton) {
+            this.setState({ showResultsScrollTopButton: show });
         }
     }
 
-    private updateResultsScrollTopButtonPointerProximity(clientX: number, clientY: number) {
-        if (!this.state.showResultsScrollTopButton) {
-            if (this.state.resultsScrollTopButtonPointerNear) {
-                this.setState({resultsScrollTopButtonPointerNear: false});
-            }
-            return;
-        }
-        const dockRect = this.resultsScrollTopDockRef.current?.getBoundingClientRect();
-        const targetX = dockRect != null ? dockRect.left + dockRect.width / 2 : window.innerWidth / 2;
-        const targetY = dockRect != null ? dockRect.top + dockRect.height / 2 : window.innerHeight - 36;
-        const dx = clientX - targetX;
-        const dy = clientY - targetY;
-        const near = Math.hypot(dx, dy) <= 190;
+    private updateResultsScrollTopButtonPointerProximity(_clientX: number, clientY: number) {
+        const near = clientY >= window.innerHeight - 100;
         if (near !== this.state.resultsScrollTopButtonPointerNear) {
             this.setState({resultsScrollTopButtonPointerNear: near});
         }
@@ -584,15 +596,18 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         window.scrollTo({top, behavior: "smooth"});
     }
 
-    private renderResultsScrollTopButton() {
+    private renderResultsScrollTopButton(inFooter = false) {
         if (!this.state.showResultsScrollTopButton) {
             return null;
         }
         const visible = this.state.resultsScrollTopButtonPointerNear;
+        const dockClass = inFooter
+            ? `results-scroll-top-dock in-footer${visible ? " is-visible" : ""}`
+            : `results-scroll-top-dock${visible ? " is-visible" : ""}`;
         return (
             <div
                 ref={this.resultsScrollTopDockRef}
-                className={`results-scroll-top-dock${visible ? " is-visible" : ""}`}
+                className={dockClass}
             >
                 <button
                     type="button"
@@ -719,7 +734,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     position: "fixed",
                     left: 0,
                     right: 0,
-                    bottom: 28,
+                    bottom: 86,
                     display: "flex",
                     justifyContent: "center",
                     pointerEvents: "none",
@@ -1511,7 +1526,13 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     flexShrink: 0,
                 }}
             >
-                <Tooltip key={`gallery-view-tooltip-${this.state.tooltipDismissNonce}`} title="Gallery view">
+                <Tooltip
+                    key={`gallery-view-tooltip-${this.state.tooltipDismissNonce}`}
+                    title="Gallery view"
+                    disableHoverListener={!this.state.tooltipsEnabled}
+                    disableFocusListener={!this.state.tooltipsEnabled}
+                    disableTouchListener={!this.state.tooltipsEnabled}
+                >
                     <IconButton
                         aria-label="Gallery view"
                         aria-pressed={isGallery}
@@ -1527,7 +1548,13 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     </IconButton>
                 </Tooltip>
                 <div style={{width: 1, flexShrink: 0, backgroundColor: "rgba(0, 0, 0, 0.12)"}} />
-                <Tooltip key={`list-view-tooltip-${this.state.tooltipDismissNonce}`} title="List view">
+                <Tooltip
+                    key={`list-view-tooltip-${this.state.tooltipDismissNonce}`}
+                    title="List view"
+                    disableHoverListener={!this.state.tooltipsEnabled}
+                    disableFocusListener={!this.state.tooltipsEnabled}
+                    disableTouchListener={!this.state.tooltipsEnabled}
+                >
                     <IconButton
                         aria-label="List view"
                         aria-pressed={!isGallery}
@@ -1684,12 +1711,14 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             <BigWhiteTooltip
                 key={`${reactListKey}::tooltip-${this.state.tooltipDismissNonce}`}
                 title={this.troveItemTooltipContents(troveItem)}
-                disableHoverListener={this.state.resultsScrollTopButtonPointerNear || hoverLocked}
+                disableHoverListener={!this.state.tooltipsEnabled || this.state.resultsScrollTopButtonPointerNear || hoverLocked}
+                disableFocusListener={!this.state.tooltipsEnabled}
+                disableTouchListener={!this.state.tooltipsEnabled}
                 arrow
                 interactive
                 placement="right-start"
-                enterDelay={300}
-                enterNextDelay={300}
+                enterDelay={600}
+                enterNextDelay={600}
             >
             <div
                 className="thumbnail"
@@ -2068,13 +2097,17 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                                     key={`${rowKey}::tooltip-${this.state.tooltipDismissNonce}`}
                                                     title={this.troveItemTooltipContents(troveItem)}
                                                     disableHoverListener={
-                                                        this.state.resultsScrollTopButtonPointerNear || hoverLocked
+                                                        !this.state.tooltipsEnabled ||
+                                                        this.state.resultsScrollTopButtonPointerNear ||
+                                                        hoverLocked
                                                     }
+                                                    disableFocusListener={!this.state.tooltipsEnabled}
+                                                    disableTouchListener={!this.state.tooltipsEnabled}
                                                     arrow
                                                     interactive
                                                     placement="right-start"
-                                                    enterDelay={300}
-                                                    enterNextDelay={300}
+                                                    enterDelay={600}
+                                                    enterNextDelay={600}
                                                 >
                                                     <a
                                                         href={lp.largeImageUrl}
@@ -2316,6 +2349,9 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 key={`${fileType}-${file}-tooltip-${this.state.tooltipDismissNonce}`}
                 title={`Open ${fileType} in new tab`}
                 placement="left-end"
+                disableHoverListener={!this.state.tooltipsEnabled}
+                disableFocusListener={!this.state.tooltipsEnabled}
+                disableTouchListener={!this.state.tooltipsEnabled}
             >
                 <img style={{'padding': 0, 'margin': 0, 'border': 0, 'boxShadow': '0', 'filter': "grayscale(50%)"}}
                      src={icon}
