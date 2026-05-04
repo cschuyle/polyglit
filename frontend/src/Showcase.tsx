@@ -173,6 +173,8 @@ interface ShowcaseState {
     tooltipDismissNonce: number,
     /** After ESC, keep this image tooltip suppressed until pointer leaves that image. */
     tooltipHoverLockedImageKey: string | null,
+    /** Hover-show delay for image tooltips in ms. Default 600; range 0–1800. */
+    tooltipDelayMs: number,
 }
 
 export interface ShowcaseProps {
@@ -255,9 +257,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             resultsScrollCatchUp: false,
             showResultsScrollTopButton: false,
             resultsScrollTopButtonPointerNear: false,
-            tooltipsEnabled: true,
+            tooltipsEnabled: false,
             tooltipDismissNonce: 0,
             tooltipHoverLockedImageKey: null,
+            tooltipDelayMs: 500,
         }
     }
 
@@ -540,19 +543,45 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         return (
             <footer className={`showcase-tooltip-footer${footerVisible ? " is-visible" : ""}`} aria-label="Results controls">
                 <div className="showcase-tooltip-footer__inner">
+                    <div className="showcase-tooltip-controls">
+                        <button
+                            type="button"
+                            className="showcase-tooltip-footer__button"
+                            onClick={() => this.toggleTooltipsEnabled()}
+                            aria-pressed={!enabled}
+                            title={enabled ? "Disable tooltips" : "Enable tooltips"}
+                        >
+                            {enabled ? "Disable tooltips" : "Enable tooltips"}
+                        </button>
+                        {enabled && (
+                            <label className="showcase-tooltip-delay-label">
+                                <span>Delay</span>
+                                <input
+                                    type="range"
+                                    className="showcase-tooltip-delay-slider"
+                                    min={0}
+                                    max={1000}
+                                    step={50}
+                                    value={this.state.tooltipDelayMs}
+                                    onChange={(e) => this.setState({tooltipDelayMs: Number(e.target.value)})}
+                                    aria-label="Tooltip delay"
+                                />
+                                <span className="showcase-tooltip-delay-value">{this.state.tooltipDelayMs}ms</span>
+                            </label>
+                        )}
+                    </div>
                     {this.renderResultsScrollTopButton(true)}
-                <button
-                    type="button"
-                    className="showcase-tooltip-footer__button"
-                    onClick={() => this.toggleTooltipsEnabled()}
-                    aria-pressed={!enabled}
-                    title={enabled ? "Disable tooltips" : "Enable tooltips"}
-                >
-                    {enabled ? "Disable tooltips" : "Enable tooltips"}
-                </button>
                 </div>
             </footer>
         );
+    }
+
+    /** Returns tooltip enter-transition duration (ms), logarithmically scaled with delay.
+     *  delay=0 → 0ms (instant); delay=1800 → ~225ms (MUI Grow default). */
+    private tooltipTransitionTimeout(): number {
+        const delay = this.state.tooltipDelayMs;
+        if (delay === 0) return 0;
+        return Math.round(225 * Math.log(1 + delay) / Math.log(1 + 1000));
     }
 
     private toggleTooltipsEnabled() {
@@ -1717,8 +1746,9 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 arrow
                 interactive
                 placement="right-start"
-                enterDelay={600}
-                enterNextDelay={600}
+                enterDelay={this.state.tooltipDelayMs}
+                enterNextDelay={this.state.tooltipDelayMs}
+                TransitionProps={{timeout: this.tooltipTransitionTimeout()}}
             >
             <div
                 className="thumbnail"
@@ -2106,8 +2136,9 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                                     arrow
                                                     interactive
                                                     placement="right-start"
-                                                    enterDelay={600}
-                                                    enterNextDelay={600}
+                                                    enterDelay={this.state.tooltipDelayMs}
+                                                    enterNextDelay={this.state.tooltipDelayMs}
+                                                    TransitionProps={{timeout: this.tooltipTransitionTimeout()}}
                                                 >
                                                     <a
                                                         href={lp.largeImageUrl}

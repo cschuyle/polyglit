@@ -57,7 +57,7 @@ html {
     margin: 0 auto;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
     gap: 12px;
     position: relative;
 }
@@ -70,13 +70,41 @@ html {
     padding: 8px 16px;
     font-size: 0.92rem;
     cursor: pointer;
-    margin-left: auto;
 }
 
 .showcase-tooltip-footer__button:hover,
 .showcase-tooltip-footer__button:focus-visible {
     background: rgba(255, 255, 255, 0.2);
     outline: none;
+}
+
+.showcase-tooltip-delay-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #f4f4f4;
+    font-size: 0.88rem;
+    white-space: nowrap;
+    margin-right: 4px;
+}
+
+.showcase-tooltip-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.showcase-tooltip-delay-slider {
+    width: 110px;
+    accent-color: rgba(255, 255, 255, 0.72);
+    cursor: pointer;
+}
+
+.showcase-tooltip-delay-value {
+    min-width: 44px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    opacity: 0.75;
 }
 
 .results-scroll-top-button {
@@ -113,6 +141,7 @@ html {
     width: auto;
     margin-top: 0;
     z-index: auto;
+    pointer-events: auto;
 }
 
 .results-scroll-top-button:hover,
