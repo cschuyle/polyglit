@@ -9,3 +9,7 @@ export function fixturesEnabled(): boolean {
 export function groupByEnabled(): boolean {
   return envFlagTrue(process.env.REACT_APP_GROUP_BY_FLAG);
 }
+
+export function sortNavEnabled(): boolean {
+  return envFlagTrue(process.env.REACT_APP_SORT_NAV_FLAG);
+}

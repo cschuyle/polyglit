@@ -24,11 +24,12 @@ import {
 import ViewList from "@material-ui/icons/ViewList";
 import ViewModule from "@material-ui/icons/ViewModule";
 import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
-import {groupByEnabled} from "./featureFlags";
+import {groupByEnabled, sortNavEnabled} from "./featureFlags";
 import {displayForIso15924Scripts, LangIsoMaps, LangPair, nameFor15924, nameFor6391, nameFor6393} from "./langIsoLookup";
 import {ensurePolyglitDataPreloaded, getCachedLangIsoMaps, getCachedTrove} from "./polyglitJsonCache";
 
 const GROUP_BY_ENABLED = groupByEnabled();
+const SORT_NAV_ENABLED = sortNavEnabled();
 
 enum CaptionMode {
     TITLES = "titles",
@@ -1157,8 +1158,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     private isGroupNavigatorEnabled(): boolean {
         if (this.state.viewMode !== ViewMode.GALLERY) return false;
         if (this.state.groupBy !== "none") return true;
-        // Also enable when sorting (no grouping) — the sort nav provides jump anchors.
-        return true;
+        return SORT_NAV_ENABLED;
     }
 
     private sortNavGroupsForCurrentView(items: TroveItem[]): Array<{label: string; items: TroveItem[]}> {
@@ -1663,6 +1663,15 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         const items = this.sortItemsForGallery(this.state.displayedTroveItems);
         this.renderedGroupLabels = [];
         if (this.state.groupBy === "none") {
+            if (!SORT_NAV_ENABLED) {
+                return (
+                    <section className="gallery-grid">
+                        {items.map((troveItem, index) =>
+                            this.renderTroveItem(troveItem, this.stableTroveItemListKey(troveItem, index)),
+                        )}
+                    </section>
+                );
+            }
             const sortGroups = this.sortNavGroupsForCurrentView(items);
             if (sortGroups.length <= 1) {
                 return (

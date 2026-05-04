@@ -19,7 +19,7 @@ This is Github Pages, and a deploy is done like this from your local machine (fr
 npm run deploy
 ```
 
-The production bundle is built with **`env-cmd` and `frontend/.env.deploy`**, not your shell-only variables. Edit `.env.deploy` to set `REACT_APP_*` values for GitHub Pages (for example `REACT_APP_GROUP_BY_FLAG`). To try that build locally without publishing:
+The production bundle is built with **`env-cmd` and `frontend/.env.deploy`**, not your shell-only variables. Edit `.env.deploy` to set `REACT_APP_*` values for GitHub Pages (for example `REACT_APP_GROUP_BY_FLAG` and `REACT_APP_SORT_NAV_FLAG`). To try that build locally without publishing:
 
 ```
 npm run build:deploy
@@ -63,15 +63,31 @@ Controls whether the `Group by` dropdown is shown in the UI.
 
 For **`npm run deploy`**, set this in **`frontend/.env.deploy`** (see the Deploying section above). That keeps deploy settings separate from `envrc-template` / your interactive shell.
 
+### `REACT_APP_SORT_NAV_FLAG` (feature flag)
+
+Controls whether the right-hand navigator is shown when **not** grouping (that is, `Group by = none`).
+
+- `true` (case-insensitive): show right-hand navigator in sort-only gallery mode.
+- Any other value (including unset): hide right-hand navigator in sort-only gallery mode.
+- This flag does **not** affect grouped mode: when grouping is active, the right-hand navigator still appears.
+
+For **`npm run deploy`**, set this in **`frontend/.env.deploy`** as needed.
+
 Examples:
 
 ```bash
-# use local fixtures + show Group by dropdown
-REACT_APP_USE_FIXTURES_FLAG=true REACT_APP_GROUP_BY_FLAG=true npm run start
+# use local fixtures + show Group by dropdown + show sort-only right nav
+REACT_APP_USE_FIXTURES_FLAG=true REACT_APP_GROUP_BY_FLAG=true REACT_APP_SORT_NAV_FLAG=true npm run start
 
 # show Group by dropdown
 REACT_APP_GROUP_BY_FLAG=true npm run start
 
+# show right nav in sort-only mode (Group by = none)
+REACT_APP_SORT_NAV_FLAG=true npm run start
+
 # hide Group by dropdown (default behavior)
 REACT_APP_GROUP_BY_FLAG=false npm run start
+
+# hide sort-only right nav (default behavior)
+REACT_APP_SORT_NAV_FLAG=false npm run start
 ```
