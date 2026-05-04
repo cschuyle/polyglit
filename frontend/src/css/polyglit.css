@@ -152,17 +152,52 @@ html {
 }
 
 .showcase-lightbox__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
     max-width: min(92vw, 1400px);
     max-height: calc(100vh - 56px);
+    overflow: auto;
+    padding: 8px 0 16px;
 }
 
 .showcase-lightbox__image {
     display: block;
     max-width: 100%;
-    max-height: calc(100vh - 56px);
+    max-height: calc(100vh - 180px);
     width: auto;
     height: auto;
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+}
+
+.showcase-lightbox__links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    max-width: min(92vw, 960px);
+}
+
+.showcase-lightbox__link-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 8px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.92rem;
+    cursor: pointer;
+}
+
+.showcase-lightbox__link-button:hover,
+.showcase-lightbox__link-button:focus-visible {
+    background: rgba(255, 255, 255, 0.18);
+    outline: none;
 }
 
 .results-scroll-top-button {

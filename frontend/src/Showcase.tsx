@@ -62,6 +62,12 @@ interface GroupNavMarker {
     documentTop: number;
 }
 
+
+interface LightboxLink {
+    label: string,
+    url: string,
+    opensInLightbox?: boolean,
+}
 /** List table columns that support client-side sort. */
 type ListSortColumn =
     | "thumbnail"
@@ -176,7 +182,7 @@ interface ShowcaseState {
     /** Hover-show delay for image tooltips in ms. Default 600; range 0–1800. */
     tooltipDelayMs: number,
     /** Active large image shown in the lightbox, if any. */
-    lightboxImage: { url: string; title: string } | null,
+    lightboxImage: { url: string; title: string; links: LightboxLink[] } | null,
 }
 
 export interface ShowcaseProps {
@@ -616,13 +622,39 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         src={image.url}
                         alt={image.title}
                     />
+                    {image.links.length > 0 && (
+                        <div className="showcase-lightbox__links">
+                            {image.links.map((link) =>
+                                link.opensInLightbox ? (
+                                    <button
+                                        key={`${image.url}-${link.label}-${link.url}`}
+                                        type="button"
+                                        className="showcase-lightbox__link-button"
+                                        onClick={() => this.openLightbox(link.url, link.label, image.links)}
+                                    >
+                                        {link.label}
+                                    </button>
+                                ) : (
+                                    <a
+                                        key={`${image.url}-${link.label}-${link.url}`}
+                                        className="showcase-lightbox__link-button"
+                                        href={link.url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                    >
+                                        {link.label}
+                                    </a>
+                                ),
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
         );
     }
 
-    private openLightbox(url: string, title: string) {
-        this.setState({lightboxImage: {url, title}});
+    private openLightbox(url: string, title: string, links: LightboxLink[] = []) {
+        this.setState({lightboxImage: {url, title, links}});
     }
 
     private closeLightbox() {
@@ -1821,6 +1853,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     onClick={() => this.openLightbox(
                         troveItem.littlePrinceItem.largeImageUrl,
                         troveItem.littlePrinceItem.title,
+                        this.lightboxLinksForTroveItem(troveItem),
                     )}
                     aria-label={`Open large image for ${troveItem.littlePrinceItem.title}`}
                 >
@@ -2211,7 +2244,11 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                                     <button
                                                         type="button"
                                                         className="showcase-lightbox-trigger"
-                                                        onClick={() => this.openLightbox(lp.largeImageUrl, lp.title)}
+                                                        onClick={() => this.openLightbox(
+                                                            lp.largeImageUrl,
+                                                            lp.title,
+                                                            this.lightboxLinksForTroveItem(troveItem),
+                                                        )}
                                                         aria-label={`Open large image for ${lp.title}`}
                                                         onMouseEnter={() => this.onImageTooltipMouseEnter(rowKey)}
                                                         onMouseLeave={() => this.onImageTooltipMouseLeave(rowKey)}
@@ -2382,13 +2419,13 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             <Grid item direction={"column"} justify={"center"}>
                 {
                     <Grid item>
-                        {this.renderDocumentLink(troveItem.littlePrinceItem.largeImageUrl)}
+                        {this.renderPrimaryImageLink(troveItem)}
                     </Grid>
                 }
                 {
                     troveItem.littlePrinceItem.files?.map(filename => {
                         return <Grid item>
-                            {this.renderDocumentLink(filename)}
+                            {this.renderDocumentLink(filename, troveItem)}
                         </Grid>
                     })
                 }
@@ -2422,6 +2459,63 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 </div>
             </Grid>
         </Grid>
+    }
+
+    private lightboxLinksForTroveItem(troveItem: TroveItem): LightboxLink[] {
+        const links: LightboxLink[] = [];
+
+        troveItem.littlePrinceItem.files?.forEach((filename) => {
+            const [fileType] = this.iconFor(filename);
+            links.push({
+                label: fileType === "cover image" ? "Additional image" : fileType,
+                url: filename,
+                opensInLightbox: fileType === "cover image",
+            });
+        });
+
+        if (troveItem.littlePrinceItem.lpid) {
+            links.push({
+                label: "Little Prince Foundation link",
+                url: `https://www.petit-prince-collection.com/lang/show_livre.php?lang=en&id=${this.extractLpId(troveItem.littlePrinceItem.lpid)}`,
+            });
+        }
+
+        if (troveItem.littlePrinceItem.tintenfassId) {
+            links.push({
+                label: "Edition Tintenfaß link",
+                url: `https://editiontintenfass.de/en/catalog/${troveItem.littlePrinceItem.tintenfassId}`,
+            });
+        }
+
+        return links;
+    }
+
+    private renderPrimaryImageLink(troveItem: TroveItem) {
+        return <button
+            type="button"
+            className="showcase-lightbox-trigger"
+            onClick={() => this.openLightbox(
+                troveItem.littlePrinceItem.largeImageUrl,
+                troveItem.littlePrinceItem.title,
+                this.lightboxLinksForTroveItem(troveItem),
+            )}
+            aria-label={`Open large image for ${troveItem.littlePrinceItem.title}`}
+        >
+            <SmallTooltip
+                key={`cover-image-${troveItem.littlePrinceItem.largeImageUrl}-tooltip-${this.state.tooltipDismissNonce}`}
+                title="Open large image"
+                placement="left-end"
+                disableHoverListener={!this.state.tooltipsEnabled}
+                disableFocusListener={!this.state.tooltipsEnabled}
+                disableTouchListener={!this.state.tooltipsEnabled}
+            >
+                <img style={{padding: 0, margin: 0, border: 0, boxShadow: "0", filter: "grayscale(50%)"}}
+                     src={coverIcon}
+                     width={"32px"} height={"32px"}
+                     alt="Open large image"
+                />
+            </SmallTooltip>
+        </button>
     }
 
     private extractLpId(lpIdWithPP: string) {
@@ -2462,13 +2556,17 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         </a>
     }
 
-    private renderDocumentLink(file: string) {
+    private renderDocumentLink(file: string, troveItem?: TroveItem) {
         let [fileType, icon] = this.iconFor(file)
         if (fileType === "cover image") {
             return <button
                 type="button"
                 className="showcase-lightbox-trigger"
-                onClick={() => this.openLightbox(file, "Large image")}
+                onClick={() => this.openLightbox(
+                    file,
+                    "Large image",
+                    troveItem != null ? this.lightboxLinksForTroveItem(troveItem) : [],
+                )}
                 aria-label="Open large image"
             >
                 <SmallTooltip
