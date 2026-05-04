@@ -165,6 +165,8 @@ interface ShowcaseState {
     onlyMultilingualEditions: boolean,
     /** Split results into sections by language, year, script, or owned (none = flat). */
     groupBy: GroupByOption,
+    /** User toggle: show/hide right-hand navigator in gallery. */
+    showGroupNavigator: boolean,
     groupNavMarkers: GroupNavMarker[],
     activeGroupNavLabel: string | null,
     groupNavProgress: number,
@@ -260,6 +262,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             listSortAsc: true,
             onlyMultilingualEditions: false,
             groupBy: "none",
+            showGroupNavigator: true,
             groupNavMarkers: [],
             activeGroupNavLabel: null,
             groupNavProgress: 0,
@@ -321,7 +324,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             prevState.displayedTroveItems !== this.state.displayedTroveItems ||
             prevState.groupBy !== this.state.groupBy ||
             prevState.viewMode !== this.state.viewMode ||
-            prevState.gallerySortBy !== this.state.gallerySortBy;
+            prevState.gallerySortBy !== this.state.gallerySortBy ||
+            prevState.showGroupNavigator !== this.state.showGroupNavigator;
 
         if (navRelevantChange) {
             if (this.isGroupNavigatorEnabled()) {
@@ -530,6 +534,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                 {GROUP_BY_ENABLED && this.renderGroupBySelect()}
                                 {this.state.viewMode === ViewMode.GALLERY && this.renderGallerySortSelect()}
                                 {this.renderViewModeToggle()}
+                                {this.state.viewMode === ViewMode.GALLERY && this.renderGroupNavToggle()}
                             </div>
                         </div>
                         <p/>
@@ -1155,8 +1160,59 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         );
     }
 
+    private renderGroupNavToggle() {
+        const navCouldBeVisible = this.state.groupBy !== "none" || SORT_NAV_ENABLED;
+        const shown = this.state.showGroupNavigator && navCouldBeVisible;
+        const border = "1px solid rgba(0, 0, 0, 0.23)";
+        const selectedBg = "rgba(63, 81, 181, 0.12)";
+        const iconStyle: React.CSSProperties = {display: "block", width: 24, height: 24};
+        return (
+            <div
+                role="group"
+                aria-label="Toggle right navigator"
+                style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    border,
+                    borderRadius: 4,
+                    overflow: "hidden",
+                    width: "fit-content",
+                    flexShrink: 0,
+                }}
+            >
+                <Tooltip
+                    key={`right-nav-toggle-tooltip-${this.state.tooltipDismissNonce}`}
+                    title={<span style={{fontSize: "0.98rem"}}>{shown ? "Hide Group Navigator" : "Show Group Navigator"}</span>}
+                >
+                    <IconButton
+                        aria-label="Show right navigator"
+                        aria-pressed={shown}
+                        onClick={() => this.setState((prev) => ({showGroupNavigator: !prev.showGroupNavigator}))}
+                        color={shown ? "primary" : "default"}
+                        size="small"
+                        disabled={!navCouldBeVisible}
+                        style={{
+                            borderRadius: 0,
+                            padding: 8,
+                            minWidth: 44,
+                            backgroundColor: shown ? selectedBg : undefined,
+                        }}
+                    >
+                        <svg viewBox="0 0 24 24" aria-hidden focusable="false" style={iconStyle}>
+                            <rect x="3" y="4" width="15" height="4" rx="2" fill="currentColor" />
+                            <rect x="3" y="9" width="15" height="4" rx="2" fill="currentColor" />
+                            <rect x="3" y="14" width="15" height="4" rx="2" fill="currentColor" />
+                            <rect x="20" y="3" width="4" height="18" rx="2" fill="currentColor" />
+                        </svg>
+                    </IconButton>
+                </Tooltip>
+            </div>
+        );
+    }
+
     private isGroupNavigatorEnabled(): boolean {
         if (this.state.viewMode !== ViewMode.GALLERY) return false;
+        if (!this.state.showGroupNavigator) return false;
         if (this.state.groupBy !== "none") return true;
         return SORT_NAV_ENABLED;
     }
@@ -1664,7 +1720,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         const items = this.sortItemsForGallery(this.state.displayedTroveItems);
         this.renderedGroupLabels = [];
         if (this.state.groupBy === "none") {
-            if (!SORT_NAV_ENABLED) {
+            if (!SORT_NAV_ENABLED || !this.state.showGroupNavigator) {
                 return (
                     <section className="gallery-grid">
                         {items.map((troveItem, index) =>
@@ -1767,10 +1823,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             >
                 <Tooltip
                     key={`gallery-view-tooltip-${this.state.tooltipDismissNonce}`}
-                    title="Gallery view"
-                    disableHoverListener={!this.state.tooltipsEnabled}
-                    disableFocusListener={!this.state.tooltipsEnabled}
-                    disableTouchListener={!this.state.tooltipsEnabled}
+                    title={<span style={{fontSize: "0.98rem"}}>Gallery view</span>}
                 >
                     <IconButton
                         aria-label="Gallery view"
@@ -1789,10 +1842,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 <div style={{width: 1, flexShrink: 0, backgroundColor: "rgba(0, 0, 0, 0.12)"}} />
                 <Tooltip
                     key={`list-view-tooltip-${this.state.tooltipDismissNonce}`}
-                    title="List view"
-                    disableHoverListener={!this.state.tooltipsEnabled}
-                    disableFocusListener={!this.state.tooltipsEnabled}
-                    disableTouchListener={!this.state.tooltipsEnabled}
+                    title={<span style={{fontSize: "0.98rem"}}>List view</span>}
                 >
                     <IconButton
                         aria-label="List view"
@@ -2468,7 +2518,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             "lumpOfText"
         ]
 
-        const rows = this.troveItemDetailRows(troveItem, fieldsInOrder);
+        const rows = this.troveItemDetailRowsForTooltip(troveItem, fieldsInOrder);
 
         return <Grid container direction={"row"} spacing={2}>
             <Grid item direction={"column"} justify={"center"}>
@@ -2496,9 +2546,67 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 }
             </Grid>
             <Grid item>
-                {this.renderTroveItemTextDetails(troveItem, rows)}
+                {this.renderTroveItemTooltipTextDetails(troveItem, rows)}
             </Grid>
         </Grid>
+    }
+
+    private troveItemDetailRowsForTooltip(troveItem: TroveItem, fieldsInOrder: string[]) {
+        const createRow = (field: string | null, value: any) => ({field, value});
+
+        return fieldsInOrder.map(field => {
+            switch (field) {
+                case 'language': {
+                    const languageLine = this.constructLanguage(troveItem);
+                    return createRow("Language", languageLine);
+                }
+                case 'translation-title':
+                    return createRow("Title in translation", troveItem.littlePrinceItem["translation-title"])
+                case "translation-title-transliterated":
+                    return createRow(
+                        "Title transliterated",
+                        troveItem.littlePrinceItem["translation-title-transliterated"],
+                    );
+                case "script": {
+                    const maps = this.state.langIsoMaps;
+                    const lp = troveItem.littlePrinceItem;
+                    const v = this.scriptGroupOrDetailLabel(lp, maps);
+                    return v === "(script N/A)" ? null : createRow("Script", v);
+                }
+                case 'translator':
+                    return createRow("Translated by", troveItem.littlePrinceItem.translator)
+                case 'illustrator':
+                    return createRow("Illustrated by", troveItem.littlePrinceItem.illustrator)
+                case 'narrator':
+                    return createRow("Narrated by", troveItem.littlePrinceItem.narrator)
+                case 'isbn13':
+                    return createRow("ISBN-13", troveItem.littlePrinceItem.isbn13)
+                case 'isbn10':
+                    return createRow("ISBN-10", troveItem.littlePrinceItem.isbn10)
+                case 'asin':
+                    return createRow("ASIN", troveItem.littlePrinceItem.asin)
+                case 'format':
+                    return createRow("Format", troveItem.littlePrinceItem.format)
+                case 'publisher':
+                    return createRow("Published", this.constructPublicationBlurb(troveItem.littlePrinceItem))
+                case 'year':
+                    return createRow("Publication year", troveItem.littlePrinceItem.year)
+                case 'tags':
+                    return createRow("Tags", this.constructTagsBlurb(troveItem.littlePrinceItem.tags))
+                case 'acquisition-blurb':
+                    return createRow("Acquired", this.constructAquisitionBlurb(troveItem.littlePrinceItem))
+                case 'comments':
+                    return createRow(null, troveItem.littlePrinceItem.comments)
+                case 'wanted-message':
+                    return createRow("Note!", this.constructWantedMessage(troveItem.littlePrinceItem))
+                case 'trade-message':
+                    return createRow("Note!", this.constructTradeMessage(troveItem.littlePrinceItem))
+                case "lumpOfText":
+                    return null;
+                default:
+                    return null;
+            }
+        }).filter(e => e != null && this.isPresent(e.value));
     }
 
     private troveItemDetailRows(troveItem: TroveItem, fieldsInOrder: string[]) {
@@ -2582,6 +2690,45 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
     private linkifyValue(value: React.ReactNode): React.ReactNode {
         return typeof value === 'string' ? this.linkifyText(value) : value;
+    }
+
+    private renderTroveItemTooltipTextDetails(troveItem: TroveItem, rows = this.troveItemDetailRowsForTooltip(troveItem, [
+        "wanted-message",
+        "trade-message",
+        "translation-title",
+        "translation-title-transliterated",
+        'language',
+        "script",
+        'translator',
+        'illustrator',
+        'narrator',
+        'isbn13',
+        'format',
+        'year',
+        'publisher',
+        'publication-country',
+        'publication-location',
+        'acquisition-blurb',
+        "tags",
+        "comments",
+        "lumpOfText",
+    ])) {
+        return <div>
+            <strong><i>{troveItem.littlePrinceItem.title}</i></strong>
+            <p />
+            {
+            rows.map((row) => {
+                    if (row?.field != null) return <span>
+                        <strong>{row?.field}:</strong> {this.linkifyValue(row?.value)}<p/></span>
+                    if (Array.isArray(row?.value)) {
+                        return row?.value.map((word, idx) => {
+                            return <span key={idx}>{this.linkifyValue(word)}<p/></span>;
+                        });
+                    }
+                    return <span>{this.linkifyValue(row?.value)}</span>
+                }
+            )}
+        </div>
     }
 
     private renderTroveItemTextDetails(troveItem: TroveItem, rows = this.troveItemDetailRows(troveItem, [
