@@ -23,6 +23,7 @@ import {
 } from "@material-ui/core";
 import ViewList from "@material-ui/icons/ViewList";
 import ViewModule from "@material-ui/icons/ViewModule";
+import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
 import {groupByEnabled} from "./featureFlags";
 import {displayForIso15924Scripts, LangIsoMaps, LangPair, nameFor15924, nameFor6391, nameFor6393} from "./langIsoLookup";
 import {ensurePolyglitDataPreloaded, getCachedLangIsoMaps, getCachedTrove} from "./polyglitJsonCache";
@@ -162,6 +163,14 @@ interface ShowcaseState {
     groupNavProgress: number,
     /** Brief scroll / image-decode feedback so the viewport does not read as “empty”. */
     resultsScrollCatchUp: boolean,
+    /** Bottom floating affordance once the results section has been scrolled down. */
+    showResultsScrollTopButton: boolean,
+    /** Reveals the floating scroll-to-top affordance only when pointer is close. */
+    resultsScrollTopButtonPointerNear: boolean,
+    /** Bumps to remount tooltip components and dismiss visible tooltips. */
+    tooltipDismissNonce: number,
+    /** After ESC, keep this image tooltip suppressed until pointer leaves that image. */
+    tooltipHoverLockedImageKey: string | null,
 }
 
 export interface ShowcaseProps {
@@ -213,10 +222,13 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     private groupMeasureTimeoutId: number | null = null;
     private scrollRafId: number | null = null;
     private searchResultsRef = React.createRef<HTMLDivElement>();
+    private resultsScrollTopDockRef = React.createRef<HTMLDivElement>();
     private scrollCatchGen = 0;
     private scrollCatchDebounceId: number | null = null;
     private scrollCatchShowDelayId: number | null = null;
     private resultsScrollCatchSpinnerActive = false;
+    private lastPointerClientPos: {x: number; y: number} | null = null;
+    private currentHoveredImageTooltipKey: string | null = null;
 
     constructor(props: ShowcaseProps) {
         super(props)
@@ -239,12 +251,19 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             activeGroupNavLabel: null,
             groupNavProgress: 0,
             resultsScrollCatchUp: false,
+            showResultsScrollTopButton: false,
+            resultsScrollTopButtonPointerNear: false,
+            tooltipDismissNonce: 0,
+            tooltipHoverLockedImageKey: null,
         }
     }
 
     componentDidMount() {
         window.addEventListener("scroll", this.onWindowScroll, {passive: true});
         window.addEventListener("resize", this.onWindowResize);
+        window.addEventListener("mousemove", this.onWindowMouseMove, {passive: true});
+        window.addEventListener("keydown", this.onWindowKeyDown);
+        this.updateResultsScrollTopButtonVisibility();
         ensurePolyglitDataPreloaded().then(() => {
             const trove = getCachedTrove(this.props.troveUrl);
             const langIsoMaps = getCachedLangIsoMaps(this.props.troveUrl) ?? null;
@@ -275,6 +294,13 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     }
 
     componentDidUpdate(prevProps: ShowcaseProps, prevState: ShowcaseState) {
+        if (
+            prevState.displayedTroveItems !== this.state.displayedTroveItems ||
+            prevState.viewMode !== this.state.viewMode
+        ) {
+            this.updateResultsScrollTopButtonVisibility();
+        }
+
         const navRelevantChange =
             prevState.displayedTroveItems !== this.state.displayedTroveItems ||
             prevState.groupBy !== this.state.groupBy ||
@@ -329,6 +355,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     componentWillUnmount() {
         window.removeEventListener("scroll", this.onWindowScroll);
         window.removeEventListener("resize", this.onWindowResize);
+        window.removeEventListener("mousemove", this.onWindowMouseMove);
+        window.removeEventListener("keydown", this.onWindowKeyDown);
         if (this.groupMeasureRafId != null) {
             window.cancelAnimationFrame(this.groupMeasureRafId);
             this.groupMeasureRafId = null;
@@ -494,12 +522,119 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         ) : (
                             this.renderListView()
                         )}
+                        {this.renderResultsScrollTopButton()}
                         </div>
                     </div>
                     {this.renderScrollCatchUpOverlay()}
                 </div>
             </div>
         );
+    }
+
+    private updateResultsScrollTopButtonVisibility() {
+        const root = this.searchResultsRef.current;
+        let show = false;
+        if (root != null && this.state.displayedTroveItems.length > 0) {
+            const rect = root.getBoundingClientRect();
+            const scrolledPastResultsTop = rect.top < -24;
+            const resultsStillOnScreen = rect.bottom > window.innerHeight * 0.2;
+            show = scrolledPastResultsTop && resultsStillOnScreen;
+        }
+        if (
+            show !== this.state.showResultsScrollTopButton ||
+            (!show && this.state.resultsScrollTopButtonPointerNear)
+        ) {
+            this.setState({
+                showResultsScrollTopButton: show,
+                resultsScrollTopButtonPointerNear: show ? this.state.resultsScrollTopButtonPointerNear : false,
+            });
+        }
+        if (show && this.lastPointerClientPos != null) {
+            this.updateResultsScrollTopButtonPointerProximity(
+                this.lastPointerClientPos.x,
+                this.lastPointerClientPos.y,
+            );
+        }
+    }
+
+    private updateResultsScrollTopButtonPointerProximity(clientX: number, clientY: number) {
+        if (!this.state.showResultsScrollTopButton) {
+            if (this.state.resultsScrollTopButtonPointerNear) {
+                this.setState({resultsScrollTopButtonPointerNear: false});
+            }
+            return;
+        }
+        const dockRect = this.resultsScrollTopDockRef.current?.getBoundingClientRect();
+        const targetX = dockRect != null ? dockRect.left + dockRect.width / 2 : window.innerWidth / 2;
+        const targetY = dockRect != null ? dockRect.top + dockRect.height / 2 : window.innerHeight - 36;
+        const dx = clientX - targetX;
+        const dy = clientY - targetY;
+        const near = Math.hypot(dx, dy) <= 190;
+        if (near !== this.state.resultsScrollTopButtonPointerNear) {
+            this.setState({resultsScrollTopButtonPointerNear: near});
+        }
+    }
+
+    private scrollResultsToTop() {
+        const root = this.searchResultsRef.current;
+        if (root == null) {
+            return;
+        }
+        const top = Math.max(0, window.scrollY + root.getBoundingClientRect().top - 10);
+        window.scrollTo({top, behavior: "smooth"});
+    }
+
+    private renderResultsScrollTopButton() {
+        if (!this.state.showResultsScrollTopButton) {
+            return null;
+        }
+        const visible = this.state.resultsScrollTopButtonPointerNear;
+        return (
+            <div
+                ref={this.resultsScrollTopDockRef}
+                className={`results-scroll-top-dock${visible ? " is-visible" : ""}`}
+            >
+                <button
+                    type="button"
+                    className="results-scroll-top-button"
+                    onClick={() => this.scrollResultsToTop()}
+                    aria-label="Scroll result set to top"
+                    title="Back to top"
+                    tabIndex={visible ? 0 : -1}
+                    aria-hidden={!visible}
+                >
+                    <KeyboardArrowUp fontSize="small" />
+                </button>
+            </div>
+        );
+    }
+
+    private onWindowMouseMove = (event: MouseEvent) => {
+        this.lastPointerClientPos = {x: event.clientX, y: event.clientY};
+        this.updateResultsScrollTopButtonPointerProximity(event.clientX, event.clientY);
+    };
+
+    private onWindowKeyDown = (event: KeyboardEvent) => {
+        if (event.key !== "Escape") {
+            return;
+        }
+        this.setState((prev) => ({
+            tooltipDismissNonce: prev.tooltipDismissNonce + 1,
+            tooltipHoverLockedImageKey: this.currentHoveredImageTooltipKey,
+        }));
+    };
+
+    private onImageTooltipMouseEnter(imageKey: string) {
+        this.currentHoveredImageTooltipKey = imageKey;
+    }
+
+    private onImageTooltipMouseLeave(imageKey: string) {
+        if (this.currentHoveredImageTooltipKey === imageKey) {
+            this.currentHoveredImageTooltipKey = null;
+        }
+        if (this.state.tooltipHoverLockedImageKey === imageKey) {
+            this.setState({tooltipHoverLockedImageKey: null});
+        }
     }
 
     private noteScrollCatchUpActivity() {
@@ -912,6 +1047,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     }
 
     private onWindowResize = () => {
+        this.updateResultsScrollTopButtonVisibility();
         if (!this.isGroupNavigatorEnabled()) {
             return;
         }
@@ -919,6 +1055,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     };
 
     private onWindowScroll = () => {
+        this.updateResultsScrollTopButtonVisibility();
         this.noteScrollCatchUpActivity();
         if (!this.isGroupNavigatorEnabled()) {
             return;
@@ -1374,7 +1511,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     flexShrink: 0,
                 }}
             >
-                <Tooltip title="Gallery view">
+                <Tooltip key={`gallery-view-tooltip-${this.state.tooltipDismissNonce}`} title="Gallery view">
                     <IconButton
                         aria-label="Gallery view"
                         aria-pressed={isGallery}
@@ -1390,7 +1527,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     </IconButton>
                 </Tooltip>
                 <div style={{width: 1, flexShrink: 0, backgroundColor: "rgba(0, 0, 0, 0.12)"}} />
-                <Tooltip title="List view">
+                <Tooltip key={`list-view-tooltip-${this.state.tooltipDismissNonce}`} title="List view">
                     <IconButton
                         aria-label="List view"
                         aria-pressed={!isGallery}
@@ -1542,17 +1679,23 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     }
 
     private renderTroveItem(troveItem: TroveItem, reactListKey: string) {
+        const hoverLocked = this.state.tooltipHoverLockedImageKey === reactListKey;
         return (
             <BigWhiteTooltip
-                key={reactListKey}
+                key={`${reactListKey}::tooltip-${this.state.tooltipDismissNonce}`}
                 title={this.troveItemTooltipContents(troveItem)}
+                disableHoverListener={this.state.resultsScrollTopButtonPointerNear || hoverLocked}
                 arrow
                 interactive
                 placement="right-start"
                 enterDelay={300}
                 enterNextDelay={300}
             >
-            <div className="thumbnail">
+            <div
+                className="thumbnail"
+                onMouseEnter={() => this.onImageTooltipMouseEnter(reactListKey)}
+                onMouseLeave={() => this.onImageTooltipMouseLeave(reactListKey)}
+            >
                 <a target="_blank" rel="noreferrer" href={troveItem.littlePrinceItem.largeImageUrl}>
                     <div style={{position: "relative"}}>
                         <img width="150" height={"100%"}
@@ -1917,18 +2060,29 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                     const rowKey =
                                         troveItem.polyglitStableRowKey ??
                                         `${lp.lpid ?? "noid"}-${lp.smallImageUrl}-${lp.title}-${index}`;
+                                    const hoverLocked = this.state.tooltipHoverLockedImageKey === rowKey;
                                     return (
                                         <tr key={rowKey}>
                                             <td style={cellStyle}>
                                                 <BigWhiteTooltip
+                                                    key={`${rowKey}::tooltip-${this.state.tooltipDismissNonce}`}
                                                     title={this.troveItemTooltipContents(troveItem)}
+                                                    disableHoverListener={
+                                                        this.state.resultsScrollTopButtonPointerNear || hoverLocked
+                                                    }
                                                     arrow
                                                     interactive
                                                     placement="right-start"
                                                     enterDelay={300}
                                                     enterNextDelay={300}
                                                 >
-                                                    <a href={lp.largeImageUrl} target="_blank" rel="noreferrer">
+                                                    <a
+                                                        href={lp.largeImageUrl}
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                        onMouseEnter={() => this.onImageTooltipMouseEnter(rowKey)}
+                                                        onMouseLeave={() => this.onImageTooltipMouseLeave(rowKey)}
+                                                    >
                                                         <img
                                                             width="80"
                                                             height="100%"
@@ -2158,7 +2312,11 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         return <a href={file}
                   target="_blank"
                   rel="noreferrer">
-            <SmallTooltip title={`Open ${fileType} in new tab`} placement="left-end">
+            <SmallTooltip
+                key={`${fileType}-${file}-tooltip-${this.state.tooltipDismissNonce}`}
+                title={`Open ${fileType} in new tab`}
+                placement="left-end"
+            >
                 <img style={{'padding': 0, 'margin': 0, 'border': 0, 'boxShadow': '0', 'filter': "grayscale(50%)"}}
                      src={icon}
                      width={"32px"} height={"32px"}

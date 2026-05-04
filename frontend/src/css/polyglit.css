@@ -21,6 +21,49 @@ html {
     background-color: #f2f2f2;
 }
 
+#main_content .results-scroll-top-dock {
+    position: sticky;
+    bottom: 16px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    pointer-events: none;
+    z-index: 1100;
+    margin-top: 10px;
+}
+
+#main_content .results-scroll-top-button {
+    pointer-events: auto;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(70, 70, 70, 0.5);
+    border-radius: 999px;
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.24);
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+    pointer-events: none;
+    transition: opacity 150ms ease, transform 150ms ease, background-color 150ms ease, border-color 150ms ease;
+}
+
+#main_content .results-scroll-top-dock.is-visible .results-scroll-top-button {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+#main_content .results-scroll-top-button:hover,
+#main_content .results-scroll-top-button:focus-visible {
+    background: rgba(52, 52, 52, 0.62);
+    border-color: rgba(255, 255, 255, 0.5);
+    outline: none;
+}
+
 #main_content .gallery-grid img,
 #main_content table img {
     background-color: #e8e8e8;
