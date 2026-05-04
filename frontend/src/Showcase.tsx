@@ -1161,6 +1161,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     }
 
     private renderGroupNavToggle() {
+        // If both navigator features are disabled, don't show the toggle at all
+        if (!GROUP_BY_ENABLED && !SORT_NAV_ENABLED) {
+            return null;
+        }
         const navCouldBeVisible = this.state.groupBy !== "none" || SORT_NAV_ENABLED;
         const shown = this.state.showGroupNavigator && navCouldBeVisible;
         const border = "1px solid rgba(0, 0, 0, 0.23)";
