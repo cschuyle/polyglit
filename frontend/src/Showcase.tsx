@@ -1155,7 +1155,52 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     }
 
     private isGroupNavigatorEnabled(): boolean {
-        return this.state.viewMode === ViewMode.GALLERY && this.state.groupBy !== "none";
+        if (this.state.viewMode !== ViewMode.GALLERY) return false;
+        if (this.state.groupBy !== "none") return true;
+        // Also enable when sorting (no grouping) — the sort nav provides jump anchors.
+        return true;
+    }
+
+    private sortNavGroupsForCurrentView(items: TroveItem[]): Array<{label: string; items: TroveItem[]}> {
+        const {field} = this.gallerySortParts(this.state.gallerySortBy);
+        const getLabel = (item: TroveItem): string => {
+            const lp = item.littlePrinceItem;
+            if (field === "language") {
+                const first = this.effectiveLanguageLabel(item).trim().charAt(0).toUpperCase();
+                return first || "#";
+            }
+            if (field === "title") {
+                const first = (lp.title ?? "").trim().charAt(0).toUpperCase();
+                return first || "#";
+            }
+            if (field === "year") {
+                const raw = lp.year;
+                return raw != null && String(raw).trim() !== "" ? String(raw).trim() : "(no year)";
+            }
+            // dateAdded — take the 4-digit year prefix
+            const raw = lp["date-added"];
+            return raw != null && String(raw).trim() !== ""
+                ? String(raw).trim().substring(0, 4)
+                : "(no date)";
+        };
+        const groups = new Map<string, TroveItem[]>();
+        for (const item of items) {
+            const label = getLabel(item);
+            const existing = groups.get(label);
+            if (existing) existing.push(item);
+            else groups.set(label, [item]);
+        }
+        // Preserve order of first appearance (items are already sorted)
+        const seen = new Set<string>();
+        const result: Array<{label: string; items: TroveItem[]}> = [];
+        for (const item of items) {
+            const label = getLabel(item);
+            if (!seen.has(label)) {
+                seen.add(label);
+                result.push({label, items: groups.get(label)!});
+            }
+        }
+        return result;
     }
 
     private setGroupSectionRef = (label: string, el: HTMLElement | null) => {
@@ -1208,7 +1253,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         }
         this.scrollRafId = window.requestAnimationFrame(() => {
             this.scrollRafId = null;
-            this.updateNavigatorFromScroll(this.state.groupNavMarkers);
+            this.updateNavigatorFromScroll();
         });
     };
 
@@ -1230,18 +1275,30 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         }, 250);
     }
 
-    private calculateActiveGroupAndProgress(markers: GroupNavMarker[]): {
-        activeGroupNavLabel: string | null;
-        groupNavProgress: number;
-    } {
+    /** Section anchors in document order (scroll position), used to pick the active label. */
+    private buildGroupNavMarkersFromRefs(): GroupNavMarker[] {
+        const measured: GroupNavMarker[] = this.renderedGroupLabels
+            .map((label) => {
+                const el = this.groupSectionRefs.get(label);
+                if (el == null) {
+                    return null;
+                }
+                return {
+                    label,
+                    documentTop: window.scrollY + el.getBoundingClientRect().top,
+                };
+            })
+            .filter((m): m is GroupNavMarker => m != null);
+        measured.sort((a, b) => a.documentTop - b.documentTop);
+        return measured;
+    }
+
+    /** Which section header is at or above the focal line (~upper third of the viewport). */
+    private computeActiveGroupLabelFromMarkers(markers: GroupNavMarker[]): string | null {
         if (markers.length === 0) {
-            return {activeGroupNavLabel: null, groupNavProgress: 0};
+            return null;
         }
         const focusLine = window.scrollY + window.innerHeight * 0.35;
-        const firstTop = markers[0].documentTop;
-        const lastTop = markers[markers.length - 1].documentTop;
-        const span = Math.max(1, lastTop - firstTop);
-        const progress = Math.max(0, Math.min(1, (focusLine - firstTop) / span));
         let activeLabel = markers[0].label;
         for (const marker of markers) {
             if (marker.documentTop <= focusLine) {
@@ -1250,18 +1307,40 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 break;
             }
         }
-        return {
-            activeGroupNavLabel: activeLabel,
-            groupNavProgress: progress,
-        };
+        return activeLabel;
     }
 
-    private updateNavigatorFromScroll(markers: GroupNavMarker[]) {
+    /**
+     * Rail dot position along the sidebar: match the active label's index in the nav list.
+     * (Using scroll distance in the main document made the dot drift away from the letter
+     * buttons, which are evenly spaced in the rail column.)
+     */
+    private progressForActiveLabel(activeLabel: string | null): number {
+        const labels = this.renderedGroupLabels;
+        if (activeLabel == null || labels.length === 0) {
+            return 0;
+        }
+        if (labels.length === 1) {
+            return 0;
+        }
+        const idx = labels.indexOf(activeLabel);
+        if (idx < 0) {
+            return 0;
+        }
+        return idx / (labels.length - 1);
+    }
+
+    private updateNavigatorFromScroll() {
+        if (!this.isGroupNavigatorEnabled() || this.renderedGroupLabels.length === 0) {
+            return;
+        }
+        const markers = this.buildGroupNavMarkersFromRefs();
         if (markers.length === 0) {
             return;
         }
         const fresh = this.refreshGroupNavMarkerTops(markers);
-        const {activeGroupNavLabel, groupNavProgress} = this.calculateActiveGroupAndProgress(fresh);
+        const activeGroupNavLabel = this.computeActiveGroupLabelFromMarkers(fresh);
+        const groupNavProgress = this.progressForActiveLabel(activeGroupNavLabel);
         if (
             activeGroupNavLabel !== this.state.activeGroupNavLabel ||
             Math.abs(groupNavProgress - this.state.groupNavProgress) > 0.01
@@ -1282,25 +1361,14 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             return;
         }
 
-        const measured: GroupNavMarker[] = this.renderedGroupLabels
-            .map((label) => {
-                const el = this.groupSectionRefs.get(label);
-                if (el == null) {
-                    return null;
-                }
-                return {
-                    label,
-                    documentTop: window.scrollY + el.getBoundingClientRect().top,
-                };
-            })
-            .filter((m): m is GroupNavMarker => m != null);
+        const measured = this.buildGroupNavMarkersFromRefs();
 
         if (measured.length === 0) {
             return;
         }
 
-        measured.sort((a, b) => a.documentTop - b.documentTop);
-        const {activeGroupNavLabel, groupNavProgress} = this.calculateActiveGroupAndProgress(measured);
+        const activeGroupNavLabel = this.computeActiveGroupLabelFromMarkers(measured);
+        const groupNavProgress = this.progressForActiveLabel(activeGroupNavLabel);
         this.setState({groupNavMarkers: measured, activeGroupNavLabel, groupNavProgress});
     }
 
@@ -1311,7 +1379,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         }
         const top = window.scrollY + el.getBoundingClientRect().top - 12;
         window.scrollTo({top, behavior: "smooth"});
-        this.setState({activeGroupNavLabel: label});
+        this.setState({
+            activeGroupNavLabel: label,
+            groupNavProgress: this.progressForActiveLabel(label),
+        });
     }
 
     private renderGroupMarginNavigator(grouped: Array<{label: string; items: TroveItem[]}>) {
@@ -1592,12 +1663,42 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         const items = this.sortItemsForGallery(this.state.displayedTroveItems);
         this.renderedGroupLabels = [];
         if (this.state.groupBy === "none") {
+            const sortGroups = this.sortNavGroupsForCurrentView(items);
+            if (sortGroups.length <= 1) {
+                return (
+                    <section className="gallery-grid">
+                        {items.map((troveItem, index) =>
+                            this.renderTroveItem(troveItem, this.stableTroveItemListKey(troveItem, index)),
+                        )}
+                    </section>
+                );
+            }
+            this.renderedGroupLabels = sortGroups.map((g) => g.label);
             return (
-                <section className="gallery-grid">
-                    {items.map((troveItem, index) =>
-                        this.renderTroveItem(troveItem, this.stableTroveItemListKey(troveItem, index)),
-                    )}
-                </section>
+                <div className="grouped-gallery-layout">
+                    <div className="grouped-gallery-content">
+                        <section className="gallery-grid">
+                            {sortGroups.map((group) =>
+                                group.items.map((troveItem, index) => {
+                                    const key = `${group.label}::${this.stableTroveItemListKey(troveItem, index)}`;
+                                    const rendered = this.renderTroveItem(troveItem, key);
+                                    if (index === 0) {
+                                        return (
+                                            <div
+                                                key={key}
+                                                ref={(el) => this.setGroupSectionRef(group.label, el)}
+                                            >
+                                                {rendered}
+                                            </div>
+                                        );
+                                    }
+                                    return <React.Fragment key={key}>{rendered}</React.Fragment>;
+                                })
+                            )}
+                        </section>
+                    </div>
+                    {this.renderGroupMarginNavigator(sortGroups)}
+                </div>
             );
         }
         const grouped = this.groupItemsForView(this.state.displayedTroveItems).map((group) => ({
