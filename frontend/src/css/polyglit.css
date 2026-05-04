@@ -331,7 +331,8 @@ html {
 #main_content .group-margin-nav {
     position: sticky;
     top: 14px;
-    flex: 0 0 184px;
+    flex: 0 0 auto;
+    width: fit-content;
     align-self: flex-start;
     border-left: 1px solid #d9d9d9;
     padding-left: 0;
@@ -348,7 +349,7 @@ html {
     align-items: stretch;
     flex: 1 1 auto;
     min-height: 0;
-    width: 100%;
+    width: auto;
 }
 
 #main_content .group-margin-nav__rail-column {
@@ -381,7 +382,9 @@ html {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    flex: 1 1 auto;
+    flex: 0 1 auto;
+    width: max-content;
+    max-width: min(28vw, 240px);
     min-width: 0;
     min-height: 0;
     overflow-y: auto;
@@ -401,10 +404,14 @@ html {
     font-size: 0.84rem;
     text-align: left;
     line-height: 1.25;
-    max-width: 158px;
+    max-width: none;
     overflow-wrap: anywhere;
     word-break: break-word;
     cursor: pointer;
+}
+
+#main_content .group-margin-nav__count {
+    font-weight: 400;
 }
 
 #main_content .group-margin-nav__item:hover,

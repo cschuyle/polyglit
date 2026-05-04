@@ -1166,8 +1166,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         const getLabel = (item: TroveItem): string => {
             const lp = item.littlePrinceItem;
             if (field === "language") {
-                const first = this.effectiveLanguageLabel(item).trim().charAt(0).toUpperCase();
-                return first || "#";
+                const label = this.effectiveLanguageLabel(item).trim();
+                return label || "(unknown language)";
             }
             if (field === "title") {
                 const first = (lp.title ?? "").trim().charAt(0).toUpperCase();
@@ -1412,7 +1412,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                     title={`Jump to ${group.label}`}
                                     aria-label={`Jump to ${group.label}`}
                                 >
-                                    {group.label}
+                                    <span>{group.label}</span>{" "}
+                                    <span className="group-margin-nav__count">({group.items.length})</span>
                                 </button>
                             );
                         })}
