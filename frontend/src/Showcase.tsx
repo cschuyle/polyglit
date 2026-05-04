@@ -2459,6 +2459,20 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         }).filter(e => e != null && this.isPresent(e.value));
     }
 
+    private linkifyText(text: string): React.ReactNode {
+        const parts = text.split(/(https?:\/\/[^\s<>"]+)/);
+        if (parts.length === 1) return text;
+        return parts.map((part, i) =>
+            i % 2 === 1
+                ? <a key={i} href={part} target="_blank" rel="noopener noreferrer">{part}</a>
+                : part
+        );
+    }
+
+    private linkifyValue(value: React.ReactNode): React.ReactNode {
+        return typeof value === 'string' ? this.linkifyText(value) : value;
+    }
+
     private renderTroveItemTextDetails(troveItem: TroveItem, rows = this.troveItemDetailRows(troveItem, [
         "wanted-message",
         "trade-message",
@@ -2486,13 +2500,13 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             {
             rows.map((row) => {
                     if (row?.field != null) return <span>
-                        <strong>{row?.field}:</strong> {row?.value}<p/></span>
+                        <strong>{row?.field}:</strong> {this.linkifyValue(row?.value)}<p/></span>
                     if (Array.isArray(row?.value)) {
                         return row?.value.map((word, idx) => {
-                            return <span key={idx}>{word}<p/></span>;
+                            return <span key={idx}>{this.linkifyValue(word)}<p/></span>;
                         });
                     }
-                    return <span>{row?.value}</span>
+                    return <span>{this.linkifyValue(row?.value)}</span>
                 }
             )}
         </div>
