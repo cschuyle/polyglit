@@ -1449,6 +1449,19 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         if (!this.isGroupNavigatorEnabled() || grouped.length === 0) {
             return null;
         }
+        
+        // Compute the maximum width needed to fit the longest label + count without wrapping
+        // Estimate: ~5.2px per character at 0.84rem font-size (empirical)
+        const maxLabelWidth = Math.max(
+            ...grouped.map((group) => {
+                const renderedText = `${group.label} (${group.items.length})`;
+                return renderedText.length * 5.2 + 12; // +12 for padding/margin buffer
+            })
+        );
+        const navBodyStyle: React.CSSProperties = {
+            maxWidth: `min(${maxLabelWidth}px, 300px)`,
+        };
+        
         return (
             <aside className="group-margin-nav" aria-label="Group navigator">
                 <div className="group-margin-nav__shell">
@@ -1459,7 +1472,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                             style={{top: `${this.state.groupNavProgress * 100}%`}}
                         />
                     </div>
-                    <div ref={this.groupNavBodyRef} className="group-margin-nav__body">
+                    <div ref={this.groupNavBodyRef} className="group-margin-nav__body" style={navBodyStyle}>
                         {grouped.map((group) => {
                             const isActive = this.state.activeGroupNavLabel === group.label;
                             return (
