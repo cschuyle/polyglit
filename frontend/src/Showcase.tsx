@@ -1194,15 +1194,17 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         if (!GROUP_BY_ENABLED && !SORT_NAV_ENABLED) {
             return null;
         }
+        const navigatorSubject = this.groupNavigatorSubjectLabel();
         const navCouldBeVisible = this.state.groupBy !== "none" || SORT_NAV_ENABLED;
         const shown = this.state.showGroupNavigator && navCouldBeVisible;
+        const toggleLabel = `${shown ? "Hide" : "Show"} ${navigatorSubject} Navigator`;
         const border = "1px solid rgba(0, 0, 0, 0.23)";
         const selectedBg = "rgba(63, 81, 181, 0.12)";
         const iconStyle: React.CSSProperties = {display: "block", width: 24, height: 24};
         return (
             <div
                 role="group"
-                aria-label="Toggle right navigator"
+                aria-label={`${navigatorSubject} navigator toggle`}
                 style={{
                     display: "flex",
                     flexDirection: "row",
@@ -1215,10 +1217,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             >
                 <Tooltip
                     key={`right-nav-toggle-tooltip-${this.state.tooltipDismissNonce}`}
-                    title={<span style={{fontSize: "0.98rem"}}>{shown ? "Hide Group Navigator" : "Show Group Navigator"}</span>}
+                    title={<span style={{fontSize: "0.98rem"}}>{toggleLabel}</span>}
                 >
                     <IconButton
-                        aria-label="Show right navigator"
+                        aria-label={toggleLabel}
                         aria-pressed={shown}
                         onClick={() => this.setState((prev) => ({showGroupNavigator: !prev.showGroupNavigator}))}
                         color={shown ? "primary" : "default"}
@@ -1241,6 +1243,36 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 </Tooltip>
             </div>
         );
+    }
+
+    private groupNavigatorSubjectLabel(): string {
+        switch (this.state.groupBy) {
+            case "language":
+                return "Group";
+            case "year":
+                return "Group";
+            case "script":
+                return "Group";
+            case "owned":
+                return "Group";
+            case "none": {
+                const {field} = this.gallerySortParts(this.state.gallerySortBy);
+                switch (field) {
+                    case "language":
+                        return "Language";
+                    case "title":
+                        return "Title";
+                    case "year":
+                        return "Year";
+                    case "dateAdded":
+                        return "Date Added";
+                    default:
+                        return "Group";
+                }
+            }
+            default:
+                return "Group";
+        }
     }
 
     private isGroupNavigatorEnabled(): boolean {
