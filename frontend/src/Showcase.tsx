@@ -282,11 +282,15 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         window.addEventListener("mousemove", this.onWindowMouseMove, {passive: true});
         window.addEventListener("keydown", this.onWindowKeyDown);
         this.updateResultsScrollTopButtonVisibility();
+        this.loadTrove(this.props.troveUrl);
+    }
+
+    private loadTrove(troveUrl: string) {
         ensurePolyglitDataPreloaded().then(() => {
-            const trove = getCachedTrove(this.props.troveUrl);
-            const langIsoMaps = getCachedLangIsoMaps(this.props.troveUrl) ?? null;
+            const trove = getCachedTrove(troveUrl);
+            const langIsoMaps = getCachedLangIsoMaps(troveUrl) ?? null;
             if (!trove?.items) {
-                console.error(`No cached trove for ${this.props.troveUrl}`);
+                console.error(`No cached trove for ${troveUrl}`);
                 return;
             }
             console.log(`Got ${trove.items.length} Trove items (from cache)`);
@@ -306,12 +310,18 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 troveItems,
                 displayedTroveItems,
                 langIsoMaps,
+                searchText: "",
+                focusState: FocusState.OWNED,
             });
             this.setFocus(this.props.focusState, troveItems);
         });
     }
 
     componentDidUpdate(prevProps: ShowcaseProps, prevState: ShowcaseState) {
+        if (prevProps.troveUrl !== this.props.troveUrl) {
+            this.loadTrove(this.props.troveUrl);
+            return;
+        }
         if (
             prevState.displayedTroveItems !== this.state.displayedTroveItems ||
             prevState.viewMode !== this.state.viewMode
