@@ -934,6 +934,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     }
 
     private renderGallerySortSelect() {
+        const { hasLanguageData, hasYearData, hasDateAddedData } = this.dataAvailability();
         return (
             <FormControl variant="outlined" style={{minWidth: 240, margin: 0}}>
                 <InputLabel id="showcase-gallery-sort-label">Sort gallery by</InputLabel>
@@ -945,14 +946,14 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     }
                     label="Sort gallery by"
                 >
-                    <MenuItem value="languageAsc">Language ↑</MenuItem>
-                    <MenuItem value="languageDesc">Language ↓</MenuItem>
+                    {hasLanguageData && <MenuItem value="languageAsc">Language ↑</MenuItem>}
+                    {hasLanguageData && <MenuItem value="languageDesc">Language ↓</MenuItem>}
                     <MenuItem value="titleAsc">Title ↑</MenuItem>
                     <MenuItem value="titleDesc">Title ↓</MenuItem>
-                    <MenuItem value="yearAsc">Year ↑</MenuItem>
-                    <MenuItem value="yearDesc">Year ↓</MenuItem>
-                    <MenuItem value="dateAddedAsc">Date added ↑</MenuItem>
-                    <MenuItem value="dateAddedDesc">Date added ↓</MenuItem>
+                    {hasYearData && <MenuItem value="yearAsc">Year ↑</MenuItem>}
+                    {hasYearData && <MenuItem value="yearDesc">Year ↓</MenuItem>}
+                    {hasDateAddedData && <MenuItem value="dateAddedAsc">Date added ↑</MenuItem>}
+                    {hasDateAddedData && <MenuItem value="dateAddedDesc">Date added ↓</MenuItem>}
                 </Select>
             </FormControl>
         );
@@ -1063,6 +1064,36 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         );
     }
 
+    private dataAvailability(): {
+        hasLanguageData: boolean;
+        hasYearData: boolean;
+        hasDateAddedData: boolean;
+        hasScriptData: boolean;
+        hasOwnedData: boolean;
+    } {
+        const items = this.state.troveItems;
+        const hasLanguageData = items.some(i => {
+            const pairs = i.littlePrinceItem.langPairs;
+            return pairs?.some(p => p.lang != null && String(p.lang).trim() !== "") ?? false;
+        });
+        const hasYearData = items.some(i => {
+            const y = i.littlePrinceItem.year;
+            return y != null && String(y).trim() !== "";
+        });
+        const hasDateAddedData = items.some(i => {
+            const d = i.littlePrinceItem["date-added"];
+            return d != null && String(d).trim() !== "";
+        });
+        const hasScriptData = items.some(i => {
+            const lp = i.littlePrinceItem;
+            const hasScriptField = lp.script != null && String(lp.script).trim() !== "";
+            const hasScriptsArray = lp.scripts?.some(s => String(s ?? "").trim() !== "") ?? false;
+            return hasScriptField || hasScriptsArray;
+        });
+        const { showOwnedWanted } = this.focusSelectOptions();
+        return { hasLanguageData, hasYearData, hasDateAddedData, hasScriptData, hasOwnedData: showOwnedWanted };
+    }
+
     private focusSelectOptions(): { showOwnedWanted: boolean; showDuplicates: boolean } {
         const items = this.state.troveItems;
         const ownedValues = new Set(items.map(i => this.editionOwnedDefaultTrue(i.littlePrinceItem)));
@@ -1127,6 +1158,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     }
 
     private renderGroupBySelect() {
+        const { hasLanguageData, hasYearData, hasScriptData, hasOwnedData } = this.dataAvailability();
+        if (!hasLanguageData && !hasYearData && !hasScriptData && !hasOwnedData) return null;
         return (
             <FormControl variant="outlined" style={{minWidth: 160, margin: 0}}>
                 <InputLabel id="showcase-group-by-label">Group by</InputLabel>
@@ -1137,18 +1170,20 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     label="Group by"
                 >
                     <MenuItem value="none">None</MenuItem>
-                    <MenuItem value="language">Language</MenuItem>
-                    <MenuItem value="year">Year</MenuItem>
-                    <MenuItem value="script">Script</MenuItem>
-                    <MenuItem
-                        value="owned"
-                        disabled={
-                            this.state.focusState === FocusState.OWNED ||
-                            this.state.focusState === FocusState.WANTED
-                        }
-                    >
-                        Owned
-                    </MenuItem>
+                    {hasLanguageData && <MenuItem value="language">Language</MenuItem>}
+                    {hasYearData && <MenuItem value="year">Year</MenuItem>}
+                    {hasScriptData && <MenuItem value="script">Script</MenuItem>}
+                    {hasOwnedData && (
+                        <MenuItem
+                            value="owned"
+                            disabled={
+                                this.state.focusState === FocusState.OWNED ||
+                                this.state.focusState === FocusState.WANTED
+                            }
+                        >
+                            Owned
+                        </MenuItem>
+                    )}
                 </Select>
             </FormControl>
         );
