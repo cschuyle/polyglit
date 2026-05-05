@@ -12,7 +12,7 @@ import {BrowserRouter as Router, useLocation} from "react-router-dom";
 import Showcase, {FocusState} from './Showcase';
 import {ensurePolyglitDataPreloaded} from './polyglitJsonCache';
 import {trovePublicJson} from './troveUrls';
-import {configuredTroveIds, TroveId, troveIdOverride} from './featureFlags';
+import {configuredTroveIds, multiTrovesEnabled, TroveId, troveIdOverride} from './featureFlags';
 // import HomePage from './HomePage';
 import reportWebVitals from './reportWebVitals';
 
@@ -78,7 +78,7 @@ const ROOT_TROVE_IDS = configuredTroveIds();
 const DEFAULT_ROOT_TROVE_ID = troveIdOverride() ?? (Object.keys(TROVE_CONFIGS)[0] as TroveId);
 
 function rootTabsEnabled(): boolean {
-    return ROOT_TROVE_IDS.length > 1;
+    return multiTrovesEnabled() && ROOT_TROVE_IDS.length > 1;
 }
 
 function pathMatchesConfiguredTroveId(pathname: string): boolean {

@@ -12,3 +12,6 @@
 # You may also provide a comma-delimited list to show trove tabs on /
 #export REACT_APP_TROVE_IDS=hobbit
 #export REACT_APP_TROVE_IDS=little-prince,hobbit,books
+
+# Show trove selector tabs in the header (requires REACT_APP_TROVE_IDS to list multiple troves)
+#export REACT_APP_MULTI_TROVES_FLAG=true

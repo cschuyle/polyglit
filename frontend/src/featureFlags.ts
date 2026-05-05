@@ -14,6 +14,10 @@ export function sortNavEnabled(): boolean {
   return envFlagTrue(process.env.REACT_APP_SORT_NAV_FLAG);
 }
 
+export function multiTrovesEnabled(): boolean {
+  return envFlagTrue(process.env.REACT_APP_MULTI_TROVES_FLAG);
+}
+
 export type TroveId = 'little-prince' | 'hobbit' | 'alice-in-wonderland' | 'books';
 
 const KNOWN_TROVE_IDS: TroveId[] = ['little-prince', 'hobbit', 'alice-in-wonderland', 'books'];

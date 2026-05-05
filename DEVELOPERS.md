@@ -116,3 +116,14 @@ REACT_APP_TROVE_IDS=alice-in-wonderland npm run start
 # show tabs for Little Prince, Hobbit, and Books on the root route
 REACT_APP_TROVE_IDS=little-prince,hobbit,books npm run start
 ```
+
+### `REACT_APP_MULTI_TROVES_FLAG`
+
+Controls whether trove-selector tabs appear in the header. Defaults to `false`.
+
+- Must be `true` for the tabs to render.
+- Also requires `REACT_APP_TROVE_IDS` to contain more than one valid trove ID — both conditions must be met.
+
+```bash
+REACT_APP_TROVE_IDS=little-prince,hobbit,books REACT_APP_MULTI_TROVES_FLAG=true npm run start
+```
