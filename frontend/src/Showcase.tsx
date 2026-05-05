@@ -6,6 +6,8 @@ import coverIcon from "./images/lp-cover.jpg"
 import audibookIcon from "./images/audiobook.png"
 import lpfoundIcon from "./images/lp-found-fox.png"
 import tintenfassIcon from "./images/tinten.png"
+import pinnedIcon from "./images/pinned.png"
+import unpinnedIcon from "./images/unpinned.png"
 
 import {
     CircularProgress,
@@ -176,6 +178,8 @@ interface ShowcaseState {
     showResultsScrollTopButton: boolean,
     /** Reveals the floating scroll-to-top affordance only when pointer is close. */
     resultsScrollTopButtonPointerNear: boolean,
+    /** Keeps the footer visible until explicitly unpinned. */
+    footerPinned: boolean,
     /** Global tooltip visibility toggle controlled from fixed footer. */
     tooltipsEnabled: boolean,
     /** Bumps to remount tooltip components and dismiss visible tooltips. */
@@ -268,6 +272,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             resultsScrollCatchUp: false,
             showResultsScrollTopButton: false,
             resultsScrollTopButtonPointerNear: false,
+            footerPinned: false,
             tooltipsEnabled: false,
             tooltipDismissNonce: 0,
             tooltipHoverLockedImageKey: null,
@@ -531,9 +536,13 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         );
     }
 
+    private isFooterVisible(): boolean {
+        return this.state.footerPinned || this.state.resultsScrollTopButtonPointerNear;
+    }
+
     private renderTooltipToggleFooter() {
         const enabled = this.state.tooltipsEnabled;
-        const footerVisible = this.state.resultsScrollTopButtonPointerNear;
+        const footerVisible = this.isFooterVisible();
         return (
             <footer className={`showcase-tooltip-footer${footerVisible ? " is-visible" : ""}`} aria-label="Results controls">
                 <div className="showcase-tooltip-footer__inner">
@@ -565,6 +574,23 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         )}
                     </div>
                     {this.renderResultsScrollTopButton(true)}
+                    <button
+                        type="button"
+                        className={`showcase-tooltip-footer__pin${this.state.footerPinned ? " is-active" : ""}`}
+                        onClick={() => this.setState((prev) => ({footerPinned: !prev.footerPinned}))}
+                        aria-pressed={this.state.footerPinned}
+                        aria-label={this.state.footerPinned ? "Unpin footer" : "Pin footer"}
+                        title={this.state.footerPinned ? "Unpin footer" : "Pin footer"}
+                    >
+                        <span
+                            aria-hidden
+                            className="showcase-tooltip-footer__pin-image"
+                            style={{
+                                WebkitMaskImage: `url(${this.state.footerPinned ? pinnedIcon : unpinnedIcon})`,
+                                maskImage: `url(${this.state.footerPinned ? pinnedIcon : unpinnedIcon})`,
+                            }}
+                        />
+                    </button>
                 </div>
             </footer>
         );
@@ -708,7 +734,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         if (!this.state.showResultsScrollTopButton) {
             return null;
         }
-        const visible = this.state.resultsScrollTopButtonPointerNear;
+        const visible = this.isFooterVisible();
         const dockClass = inFooter
             ? `results-scroll-top-dock in-footer${visible ? " is-visible" : ""}`
             : `results-scroll-top-dock${visible ? " is-visible" : ""}`;
