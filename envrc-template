@@ -6,3 +6,9 @@
 
 # Show right-hand sort navigator when Group By is none
 #export REACT_APP_SORT_NAV_FLAG=true
+
+# Override which trove the root route (/) loads.
+# Valid values: little-prince, hobbit, alice-in-wonderland, books
+# You may also provide a comma-delimited list to show trove tabs on /
+#export REACT_APP_TROVE_IDS=hobbit
+#export REACT_APP_TROVE_IDS=little-prince,hobbit,books

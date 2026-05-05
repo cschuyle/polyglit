@@ -91,3 +91,28 @@ REACT_APP_GROUP_BY_FLAG=false npm run start
 # hide sort-only right nav (default behavior)
 REACT_APP_SORT_NAV_FLAG=false npm run start
 ```
+
+### `REACT_APP_TROVE_IDS`
+
+Controls which trove the root route (`/`) loads and which exact trove-ID paths are available.
+
+- A single valid ID: load that trove on `/`
+- `hobbit`: load The Hobbit
+- `alice-in-wonderland`: load Alice in Wonderland
+- `books`: load the opportunistically-acquired titles collection
+- A comma-delimited list such as `little-prince,hobbit,books`: show header tabs on `/`; the first valid ID becomes the default selected tab.
+- A route like `/hobbit` only shows that trove when `hobbit` is present in `REACT_APP_TROVE_IDS`; any other route falls back to the default page.
+
+If no valid IDs are configured, the app falls back to its first built-in trove config.
+
+For **`npm run deploy`**, set this in **`frontend/.env.deploy`** if you want to ship a build rooted at a different trove.
+
+```bash
+# load hobbit at the root route
+REACT_APP_TROVE_IDS=hobbit npm run start
+
+# load alice at the root route
+REACT_APP_TROVE_IDS=alice-in-wonderland npm run start
+# show tabs for Little Prince, Hobbit, and Books on the root route
+REACT_APP_TROVE_IDS=little-prince,hobbit,books npm run start
+```
