@@ -1103,6 +1103,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
     }
 
     private renderMultilingualFilterToggle() {
+        const hasMultilingual = this.state.troveItems.some(i => this.isMultilingualEdition(i));
+        if (!hasMultilingual) return null;
         return (
             <FormControlLabel
                 style={{margin: 0}}
