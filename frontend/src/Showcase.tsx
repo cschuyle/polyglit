@@ -1053,7 +1053,17 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         );
     }
 
+    private focusSelectOptions(): { showOwnedWanted: boolean; showDuplicates: boolean } {
+        const items = this.state.troveItems;
+        const ownedValues = new Set(items.map(i => this.editionOwnedDefaultTrue(i.littlePrinceItem)));
+        const showOwnedWanted = ownedValues.size > 1;
+        const showDuplicates = items.some(i => (i.littlePrinceItem.quantity ?? 1) > 1);
+        return { showOwnedWanted, showDuplicates };
+    }
+
     private renderFocusStateSelect() {
+        const { showOwnedWanted, showDuplicates } = this.focusSelectOptions();
+        if (!showOwnedWanted && !showDuplicates) return null;
         return (
             <FormControlLabel
                 style={{margin: 0}}
@@ -1064,14 +1074,18 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         onChange={(e: any) => this.onFocusStateChanged(e)}
                         color="primary"
                     >
-                        <MenuItem value={FocusState.OWNED}>Show editions that I own</MenuItem>
-                        <MenuItem value={FocusState.WANTED}>Show editions that I&apos;m looking for</MenuItem>
-                        <MenuItem value={FocusState.DUPLICATES}>
-                            Show editions of which I have extras to trade or sell
-                        </MenuItem>
-                        <MenuItem value={FocusState.ALL}>
-                            Show all editions — the ones I own as well as I&apos;m explicitly looking for
-                        </MenuItem>
+                        {showOwnedWanted && <MenuItem value={FocusState.OWNED}>Show editions that I own</MenuItem>}
+                        {showOwnedWanted && <MenuItem value={FocusState.WANTED}>Show editions that I&apos;m looking for</MenuItem>}
+                        {showDuplicates && (
+                            <MenuItem value={FocusState.DUPLICATES}>
+                                Show editions of which I have extras to trade or sell
+                            </MenuItem>
+                        )}
+                        {showOwnedWanted && (
+                            <MenuItem value={FocusState.ALL}>
+                                Show all editions — the ones I own as well as I&apos;m explicitly looking for
+                            </MenuItem>
+                        )}
                     </Select>
                 }
             />
