@@ -1232,10 +1232,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         }}
                     >
                         <svg viewBox="0 0 24 24" aria-hidden focusable="false" style={iconStyle}>
-                            <rect x="3" y="4" width="15" height="4" rx="2" fill="currentColor" />
-                            <rect x="3" y="9" width="15" height="4" rx="2" fill="currentColor" />
-                            <rect x="3" y="14" width="15" height="4" rx="2" fill="currentColor" />
-                            <rect x="20" y="3" width="4" height="18" rx="2" fill="currentColor" />
+                            <rect x="3" y="4" width="15" height="4" fill="currentColor" />
+                            <rect x="3" y="9" width="15" height="4" fill="currentColor" />
+                            <rect x="3" y="14" width="15" height="4" fill="currentColor" />
+                            <rect x="20" y="3" width="4" height="18" fill="currentColor" />
                         </svg>
                     </IconButton>
                 </Tooltip>
