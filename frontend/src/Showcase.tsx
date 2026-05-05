@@ -2545,8 +2545,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     </Grid>
                 }
                 {
-                    troveItem.littlePrinceItem.files?.map(filename => {
-                        return <Grid item>
+                    troveItem.littlePrinceItem.files?.map((filename, idx) => {
+                        return <Grid item key={idx}>
                             {this.renderDocumentLink(filename, troveItem)}
                         </Grid>
                     })
@@ -2734,15 +2734,15 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             <strong><i>{troveItem.littlePrinceItem.title}</i></strong>
             <p />
             {
-            rows.map((row) => {
-                    if (row?.field != null) return <span>
+            rows.map((row, rowIdx) => {
+                    if (row?.field != null) return <span key={rowIdx}>
                         <strong>{row?.field}:</strong> {this.linkifyValue(row?.value)}<p/></span>
                     if (Array.isArray(row?.value)) {
                         return row?.value.map((word, idx) => {
-                            return <span key={idx}>{this.linkifyValue(word)}<p/></span>;
+                            return <span key={`${rowIdx}-${idx}`}>{this.linkifyValue(word)}<p/></span>;
                         });
                     }
-                    return <span>{this.linkifyValue(row?.value)}</span>
+                    return <span key={rowIdx}>{this.linkifyValue(row?.value)}</span>
                 }
             )}
         </div>
@@ -2773,15 +2773,15 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             <strong><i>{troveItem.littlePrinceItem.title}</i></strong>
             <p />
             {
-            rows.map((row) => {
-                    if (row?.field != null) return <span>
+            rows.map((row, rowIdx) => {
+                    if (row?.field != null) return <span key={rowIdx}>
                         <strong>{row?.field}:</strong> {this.linkifyValue(row?.value)}<p/></span>
                     if (Array.isArray(row?.value)) {
                         return row?.value.map((word, idx) => {
-                            return <span key={idx}>{this.linkifyValue(word)}<p/></span>;
+                            return <span key={`${rowIdx}-${idx}`}>{this.linkifyValue(word)}<p/></span>;
                         });
                     }
-                    return <span>{this.linkifyValue(row?.value)}</span>
+                    return <span key={rowIdx}>{this.linkifyValue(row?.value)}</span>
                 }
             )}
         </div>
