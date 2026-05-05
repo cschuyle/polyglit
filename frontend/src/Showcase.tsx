@@ -2538,7 +2538,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         const rows = this.troveItemDetailRowsForTooltip(troveItem, fieldsInOrder);
 
         return <Grid container direction={"row"} spacing={2}>
-            <Grid item direction={"column"} justify={"center"}>
+            <Grid item container direction={"column"} justify={"center"}>
                 {
                     <Grid item>
                         {this.renderPrimaryImageLink(troveItem)}
