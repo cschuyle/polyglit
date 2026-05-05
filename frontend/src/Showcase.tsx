@@ -193,7 +193,6 @@ export interface ShowcaseProps {
     // pageSubtitle: string,
     troveUrl: string,
     collectionTitle: string,
-    showWantedCheckboxes: boolean,
     focusState?: FocusState
 }
 
@@ -252,7 +251,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             displayedTroveItems: [],
             focusItems: [],
             searchText: "",
-            focusState: (props.showWantedCheckboxes ? FocusState.OWNED : FocusState.ALL),
+            focusState: FocusState.OWNED,
             FocusItemCount: 0,
             langIsoMaps: null,
             captionMode: CaptionMode.TITLES,
@@ -407,48 +406,18 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     {/*<p>{this.props.pageSubtitle}</p>*/}
 
                     <div style={{width: "100%"}}>
-                        {this.props.showWantedCheckboxes ? (
-                            <div
-                                style={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    flexWrap: "wrap",
-                                    alignItems: "center",
-                                    gap: "16px",
-                                }}
-                            >
-                                {this.renderFocusStateSelect()}
-                                {this.renderMultilingualFilterToggle()}
-                            </div>
-                        ) : (
-                            <>
-                                {this.state.focusState === FocusState.OWNED && (
-                                    <p>
-                                        These are books that I own. Use the dropdown and the search box to filter
-                                        differently!
-                                    </p>
-                                )}
-                                {this.state.focusState === FocusState.WANTED && (
-                                    <p>
-                                        These are books that I DO NOT HAVE. I&apos;m looking for them. If you want to
-                                        trade (or sell!), or just want to help me find them, please get in touch!{" "}
-                                        <a href="mailto:carl@dragnon.com">carl@dragnon.com</a>
-                                    </p>
-                                )}
-                                {this.state.focusState === FocusState.DUPLICATES && (
-                                    <p>
-                                        These are books that I have EXTRAS to trade or sell. If you&apos;re
-                                        interested, please get in touch!{" "}
-                                        <a href="mailto:carl@dragnon.com">carl@dragnon.com</a>
-                                    </p>
-                                )}
-                                {this.state.focusState === FocusState.ALL && (
-                                    <p>
-                                        <b>NOTE:</b> These include books that I own, and ones that I&apos;m looking for.
-                                    </p>
-                                )}
-                            </>
-                        )}
+                        <div
+                            style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                flexWrap: "wrap",
+                                alignItems: "center",
+                                gap: "16px",
+                            }}
+                        >
+                            {this.renderFocusStateSelect()}
+                            {this.renderMultilingualFilterToggle()}
+                        </div>
 
                         <div ref={this.searchResultsRef} className="search-results" style={{width: "100%"}}>
                         <div style={{width: "100%", marginTop: "12px"}}>
@@ -530,7 +499,6 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                     marginLeft: "auto",
                                 }}
                             >
-                                {!this.props.showWantedCheckboxes && this.renderMultilingualFilterToggle()}
                                 {GROUP_BY_ENABLED && this.renderGroupBySelect()}
                                 {this.state.viewMode === ViewMode.GALLERY && this.renderGallerySortSelect()}
                                 {this.renderViewModeToggle()}

@@ -5,7 +5,7 @@ import Showcase from './Showcase';
 test('renders search and edition summary', () => {
   render(<Showcase
       // pageHeader='' pageSubtitle=''
-      troveUrl='' collectionTitle='' showWantedCheckboxes={false}/>);
+      troveUrl='' collectionTitle=''/>);
   expect(screen.getByPlaceholderText(/language, country/)).toBeInTheDocument();
   expect(screen.getByText(/editions of/)).toBeInTheDocument();
 });

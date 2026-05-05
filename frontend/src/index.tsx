@@ -143,7 +143,6 @@ function AppShell() {
             <Showcase
                 troveUrl={trovePublicJson(`${currentTroveId}.json`)}
                 collectionTitle={currentTrove?.h1 ?? ''}
-                showWantedCheckboxes={false}
                 focusState={FocusState.OWNED}
             />
 
