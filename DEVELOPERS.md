@@ -92,29 +92,34 @@ REACT_APP_GROUP_BY_FLAG=false npm run start
 REACT_APP_SORT_NAV_FLAG=false npm run start
 ```
 
-### `REACT_APP_TROVE_IDS`
+### `REACT_APP_TROVE_DATA`
 
-Controls which trove the root route (`/`) loads and which exact trove-ID paths are available.
+A JSON array (as a literal string) describing the troves available in the app. Each entry drives the header display and determines which data file is loaded.
 
-- A single valid ID: load that trove on `/`
-- `hobbit`: load The Hobbit
-- `alice-in-wonderland`: load Alice in Wonderland
-- `books`: load the opportunistically-acquired titles collection
-- A comma-delimited list such as `little-prince,hobbit,books`: show header tabs on `/`; the first valid ID becomes the default selected tab.
-- A route like `/hobbit` only shows that trove when `hobbit` is present in `REACT_APP_TROVE_IDS`; any other route falls back to the default page.
+**Shape of each entry:**
 
-If no valid IDs are configured, the app falls back to its first built-in trove config.
+| Field | Required | Description |
+|-------|----------|-------------|
+| `troveId` | yes | Identifier; also used as the URL path segment and as `${troveId}.json` to locate the data file |
+| `shortName` | yes | Label shown on the trove-selector tab button |
+| `h1` | yes | Main header title (plain text) |
+| `h2` | yes | Subtitle — supports inline Markdown (`*italic*`, `**bold**`) |
+| `h3` | no | Optional tagline — supports inline Markdown |
 
-For **`npm run deploy`**, set this in **`frontend/.env.deploy`** if you want to ship a build rooted at a different trove.
+If unset or empty, the app renders no header content and loads no trove.
+
+For **`npm run deploy`**, set this in **`frontend/.env.deploy`**.
+
+**Single-trove example:**
 
 ```bash
-# load hobbit at the root route
-REACT_APP_TROVE_IDS=hobbit npm run start
+REACT_APP_TROVE_DATA='[{"troveId":"hobbit","shortName":"The Hobbit","h1":"The Hobbit","h2":"or, *There and Back Again*, by J.R.R. Tolkien","h3":"... in Lots of Languages"}]' npm run start
+```
 
-# load alice at the root route
-REACT_APP_TROVE_IDS=alice-in-wonderland npm run start
-# show tabs for Little Prince, Hobbit, and Books on the root route
-REACT_APP_TROVE_IDS=little-prince,hobbit,books npm run start
+**Multi-trove example** (combine with `REACT_APP_MULTI_TROVES_FLAG=true` for selector tabs):
+
+```bash
+REACT_APP_TROVE_DATA='[{"troveId":"little-prince","shortName":"Le Petit Prince","h1":"Le Petit Prince","h2":"or, *The Little Prince*, by Antoine de Saint-Exup\u00e9ry","h3":"... in Lots of Languages"},{"troveId":"hobbit","shortName":"The Hobbit","h1":"The Hobbit","h2":"or, *There and Back Again*, by J.R.R. Tolkien","h3":"... in Lots of Languages"},{"troveId":"books","shortName":"Books","h1":"A sundry collection of books in many languages,","h2":"or translated from one"}]' REACT_APP_MULTI_TROVES_FLAG=true npm run start
 ```
 
 ### `REACT_APP_MULTI_TROVES_FLAG`
@@ -122,8 +127,4 @@ REACT_APP_TROVE_IDS=little-prince,hobbit,books npm run start
 Controls whether trove-selector tabs appear in the header. Defaults to `false`.
 
 - Must be `true` for the tabs to render.
-- Also requires `REACT_APP_TROVE_IDS` to contain more than one valid trove ID — both conditions must be met.
-
-```bash
-REACT_APP_TROVE_IDS=little-prince,hobbit,books REACT_APP_MULTI_TROVES_FLAG=true npm run start
-```
+- Also requires `REACT_APP_TROVE_DATA` to contain more than one entry — both conditions must be met.

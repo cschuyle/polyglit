@@ -13,5 +13,17 @@
 #export REACT_APP_TROVE_IDS=hobbit
 #export REACT_APP_TROVE_IDS=little-prince,hobbit,books
 
-# Show trove selector tabs in the header (requires REACT_APP_TROVE_IDS to list multiple troves)
+# Show trove selector tabs in the header (requires REACT_APP_TROVE_DATA to list multiple troves)
 #export REACT_APP_MULTI_TROVES_FLAG=true
+
+# Trove data JSON array. Each entry: {"troveId":"","shortName":"","h1":"","h2":"","h3":""}
+#export REACT_APP_TROVE_DATA='
+# [
+#     {
+#         "troveId": "hobbit",
+#         "shortName": "The Hobbit",
+#         "h1": "The Hobbit",
+#         "h2": "or, *There and Back Again*, by J.R.R. Tolkien",
+#         "h3": "... in Lots of Languages"
+#     }
+# ]'

@@ -1,22 +1,11 @@
 import type {Trove} from "./Showcase";
 import type {Iso15924Row, Iso6391Row, Iso6393Row, LangIsoMaps} from "./langIsoLookup";
 import {langIsoMapsFromRows, languageJsonUrlsFromTroveUrl} from "./langIsoLookup";
-import {trovePublicJson} from "./troveUrls";
 
-/** Every trove JSON used by the app router (loaded once at startup, kept in memory). */
-const TROVE_FILENAMES = [
-    "little-prince.json",
-    "hobbit.json",
-    "alice-in-wonderland.json",
-    "books.json",
-] as const;
-
-function allTroveUrls(): string[] {
-    return TROVE_FILENAMES.map((f) => trovePublicJson(f));
-}
 
 const troveByUrl = new Map<string, Trove>();
 const langIsoByUrl = new Map<string, LangIsoMaps | null>();
+const failedTroveUrls = new Set<string>();
 
 /** One in-flight or completed JSON fetch per URL (trove + ISO files dedupe across troves). */
 const jsonFetchByUrl = new Map<string, Promise<unknown>>();
@@ -47,6 +36,7 @@ async function loadOneTroveBundle(troveUrl: string): Promise<void> {
         })
         .catch((err) => {
             console.error(`[polyglitJsonCache] trove failed: ${troveUrl}`, err);
+            failedTroveUrls.add(troveUrl);
             troveByUrl.set(troveUrl, {id: "", name: "", shortName: "", items: []});
         });
 
@@ -74,12 +64,13 @@ async function loadOneTroveBundle(troveUrl: string): Promise<void> {
 /**
  * Fetches all trove and language-list JSON once and caches them in memory.
  * Safe to call from multiple places; subsequent calls return the same promise.
+ * @param troveUrls The full URLs of all troves to load (derived from REACT_APP_TROVE_DATA).
+ *                  Ignored after the first call — the promise is reused.
  */
-export function ensurePolyglitDataPreloaded(): Promise<void> {
+export function ensurePolyglitDataPreloaded(troveUrls: string[] = []): Promise<void> {
     if (preloadPromise == null) {
         preloadPromise = (async () => {
-            const urls = allTroveUrls();
-            await Promise.all(urls.map((u) => loadOneTroveBundle(u)));
+            await Promise.all(troveUrls.map((u) => loadOneTroveBundle(u)));
         })();
     }
     return preloadPromise;
@@ -91,4 +82,8 @@ export function getCachedTrove(troveUrl: string): Trove | undefined {
 
 export function getCachedLangIsoMaps(troveUrl: string): LangIsoMaps | null | undefined {
     return langIsoByUrl.get(troveUrl);
+}
+
+export function hasTroveLoadError(troveUrl: string): boolean {
+    return failedTroveUrls.has(troveUrl);
 }

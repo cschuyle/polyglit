@@ -18,23 +18,47 @@ export function multiTrovesEnabled(): boolean {
   return envFlagTrue(process.env.REACT_APP_MULTI_TROVES_FLAG);
 }
 
-export type TroveId = 'little-prince' | 'hobbit' | 'alice-in-wonderland' | 'books';
-
-const KNOWN_TROVE_IDS: TroveId[] = ['little-prince', 'hobbit', 'alice-in-wonderland', 'books'];
-
-export function configuredTroveIds(): TroveId[] {
-  const raw = process.env.REACT_APP_TROVE_IDS ?? '';
-  const ids = raw
-    .split(',')
-    .map((value) => value.trim().toLowerCase())
-    .filter((value): value is TroveId => KNOWN_TROVE_IDS.includes(value as TroveId));
-  return Array.from(new Set(ids));
-}
+export type TroveData = {
+  troveId: string;
+  shortName: string;
+  h1: string;
+  h2: string;
+  h3?: string;
+};
 
 /**
- * The root route loads the first valid ID from REACT_APP_TROVE_IDS.
- * Set REACT_APP_TROVE_IDS to one trove ID or a comma-delimited list of trove IDs.
+ * Parses REACT_APP_TROVE_DATA, a JSON array of trove descriptor objects.
+ * Each entry must have troveId, shortName, h1, h2 (string, may contain HTML), and optional h3.
+ * Returns [] if unset, empty, or malformed.
  */
-export function troveIdOverride(): TroveId | null {
-  return configuredTroveIds()[0] ?? null;
+export function configuredTroveData(): TroveData[] {
+  const raw = process.env.REACT_APP_TROVE_DATA ?? '';
+  if (!raw.trim()) {
+    console.error('[polyglit] REACT_APP_TROVE_DATA is not set or empty. No troves will load.');
+    return [];
+  }
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch (err) {
+    console.error('[polyglit] REACT_APP_TROVE_DATA is malformed JSON:', err);
+    return [];
+  }
+  if (!Array.isArray(parsed)) {
+    console.error('[polyglit] REACT_APP_TROVE_DATA must be a JSON array. Got:', typeof parsed);
+    return [];
+  }
+  const valid = parsed.filter(
+    (item): item is TroveData =>
+      item !== null &&
+      typeof item === 'object' &&
+      typeof item.troveId === 'string' &&
+      typeof item.shortName === 'string' &&
+      typeof item.h1 === 'string' &&
+      typeof item.h2 === 'string'
+  );
+  if (valid.length === 0) {
+    console.error('[polyglit] REACT_APP_TROVE_DATA contained no valid trove entries.');
+  }
+  return valid;
 }

@@ -10,83 +10,45 @@ import './css/Showcase.css';
 import {BrowserRouter as Router, useLocation} from "react-router-dom";
 
 import Showcase, {FocusState} from './Showcase';
-import {ensurePolyglitDataPreloaded} from './polyglitJsonCache';
+import {ensurePolyglitDataPreloaded, hasTroveLoadError} from './polyglitJsonCache';
 import {trovePublicJson} from './troveUrls';
-import {configuredTroveIds, multiTrovesEnabled, TroveId, troveIdOverride} from './featureFlags';
+import {configuredTroveData, multiTrovesEnabled, TroveData} from './featureFlags';
 // import HomePage from './HomePage';
 import reportWebVitals from './reportWebVitals';
 
-type TroveConfig = {
-    filename: string;
-    collectionTitle: string;
-    showWantedCheckboxes: boolean;
-    tabLabel: string;
-    header: {
-        title: string;
-        subtitle: React.ReactNode;
-        tagline?: string;
-    };
-};
+/** Converts inline Markdown (*italic*, **bold**, _italic_) to HTML. */
+function md(text: string): string {
+    return text
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+        .replace(/_(.+?)_/g, '<em>$1</em>');
+}
 
-const TROVE_CONFIGS: Record<TroveId, TroveConfig> = {
-    'little-prince': {
-        filename: 'little-prince.json',
-        collectionTitle: 'Le Petit Prince, by Antoine de Saint-Exupéry',
-        showWantedCheckboxes: true,
-        tabLabel: 'Le Petit Prince',
-        header: {
-            title: 'Le Petit Prince',
-            subtitle: <>or, <em>The Little Prince</em>, by Antoine de Saint-Exupéry</>,
-            tagline: '... in Lots of Languages',
-        },
-    },
-    'hobbit': {
-        filename: 'hobbit.json',
-        collectionTitle: 'The Hobbit',
-        showWantedCheckboxes: false,
-        tabLabel: 'The Hobbit',
-        header: {
-            title: 'The Hobbit',
-            subtitle: <>or, <em>There and Back Again</em>, by J.R.R. Tolkien</>,
-            tagline: '... in Lots of Languages',
-        },
-    },
-    'alice-in-wonderland': {
-        filename: 'alice-in-wonderland.json',
-        collectionTitle: 'Alice in Wonderland',
-        showWantedCheckboxes: false,
-        tabLabel: 'Alice in Wonderland',
-        header: {
-            title: "Alice's Adventures in Wonderland",
-            subtitle: <>by Lewis Carroll</>,
-            tagline: '... in Lots of Languages',
-        },
-    },
-    'books': {
-        filename: 'books.json',
-        collectionTitle: 'opportunistically-acquired titles, either translated from, or in the original non-English text',
-        showWantedCheckboxes: false,
-        tabLabel: 'Books',
-        header: {
-            title: 'A sundry collection of books in many languages,',
-            subtitle: <>or translated from one</>,
-        },
-    },
-};
+function showNotFound() {
+    document.open();
+    document.write('This is not the Trove you are looking for.');
+    document.close();
+}
 
-const ROOT_TROVE_IDS = configuredTroveIds();
-const DEFAULT_ROOT_TROVE_ID = troveIdOverride() ?? (Object.keys(TROVE_CONFIGS)[0] as TroveId);
+const ROOT_TROVE_DATA = configuredTroveData();
+const ROOT_TROVE_IDS = ROOT_TROVE_DATA.map(d => d.troveId);
+const ROOT_TROVE_URLS = ROOT_TROVE_IDS.map(id => trovePublicJson(`${id}.json`));
+const DEFAULT_ROOT_TROVE_ID = ROOT_TROVE_IDS[0] ?? '';
+
+function troveDataForId(troveId: string): TroveData | undefined {
+    return ROOT_TROVE_DATA.find(d => d.troveId === troveId);
+}
 
 function rootTabsEnabled(): boolean {
-    return multiTrovesEnabled() && ROOT_TROVE_IDS.length > 1;
+    return multiTrovesEnabled() && ROOT_TROVE_DATA.length > 1;
 }
 
 function pathMatchesConfiguredTroveId(pathname: string): boolean {
     const normalizedPath = pathname.replace(/^\/+|\/+$/g, '');
-    return normalizedPath !== '' && ROOT_TROVE_IDS.includes(normalizedPath as TroveId);
+    return normalizedPath !== '' && ROOT_TROVE_IDS.includes(normalizedPath);
 }
 
-function troveIdForPath(pathname: string, rootTroveId: TroveId): TroveId {
+function troveIdForPath(pathname: string, rootTroveId: string): string {
     if (pathname === '/' || pathname === '') {
         return rootTroveId;
     }
@@ -94,16 +56,16 @@ function troveIdForPath(pathname: string, rootTroveId: TroveId): TroveId {
     if (normalizedPath === '') {
         return rootTroveId;
     }
-    if (ROOT_TROVE_IDS.includes(normalizedPath as TroveId)) {
-        return normalizedPath as TroveId;
+    if (ROOT_TROVE_IDS.includes(normalizedPath)) {
+        return normalizedPath;
     }
     return rootTroveId;
 }
 
 function RootTroveTabs(props: {
-    activeTroveId: TroveId;
-    troveIds: TroveId[];
-    onSelect: (troveId: TroveId) => void;
+    activeTroveId: string;
+    troves: TroveData[];
+    onSelect: (troveId: string) => void;
 }) {
     return (
         <div
@@ -117,15 +79,15 @@ function RootTroveTabs(props: {
                 marginBottom: 14,
             }}
         >
-            {props.troveIds.map((troveId) => {
-                const isActive = props.activeTroveId === troveId;
+            {props.troves.map((trove) => {
+                const isActive = props.activeTroveId === trove.troveId;
                 return (
                     <button
-                        key={troveId}
+                        key={trove.troveId}
                         type="button"
                         role="tab"
                         aria-selected={isActive}
-                        onClick={() => props.onSelect(troveId)}
+                        onClick={() => props.onSelect(trove.troveId)}
                         style={{
                             border: isActive ? '1px solid #154273' : '1px solid rgba(255, 255, 255, 0.45)',
                             background: isActive ? 'rgba(255, 255, 255, 0.18)' : 'transparent',
@@ -137,7 +99,7 @@ function RootTroveTabs(props: {
                             fontWeight: isActive ? 700 : 500,
                         }}
                     >
-                        {TROVE_CONFIGS[troveId].tabLabel}
+                        {trove.shortName}
                     </button>
                 );
             })}
@@ -146,11 +108,20 @@ function RootTroveTabs(props: {
 }
 
 function AppShell() {
-    const [activeRootTroveId, setActiveRootTroveId] = React.useState<TroveId>(DEFAULT_ROOT_TROVE_ID);
+    const [activeRootTroveId, setActiveRootTroveId] = React.useState<string>(DEFAULT_ROOT_TROVE_ID);
     const location = useLocation();
     const currentTroveId = troveIdForPath(location.pathname, activeRootTroveId);
-    const currentTrove = TROVE_CONFIGS[currentTroveId];
+    const currentTrove = troveDataForId(currentTroveId);
     const showRootTabs = rootTabsEnabled() && !pathMatchesConfiguredTroveId(location.pathname);
+
+    React.useEffect(() => {
+        const url = trovePublicJson(`${currentTroveId}.json`);
+        ensurePolyglitDataPreloaded(ROOT_TROVE_URLS).then(() => {
+            if (hasTroveLoadError(url)) showNotFound();
+        });
+    }, [currentTroveId]);
+
+    if (hasTroveLoadError(trovePublicJson(`${currentTroveId}.json`))) return null;
 
     return (
         <>
@@ -159,20 +130,20 @@ function AppShell() {
                     {showRootTabs && (
                         <RootTroveTabs
                             activeTroveId={activeRootTroveId}
-                            troveIds={ROOT_TROVE_IDS}
+                            troves={ROOT_TROVE_DATA}
                             onSelect={setActiveRootTroveId}
                         />
                     )}
-                    <h1 id="project_title">{currentTrove.header.title}</h1>
-                    <h2 id="project_tagline">{currentTrove.header.subtitle}</h2>
-                    {currentTrove.header.tagline && <h3 id="project_tagline2">{currentTrove.header.tagline}</h3>}
+                    {currentTrove && <h1 id="project_title">{currentTrove.h1}</h1>}
+                    {currentTrove && <h2 id="project_tagline" dangerouslySetInnerHTML={{ __html: md(currentTrove.h2) }} />}
+                    {currentTrove?.h3 && <h3 id="project_tagline2" dangerouslySetInnerHTML={{ __html: md(currentTrove.h3) }} />}
                 </header>
             </div>
 
             <Showcase
-                troveUrl={trovePublicJson(currentTrove.filename)}
-                collectionTitle={currentTrove.collectionTitle}
-                showWantedCheckboxes={currentTrove.showWantedCheckboxes}
+                troveUrl={trovePublicJson(`${currentTroveId}.json`)}
+                collectionTitle={currentTrove?.h1 ?? ''}
+                showWantedCheckboxes={false}
                 focusState={FocusState.OWNED}
             />
 
@@ -185,17 +156,20 @@ function AppShell() {
     );
 }
 
-ensurePolyglitDataPreloaded();
+ensurePolyglitDataPreloaded(ROOT_TROVE_URLS);
 
-ReactDOM.render(
-    <React.StrictMode>
-        <Router basename={process.env.PUBLIC_URL}>
-            <AppShell />
-        </Router>
-
-    </React.StrictMode>,
-    document.getElementById('root')
-);
+if (ROOT_TROVE_DATA.length === 0) {
+    showNotFound();
+} else {
+    ReactDOM.render(
+        <React.StrictMode>
+            <Router basename={process.env.PUBLIC_URL}>
+                <AppShell />
+            </Router>
+        </React.StrictMode>,
+        document.getElementById('root')
+    );
+}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
