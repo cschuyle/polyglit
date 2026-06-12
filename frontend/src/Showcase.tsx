@@ -26,6 +26,8 @@ import {
 import ViewList from "@material-ui/icons/ViewList";
 import ViewModule from "@material-ui/icons/ViewModule";
 import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
+import CheckCircle from "@material-ui/icons/CheckCircle";
+import RadioButtonUnchecked from "@material-ui/icons/RadioButtonUnchecked";
 import {groupByEnabled, sortNavEnabled} from "./featureFlags";
 import {displayForIso15924Scripts, LangIsoMaps, LangPair, nameFor15924, nameFor6391, nameFor6393} from "./langIsoLookup";
 import {ensurePolyglitDataPreloaded, getCachedLangIsoMaps, getCachedTrove} from "./polyglitJsonCache";
@@ -190,6 +192,10 @@ interface ShowcaseState {
     tooltipDelayMs: number,
     /** Active large image shown in the lightbox, if any. */
     lightboxImage: { url: string; title: string; links: LightboxLink[]; troveItem: TroveItem | null } | null,
+    /** Stable keys of titles the user has selected. Persisted to localStorage. */
+    selectedKeys: string[],
+    /** Whether the selection summary panel/modal is open. */
+    showSelectionPanel: boolean,
 }
 
 export interface ShowcaseProps {
@@ -229,6 +235,7 @@ const SmallTooltip = withStyles({
 
 const SCROLL_CATCH_UP_SHOW_DELAY_MS = 1500;
 const SCROLL_CATCH_UP_SETTLE_DEBOUNCE_MS = 320;
+const SELECTED_KEYS_STORAGE_KEY = "polyglit:selectedKeys";
 
 
 class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
@@ -278,6 +285,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             tooltipHoverLockedImageKey: null,
             tooltipDelayMs: 500,
             lightboxImage: null,
+            selectedKeys: [],
+            showSelectionPanel: false,
         }
     }
 
@@ -287,7 +296,66 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         window.addEventListener("mousemove", this.onWindowMouseMove, {passive: true});
         window.addEventListener("keydown", this.onWindowKeyDown);
         this.updateResultsScrollTopButtonVisibility();
+        this.loadPersistedSelectedKeys();
         this.loadTrove(this.props.troveUrl);
+    }
+
+    private loadPersistedSelectedKeys() {
+        try {
+            const raw = localStorage.getItem(SELECTED_KEYS_STORAGE_KEY);
+            if (raw == null) {
+                return;
+            }
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) {
+                const keys = parsed.filter((k): k is string => typeof k === "string");
+                this.setState({selectedKeys: keys});
+            }
+        } catch {
+            // Ignore unavailable/corrupt storage (e.g. private mode).
+        }
+    }
+
+    /** Stable identity for selection, consistent across views and filters. */
+    private selectionKey(troveItem: TroveItem): string {
+        const lp = troveItem.littlePrinceItem;
+        return (
+            troveItem.polyglitStableRowKey ??
+            (lp.lpid != null && String(lp.lpid) !== "" ? String(lp.lpid) : null) ??
+            (lp.smallImageUrl != null && String(lp.smallImageUrl) !== "" ? String(lp.smallImageUrl) : null) ??
+            String(lp.title ?? "item")
+        );
+    }
+
+    private isSelected(troveItem: TroveItem): boolean {
+        return this.state.selectedKeys.indexOf(this.selectionKey(troveItem)) !== -1;
+    }
+
+    private toggleSelection(key: string) {
+        this.setState(prev => {
+            const next = new Set(prev.selectedKeys);
+            if (next.has(key)) {
+                next.delete(key);
+            } else {
+                next.add(key);
+            }
+            const arr = Array.from(next);
+            try {
+                localStorage.setItem(SELECTED_KEYS_STORAGE_KEY, JSON.stringify(arr));
+            } catch {
+                // Ignore unavailable storage.
+            }
+            return {selectedKeys: arr};
+        });
+    }
+
+    private clearSelection() {
+        try {
+            localStorage.setItem(SELECTED_KEYS_STORAGE_KEY, JSON.stringify([]));
+        } catch {
+            // Ignore unavailable storage.
+        }
+        this.setState({selectedKeys: []});
     }
 
     private loadTrove(troveUrl: string) {
@@ -503,6 +571,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                 Showing {this.state.displayedTroveItems.length} of {this.state.FocusItemCount} editions
                                 of {this.props.collectionTitle}.
                             </section>
+                            {this.renderSelectionStatus()}
                             <div
                                 style={{
                                     display: "flex",
@@ -532,6 +601,135 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 </div>
                 {this.renderTooltipToggleFooter()}
                 {this.renderLightbox()}
+                {this.renderSelectionPanel()}
+            </div>
+        );
+    }
+
+    private renderSelectionStatus() {
+        const count = this.state.selectedKeys.length;
+        return (
+            <section
+                style={{
+                    margin: 0,
+                    flex: "0 0 auto",
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: "6px",
+                }}
+            >
+                <span>{count} selected</span>
+                <button
+                    type="button"
+                    className="selection-popout-button"
+                    onClick={() => this.setState({showSelectionPanel: true})}
+                    disabled={count === 0}
+                    aria-label="Show selected titles"
+                    title="Show selected titles"
+                >
+                    <img src={popoutFlat} alt="" width={16} height={16} aria-hidden />
+                </button>
+            </section>
+        );
+    }
+
+    private selectedTroveItems(): TroveItem[] {
+        const selected = new Set(this.state.selectedKeys);
+        return this.state.troveItems.filter((item) => selected.has(this.selectionKey(item)));
+    }
+
+    private renderSelectionPanel() {
+        if (!this.state.showSelectionPanel) {
+            return null;
+        }
+        const items = this.selectedTroveItems();
+        const close = () => this.setState({showSelectionPanel: false});
+        return (
+            <div
+                className="showcase-lightbox"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Selected titles"
+                onClick={close}
+            >
+                <div className="showcase-lightbox__chrome">
+                    <button
+                        type="button"
+                        className="showcase-lightbox__close"
+                        onClick={(event) => {
+                            event.stopPropagation();
+                            close();
+                        }}
+                        aria-label="Close selected titles"
+                        title="Close"
+                    >
+                        ×
+                    </button>
+                </div>
+                <div
+                    className="showcase-lightbox__content selection-panel"
+                    onClick={(event) => event.stopPropagation()}
+                >
+                    <div className="selection-panel__header">
+                        <h2 className="selection-panel__title">Selected titles ({items.length})</h2>
+                        {items.length > 0 && (
+                            <button
+                                type="button"
+                                className="selection-panel__clear"
+                                onClick={() => this.clearSelection()}
+                            >
+                                Clear all
+                            </button>
+                        )}
+                    </div>
+                    {items.length === 0 ? (
+                        <p>No titles selected.</p>
+                    ) : (
+                        <div className="selection-panel__table-wrap">
+                            <table className="selection-panel__table">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Translation title</th>
+                                        <th>Language</th>
+                                        <th>ISBN</th>
+                                        <th>lpid</th>
+                                        <th>tintenfassid</th>
+                                        <th aria-label="Remove" />
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {items.map((item) => {
+                                        const lp = item.littlePrinceItem;
+                                        const key = this.selectionKey(item);
+                                        return (
+                                            <tr key={key}>
+                                                <td>{lp.title ?? ""}</td>
+                                                <td>{lp["translation-title"] ?? ""}</td>
+                                                <td>{lp.language ?? ""}</td>
+                                                <td>{lp.isbn13 ?? lp.isbn10 ?? ""}</td>
+                                                <td>{lp.lpid ?? ""}</td>
+                                                <td>{lp.tintenfassId ?? ""}</td>
+                                                <td>
+                                                    <button
+                                                        type="button"
+                                                        className="selection-panel__remove"
+                                                        onClick={() => this.toggleSelection(key)}
+                                                        aria-label={`Remove ${lp.title}`}
+                                                        title="Remove from selection"
+                                                    >
+                                                        ×
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                </div>
             </div>
         );
     }
@@ -765,6 +963,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
     private onWindowKeyDown = (event: KeyboardEvent) => {
         if (event.key !== "Escape") {
+            return;
+        }
+        if (this.state.showSelectionPanel) {
+            this.setState({showSelectionPanel: false});
             return;
         }
         if (this.state.lightboxImage != null) {
@@ -2098,6 +2300,28 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         );
     }
 
+    private renderSelectionToggle(troveItem: TroveItem) {
+        const key = this.selectionKey(troveItem);
+        const selected = this.state.selectedKeys.indexOf(key) !== -1;
+        const title = troveItem.littlePrinceItem.title;
+        return (
+            <button
+                type="button"
+                className={`selection-toggle${selected ? " is-selected" : ""}`}
+                aria-pressed={selected}
+                aria-label={selected ? `Unselect ${title}` : `Select ${title}`}
+                title={selected ? "Unselect" : "Select"}
+                onClick={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    this.toggleSelection(key);
+                }}
+            >
+                {selected ? <CheckCircle fontSize="small" /> : <RadioButtonUnchecked fontSize="small" />}
+            </button>
+        );
+    }
+
     private renderTroveItem(troveItem: TroveItem, reactListKey: string) {
         const hoverLocked = this.state.tooltipHoverLockedImageKey === reactListKey;
         return (
@@ -2119,25 +2343,28 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 onMouseEnter={() => this.onImageTooltipMouseEnter(reactListKey)}
                 onMouseLeave={() => this.onImageTooltipMouseLeave(reactListKey)}
             >
-                <button
-                    type="button"
-                    className="showcase-lightbox-trigger"
-                    onClick={() => this.openLightbox(
-                        troveItem.littlePrinceItem.largeImageUrl,
-                        troveItem.littlePrinceItem.title,
-                        this.lightboxLinksForTroveItem(troveItem),
-                        troveItem,
-                    )}
-                    aria-label={`Open large image for ${troveItem.littlePrinceItem.title}`}
-                >
-                    <div style={{position: "relative"}}>
-                        <img width="150" height={"100%"}
-                             src={troveItem.littlePrinceItem.smallImageUrl}
-                            // title={troveItem.littlePrinceItem.title}
-                             alt={troveItem.littlePrinceItem.title}
-                        />
-                    </div>
-                </button>
+                <div className="selection-overlay-anchor">
+                    {this.renderSelectionToggle(troveItem)}
+                    <button
+                        type="button"
+                        className="showcase-lightbox-trigger"
+                        onClick={() => this.openLightbox(
+                            troveItem.littlePrinceItem.largeImageUrl,
+                            troveItem.littlePrinceItem.title,
+                            this.lightboxLinksForTroveItem(troveItem),
+                            troveItem,
+                        )}
+                        aria-label={`Open large image for ${troveItem.littlePrinceItem.title}`}
+                    >
+                        <div style={{position: "relative"}}>
+                            <img width="150" height={"100%"}
+                                 src={troveItem.littlePrinceItem.smallImageUrl}
+                                // title={troveItem.littlePrinceItem.title}
+                                 alt={troveItem.littlePrinceItem.title}
+                            />
+                        </div>
+                    </button>
+                </div>
                 {this.renderThumbnailCaption(troveItem)}
             </div>
         </BigWhiteTooltip>
@@ -2514,27 +2741,30 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                                     enterNextDelay={this.state.tooltipDelayMs}
                                                     TransitionProps={{timeout: this.tooltipTransitionTimeout()}}
                                                 >
-                                                    <button
-                                                        type="button"
-                                                        className="showcase-lightbox-trigger"
-                                                        onClick={() => this.openLightbox(
-                                                            lp.largeImageUrl,
-                                                            lp.title,
-                                                            this.lightboxLinksForTroveItem(troveItem),
-                                                            troveItem,
-                                                        )}
-                                                        aria-label={`Open large image for ${lp.title}`}
-                                                        onMouseEnter={() => this.onImageTooltipMouseEnter(rowKey)}
-                                                        onMouseLeave={() => this.onImageTooltipMouseLeave(rowKey)}
-                                                    >
-                                                        <img
-                                                            width="80"
-                                                            height="100%"
-                                                            src={lp.smallImageUrl}
-                                                            alt={lp.title}
-                                                            style={{display: "block"}}
-                                                        />
-                                                    </button>
+                                                    <div className="selection-overlay-anchor">
+                                                        {this.renderSelectionToggle(troveItem)}
+                                                        <button
+                                                            type="button"
+                                                            className="showcase-lightbox-trigger"
+                                                            onClick={() => this.openLightbox(
+                                                                lp.largeImageUrl,
+                                                                lp.title,
+                                                                this.lightboxLinksForTroveItem(troveItem),
+                                                                troveItem,
+                                                            )}
+                                                            aria-label={`Open large image for ${lp.title}`}
+                                                            onMouseEnter={() => this.onImageTooltipMouseEnter(rowKey)}
+                                                            onMouseLeave={() => this.onImageTooltipMouseLeave(rowKey)}
+                                                        >
+                                                            <img
+                                                                width="80"
+                                                                height="100%"
+                                                                src={lp.smallImageUrl}
+                                                                alt={lp.title}
+                                                                style={{display: "block"}}
+                                                            />
+                                                        </button>
+                                                    </div>
                                                 </BigWhiteTooltip>
                                             </td>
                                             <td style={cellStyle}>{lp.title}</td>
