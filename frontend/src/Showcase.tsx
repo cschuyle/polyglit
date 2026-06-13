@@ -730,12 +730,15 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         const visibleColumns = columns.filter((col) =>
             items.some((item) => hasValue(col.value(item.littlePrinceItem))),
         );
-        const headerCells = visibleColumns.map((col) => `<th>${esc(col.header)}</th>`).join("");
+        const headerCells = `<th></th>${visibleColumns.map((col) => `<th>${esc(col.header)}</th>`).join("")}`;
         const rows = items
             .map((item) => {
                 const lp = item.littlePrinceItem;
-                const cells = visibleColumns.map((col) => `<td>${esc(col.value(lp))}</td>`).join("");
-                return `<tr>${cells}</tr>`;
+                const thumb = hasValue(lp.smallImageUrl)
+                    ? `<img class="thumb" src="${esc(lp.smallImageUrl)}" alt="${esc(lp.title)}" />`
+                    : "";
+                const dataCells = visibleColumns.map((col) => `<td>${esc(col.value(lp))}</td>`).join("");
+                return `<tr><td class="thumb-cell">${thumb}</td>${dataCells}</tr>`;
             })
             .join("");
         return `<!DOCTYPE html>
@@ -750,6 +753,8 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
   table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
   th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid #e2e2e2; vertical-align: top; }
   th { background: #f4f4f4; font-weight: 700; }
+  td.thumb-cell { width: 60px; }
+  img.thumb { display: block; width: 50px; height: auto; }
 </style>
 </head>
 <body>
