@@ -194,8 +194,6 @@ interface ShowcaseState {
     lightboxImage: { url: string; title: string; links: LightboxLink[]; troveItem: TroveItem | null } | null,
     /** Stable keys of titles the user has selected. Persisted to localStorage. */
     selectedKeys: string[],
-    /** Whether the selection summary panel/modal is open. */
-    showSelectionPanel: boolean,
     /** When true, results are restricted to selected titles (composed with all other filters). */
     onlyShowSelected: boolean,
 }
@@ -288,7 +286,6 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             tooltipDelayMs: 500,
             lightboxImage: null,
             selectedKeys: [],
-            showSelectionPanel: false,
             onlyShowSelected: false,
         }
     }
@@ -351,17 +348,6 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             const onlyShowSelected = prev.onlyShowSelected && arr.length > 0;
             return {selectedKeys: arr, onlyShowSelected};
         }, () => {
-            this.refreshDisplayedTroveItems();
-        });
-    }
-
-    private clearSelection() {
-        try {
-            localStorage.setItem(SELECTED_KEYS_STORAGE_KEY, JSON.stringify([]));
-        } catch {
-            // Ignore unavailable storage.
-        }
-        this.setState({selectedKeys: [], onlyShowSelected: false}, () => {
             this.refreshDisplayedTroveItems();
         });
     }
@@ -619,7 +605,6 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 </div>
                 {this.renderTooltipToggleFooter()}
                 {this.renderLightbox()}
-                {this.renderSelectionPanel()}
             </div>
         );
     }
@@ -641,10 +626,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 <button
                     type="button"
                     className="selection-popout-button"
-                    onClick={() => this.setState({showSelectionPanel: true})}
+                    onClick={() => this.openSelectionInNewTab()}
                     disabled={count === 0}
-                    aria-label="Show selected titles"
-                    title="Show selected titles"
+                    aria-label="Open selected titles in a new tab"
+                    title="Open selected titles in a new tab"
                 >
                     <img src={popoutFlat} alt="" width={16} height={16} aria-hidden />
                 </button>
@@ -667,99 +652,73 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         return this.state.troveItems.filter((item) => selected.has(this.selectionKey(item)));
     }
 
-    private renderSelectionPanel() {
-        if (!this.state.showSelectionPanel) {
-            return null;
-        }
+    private openSelectionInNewTab() {
         const items = this.selectedTroveItems();
-        const close = () => this.setState({showSelectionPanel: false});
-        return (
-            <div
-                className="showcase-lightbox"
-                role="dialog"
-                aria-modal="true"
-                aria-label="Selected titles"
-                onClick={close}
-            >
-                <div className="showcase-lightbox__chrome">
-                    <button
-                        type="button"
-                        className="showcase-lightbox__close"
-                        onClick={(event) => {
-                            event.stopPropagation();
-                            close();
-                        }}
-                        aria-label="Close selected titles"
-                        title="Close"
-                    >
-                        ×
-                    </button>
-                </div>
-                <div
-                    className="showcase-lightbox__content selection-panel"
-                    onClick={(event) => event.stopPropagation()}
-                >
-                    <div className="selection-panel__header">
-                        <h2 className="selection-panel__title">Selected titles ({items.length})</h2>
-                        {items.length > 0 && (
-                            <button
-                                type="button"
-                                className="selection-panel__clear"
-                                onClick={() => this.clearSelection()}
-                            >
-                                Clear all
-                            </button>
-                        )}
-                    </div>
-                    {items.length === 0 ? (
-                        <p>No titles selected.</p>
-                    ) : (
-                        <div className="selection-panel__table-wrap">
-                            <table className="selection-panel__table">
-                                <thead>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Translation title</th>
-                                        <th>Language</th>
-                                        <th>ISBN</th>
-                                        <th>lpid</th>
-                                        <th>tintenfassid</th>
-                                        <th aria-label="Remove" />
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {items.map((item) => {
-                                        const lp = item.littlePrinceItem;
-                                        const key = this.selectionKey(item);
-                                        return (
-                                            <tr key={key}>
-                                                <td>{lp.title ?? ""}</td>
-                                                <td>{lp["translation-title"] ?? ""}</td>
-                                                <td>{lp.language ?? ""}</td>
-                                                <td>{lp.isbn13 ?? lp.isbn10 ?? ""}</td>
-                                                <td>{lp.lpid ?? ""}</td>
-                                                <td>{lp.tintenfassId ?? ""}</td>
-                                                <td>
-                                                    <button
-                                                        type="button"
-                                                        className="selection-panel__remove"
-                                                        onClick={() => this.toggleSelection(key)}
-                                                        aria-label={`Remove ${lp.title}`}
-                                                        title="Remove from selection"
-                                                    >
-                                                        ×
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
-                </div>
-            </div>
+        if (items.length === 0) {
+            return;
+        }
+        const tab = window.open("", "_blank");
+        if (tab == null) {
+            return;
+        }
+        tab.document.open();
+        tab.document.write(this.selectionPageHtml(items));
+        tab.document.close();
+    }
+
+    private selectionPageHtml(items: TroveItem[]): string {
+        const esc = (value: unknown): string =>
+            String(value ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;");
+        const hasValue = (value: unknown): boolean => value != null && String(value).trim() !== "";
+        const columns: {header: string; value: (lp: TroveItemDetails) => unknown}[] = [
+            {header: "Title", value: (lp) => lp.title},
+            {header: "Translation title", value: (lp) => lp["translation-title"]},
+            {header: "Language", value: (lp) => lp.language},
+            {header: "ISBN", value: (lp) => lp.isbn13 ?? lp.isbn10},
+            {header: "lpid", value: (lp) => lp.lpid},
+            {header: "tintenfassid", value: (lp) => lp.tintenfassId},
+        ];
+        const visibleColumns = columns.filter((col) =>
+            items.some((item) => hasValue(col.value(item.littlePrinceItem))),
         );
+        const headerCells = visibleColumns.map((col) => `<th>${esc(col.header)}</th>`).join("");
+        const rows = items
+            .map((item) => {
+                const lp = item.littlePrinceItem;
+                const cells = visibleColumns.map((col) => `<td>${esc(col.value(lp))}</td>`).join("");
+                return `<tr>${cells}</tr>`;
+            })
+            .join("");
+        return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Selected titles (${items.length})</title>
+<style>
+  body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; margin: 24px; color: #1a1a1a; }
+  h1 { font-size: 1.25rem; margin: 0 0 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid #e2e2e2; vertical-align: top; }
+  th { background: #f4f4f4; font-weight: 700; }
+</style>
+</head>
+<body>
+<h1>Selected titles (${items.length})</h1>
+<table>
+<thead>
+<tr>${headerCells}</tr>
+</thead>
+<tbody>
+${rows}
+</tbody>
+</table>
+</body>
+</html>`;
     }
 
     private isFooterVisible(): boolean {
@@ -991,10 +950,6 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
     private onWindowKeyDown = (event: KeyboardEvent) => {
         if (event.key !== "Escape") {
-            return;
-        }
-        if (this.state.showSelectionPanel) {
-            this.setState({showSelectionPanel: false});
             return;
         }
         if (this.state.lightboxImage != null) {
