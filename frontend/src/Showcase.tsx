@@ -351,6 +351,17 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         });
     }
 
+    private clearSelection() {
+        try {
+            localStorage.setItem(SELECTED_KEYS_STORAGE_KEY, JSON.stringify([]));
+        } catch {
+            // Ignore unavailable storage.
+        }
+        this.setState({selectedKeys: [], onlyShowSelected: false}, () => {
+            this.refreshDisplayedTroveItems();
+        });
+    }
+
     private refreshDisplayedTroveItems() {
         this.search(this.state.searchText, this.state.focusState);
     }
@@ -504,6 +515,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                             {this.renderFocusStateSelect()}
                             {this.renderMultilingualFilterToggle()}
                             {this.renderOnlySelectedToggle()}
+                            {this.renderSelectionStatus()}
                         </div>
 
                         <div ref={this.searchResultsRef} className="search-results" style={{width: "100%"}}>
@@ -572,10 +584,13 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                             }}
                         >
                             <section style={{margin: 0, flex: "0 1 auto", minWidth: 0}}>
-                                Showing {this.state.displayedTroveItems.length} of {this.state.FocusItemCount} editions
-                                of {this.props.collectionTitle}.
+                                Showing {
+                                    this.state.displayedTroveItems.length === this.state.FocusItemCount
+                                        ? `all ${this.state.FocusItemCount}`
+                                        : `${this.state.displayedTroveItems.length} of ${this.state.FocusItemCount}`
+                                } editions
+                                of {this.props.collectionTitle}{this.focusEditionsSuffix()}.
                             </section>
-                            {this.renderSelectionStatus()}
                             <div
                                 style={{
                                     display: "flex",
@@ -611,6 +626,19 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
     private renderSelectionStatus() {
         const count = this.state.selectedKeys.length;
+        if (count === 0) {
+            return null;
+        }
+        const displayedKeys = new Set(
+            this.state.displayedTroveItems.map((item) => this.selectionKey(item)),
+        );
+        const shownCount = this.state.selectedKeys.filter((key) => displayedKeys.has(key)).length;
+        let label = `${count} selected`;
+        if (shownCount === 0) {
+            label = `${count} selected but not shown`;
+        } else if (shownCount < count) {
+            label = `${count} selected but some are not shown`;
+        }
         return (
             <section
                 style={{
@@ -622,7 +650,16 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     gap: "6px",
                 }}
             >
-                <span>{count} selected</span>
+                <span>{label}</span>
+                <button
+                    type="button"
+                    className="selection-clear-button"
+                    onClick={() => this.clearSelection()}
+                    aria-label="Clear all selections"
+                    title="Clear all selections"
+                >
+                    ×
+                </button>
                 <button
                     type="button"
                     className="selection-popout-button"
@@ -639,16 +676,18 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
     private renderOnlySelectedToggle() {
         const count = this.state.selectedKeys.length;
+        if (count === 0) {
+            return null;
+        }
         return (
             <button
                 type="button"
                 className={`selection-filter-toggle${this.state.onlyShowSelected ? " is-active" : ""}`}
                 onClick={() => this.onOnlyShowSelectedChanged(!this.state.onlyShowSelected)}
-                disabled={count === 0}
                 aria-pressed={this.state.onlyShowSelected}
                 title={this.state.onlyShowSelected ? "Show all titles" : "Show only selected titles"}
             >
-                Only selected
+                Only Show Selected
             </button>
         );
     }
@@ -1102,9 +1141,7 @@ ${rows}
         this.search(e.currentTarget.value, this.state.focusState);
     }
 
-    private onFocusStateChanged(e: React.ChangeEvent<{ name?: string; value: FocusState }>) {
-        const newFocusState = e.target.value;
-        console.log(`focus is ${newFocusState}`);
+    private applyFocusState(newFocusState: FocusState) {
         const groupByOwnedDisabled =
             newFocusState === FocusState.OWNED || newFocusState === FocusState.WANTED;
         this.setState((prev) => ({
@@ -1114,6 +1151,28 @@ ${rows}
         }));
         this.setFocus(newFocusState);
         this.search(this.state.searchText, newFocusState);
+    }
+
+    /** Mutually-exclusive focus toggle. Re-clicking the active button clears
+     *  back to the default OWNED view (no button selected). */
+    private toggleFocusState(target: FocusState) {
+        const next = this.state.focusState === target ? FocusState.OWNED : target;
+        this.applyFocusState(next);
+    }
+
+    /** Trailing clause for the results count, reflecting the active focus. */
+    private focusEditionsSuffix(): string {
+        switch (this.state.focusState) {
+            case FocusState.WANTED:
+                return " that I am looking for";
+            case FocusState.DUPLICATES:
+                return " that I can trade or sell";
+            case FocusState.ALL:
+                return "";
+            case FocusState.OWNED:
+            default:
+                return " that I own";
+        }
     }
 
     private onCaptionModeChanged(e: React.ChangeEvent<{ name?: string; value: unknown }>) {
@@ -1322,31 +1381,23 @@ ${rows}
     private renderFocusStateSelect() {
         const { showOwnedWanted, showDuplicates } = this.focusSelectOptions();
         if (!showOwnedWanted && !showDuplicates) return null;
+        const toggle = (target: FocusState, label: string, longLabel: string) => (
+            <button
+                type="button"
+                className={`selection-filter-toggle${this.state.focusState === target ? " is-active" : ""}`}
+                onClick={() => this.toggleFocusState(target)}
+                aria-pressed={this.state.focusState === target}
+                title={longLabel}
+            >
+                {label}
+            </button>
+        );
         return (
-            <FormControlLabel
-                style={{margin: 0}}
-                label=""
-                control={
-                    <Select
-                        value={this.state.focusState}
-                        onChange={(e: any) => this.onFocusStateChanged(e)}
-                        color="primary"
-                    >
-                        {showOwnedWanted && <MenuItem value={FocusState.OWNED}>Show editions that I own</MenuItem>}
-                        {showOwnedWanted && <MenuItem value={FocusState.WANTED}>Show editions that I&apos;m looking for</MenuItem>}
-                        {showDuplicates && (
-                            <MenuItem value={FocusState.DUPLICATES}>
-                                Show editions of which I have extras to trade or sell
-                            </MenuItem>
-                        )}
-                        {showOwnedWanted && (
-                            <MenuItem value={FocusState.ALL}>
-                                Show all editions — the ones I own as well as I&apos;m explicitly looking for
-                            </MenuItem>
-                        )}
-                    </Select>
-                }
-            />
+            <div style={{display: "flex", flexDirection: "row", alignItems: "center", gap: "6px"}}>
+                {showOwnedWanted && toggle(FocusState.WANTED, "Wanted", "Show editions that I'm looking for")}
+                {showDuplicates && toggle(FocusState.DUPLICATES, "Dups", "Show editions of which I have extras to trade or sell")}
+                {showOwnedWanted && toggle(FocusState.ALL, "All", "Show all editions — the ones I own as well as the ones I'm looking for")}
+            </div>
         );
     }
 

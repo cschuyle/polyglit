@@ -303,6 +303,28 @@ html {
     outline: none;
 }
 
+.selection-clear-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid rgba(0, 0, 0, 0.23);
+    border-radius: 4px;
+    background: #ffffff;
+    font-size: 1.1rem;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+}
+
+.selection-clear-button:hover {
+    border-color: #d32f2f;
+    color: #d32f2f;
+    background: rgba(211, 47, 47, 0.06);
+}
+
 .selection-popout-button {
     display: inline-flex;
     align-items: center;
