@@ -18,7 +18,6 @@ import {
     InputLabel,
     MenuItem,
     Select,
-    Switch,
     TextField,
     Tooltip,
     withStyles,
@@ -504,6 +503,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                         >
                             {this.renderFocusStateSelect()}
                             {this.renderMultilingualFilterToggle()}
+                            {this.renderOnlySelectedToggle()}
                         </div>
 
                         <div ref={this.searchResultsRef} className="search-results" style={{width: "100%"}}>
@@ -633,17 +633,23 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 >
                     <img src={popoutFlat} alt="" width={16} height={16} aria-hidden />
                 </button>
-                <button
-                    type="button"
-                    className={`selection-filter-toggle${this.state.onlyShowSelected ? " is-active" : ""}`}
-                    onClick={() => this.onOnlyShowSelectedChanged(!this.state.onlyShowSelected)}
-                    disabled={count === 0}
-                    aria-pressed={this.state.onlyShowSelected}
-                    title={this.state.onlyShowSelected ? "Show all titles" : "Show only selected titles"}
-                >
-                    Only selected
-                </button>
             </section>
+        );
+    }
+
+    private renderOnlySelectedToggle() {
+        const count = this.state.selectedKeys.length;
+        return (
+            <button
+                type="button"
+                className={`selection-filter-toggle${this.state.onlyShowSelected ? " is-active" : ""}`}
+                onClick={() => this.onOnlyShowSelectedChanged(!this.state.onlyShowSelected)}
+                disabled={count === 0}
+                aria-pressed={this.state.onlyShowSelected}
+                title={this.state.onlyShowSelected ? "Show all titles" : "Show only selected titles"}
+            >
+                Only selected
+            </button>
         );
     }
 
@@ -1347,18 +1353,17 @@ ${rows}
     private renderMultilingualFilterToggle() {
         const hasMultilingual = this.state.troveItems.some(i => this.isMultilingualEdition(i));
         if (!hasMultilingual) return null;
+        const active = this.state.onlyMultilingualEditions;
         return (
-            <FormControlLabel
-                style={{margin: 0}}
-                control={
-                    <Switch
-                        checked={this.state.onlyMultilingualEditions}
-                        onChange={(_, checked) => this.onOnlyMultilingualEditionsChanged(checked)}
-                        color="primary"
-                    />
-                }
-                label="Only show multilingual editions"
-            />
+            <button
+                type="button"
+                className={`selection-filter-toggle${active ? " is-active" : ""}`}
+                onClick={() => this.onOnlyMultilingualEditionsChanged(!active)}
+                aria-pressed={active}
+                title={active ? "Show all editions" : "Show only multilingual editions"}
+            >
+                Only multilingual
+            </button>
         );
     }
 
