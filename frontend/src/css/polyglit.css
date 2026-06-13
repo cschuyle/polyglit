@@ -325,6 +325,34 @@ html {
     cursor: default;
 }
 
+.selection-filter-toggle {
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+    padding: 0 12px;
+    border: 1px solid rgba(0, 0, 0, 0.23);
+    border-radius: 4px;
+    background: #ffffff;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.selection-filter-toggle:hover:not(:disabled) {
+    background: rgba(63, 81, 181, 0.08);
+}
+
+.selection-filter-toggle.is-active {
+    border-color: #3f51b5;
+    background: rgba(63, 81, 181, 0.12);
+    color: #303f9f;
+    font-weight: 600;
+}
+
+.selection-filter-toggle:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
 .showcase-lightbox__content.selection-panel {
     flex-direction: column;
     align-items: stretch;

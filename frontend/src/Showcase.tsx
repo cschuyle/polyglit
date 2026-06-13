@@ -196,6 +196,8 @@ interface ShowcaseState {
     selectedKeys: string[],
     /** Whether the selection summary panel/modal is open. */
     showSelectionPanel: boolean,
+    /** When true, results are restricted to selected titles (composed with all other filters). */
+    onlyShowSelected: boolean,
 }
 
 export interface ShowcaseProps {
@@ -287,6 +289,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             lightboxImage: null,
             selectedKeys: [],
             showSelectionPanel: false,
+            onlyShowSelected: false,
         }
     }
 
@@ -345,7 +348,10 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             } catch {
                 // Ignore unavailable storage.
             }
-            return {selectedKeys: arr};
+            const onlyShowSelected = prev.onlyShowSelected && arr.length > 0;
+            return {selectedKeys: arr, onlyShowSelected};
+        }, () => {
+            this.refreshDisplayedTroveItems();
         });
     }
 
@@ -355,7 +361,19 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         } catch {
             // Ignore unavailable storage.
         }
-        this.setState({selectedKeys: []});
+        this.setState({selectedKeys: [], onlyShowSelected: false}, () => {
+            this.refreshDisplayedTroveItems();
+        });
+    }
+
+    private refreshDisplayedTroveItems() {
+        this.search(this.state.searchText, this.state.focusState);
+    }
+
+    private onOnlyShowSelectedChanged(checked: boolean) {
+        this.setState({onlyShowSelected: checked}, () => {
+            this.refreshDisplayedTroveItems();
+        });
     }
 
     private loadTrove(troveUrl: string) {
@@ -629,6 +647,16 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                     title="Show selected titles"
                 >
                     <img src={popoutFlat} alt="" width={16} height={16} aria-hidden />
+                </button>
+                <button
+                    type="button"
+                    className={`selection-filter-toggle${this.state.onlyShowSelected ? " is-active" : ""}`}
+                    onClick={() => this.onOnlyShowSelectedChanged(!this.state.onlyShowSelected)}
+                    disabled={count === 0}
+                    aria-pressed={this.state.onlyShowSelected}
+                    title={this.state.onlyShowSelected ? "Show all titles" : "Show only selected titles"}
+                >
+                    Only selected
                 </button>
             </section>
         );
@@ -2284,7 +2312,12 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 
         let predFinal = pred3;
         if (this.state.onlyMultilingualEditions) {
-            predFinal = (troveItem: TroveItem) => pred3(troveItem) && this.isMultilingualEdition(troveItem);
+            const prev = predFinal;
+            predFinal = (troveItem: TroveItem) => prev(troveItem) && this.isMultilingualEdition(troveItem);
+        }
+        if (this.state.onlyShowSelected) {
+            const prev = predFinal;
+            predFinal = (troveItem: TroveItem) => prev(troveItem) && this.isSelected(troveItem);
         }
 
         return predFinal;
