@@ -1254,18 +1254,49 @@ ${rows}
         return null;
     }
 
-    /** Milliseconds since epoch, or null if missing or unparseable. */
+    /**
+     * Milliseconds since epoch for the date in a "date-added" value, or null if
+     * missing/unparseable. This sorts purely by the underlying date, independent of
+     * how the "Acquired:" blurb is rendered. Built so it tolerates the assorted
+     * formats present in the data, e.g. "2019-07-04", "2021-06", "August 2022",
+     * "Sept 17, 2022", "Apr 8 2025". All values are anchored at UTC noon so ordering
+     * is consistent across browsers (Safari quirks) regardless of precision.
+     */
     private parseDateAddedMs(raw: string | undefined): number | null {
         if (raw == null || !String(raw).trim()) {
             return null;
         }
         const s = String(raw).trim();
-        // Date-only strings: parse as UTC noon so ordering is consistent across browsers (Safari quirks).
-        const ymd = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-        if (ymd) {
-            const t = Date.UTC(Number(ymd[1]), Number(ymd[2]) - 1, Number(ymd[3]), 12, 0, 0, 0);
+        const utcNoon = (year: number, month: number, day: number): number | null => {
+            const t = Date.UTC(year, month, day, 12, 0, 0, 0);
             return Number.isNaN(t) ? null : t;
+        };
+
+        // ISO date or year-month, e.g. "2019-07-04" or "2021-06".
+        const iso = s.match(/(\d{4})-(\d{2})(?:-(\d{2}))?/);
+        if (iso) {
+            return utcNoon(Number(iso[1]), Number(iso[2]) - 1, iso[3] != null ? Number(iso[3]) : 1);
         }
+
+        // Month name + optional day + year, e.g. "Sept 17, 2022", "Apr 8 2025", "August 2022".
+        const monthIndex: Record<string, number> = {
+            jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
+            jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11,
+        };
+        const named = s.match(/([A-Za-z]{3,})\.?\s+(?:(\d{1,2})(?:st|nd|rd|th)?\s*,?\s+)?(\d{4})/);
+        if (named) {
+            const month = monthIndex[named[1].toLowerCase().slice(0, 3)];
+            if (month != null) {
+                return utcNoon(Number(named[3]), month, named[2] != null ? Number(named[2]) : 1);
+            }
+        }
+
+        // Bare year, e.g. "2021".
+        const yearOnly = s.match(/\b(\d{4})\b/);
+        if (yearOnly) {
+            return utcNoon(Number(yearOnly[1]), 0, 1);
+        }
+
         const t = Date.parse(s);
         return Number.isNaN(t) ? null : t;
     }
@@ -1303,13 +1334,12 @@ ${rows}
             case "dateAdded": {
                 const da = this.parseDateAddedMs(lpA["date-added"]);
                 const db = this.parseDateAddedMs(lpB["date-added"]);
-                if (da != null && db != null) {
-                    cmp = da - db;
-                } else if (da == null && db == null) {
-                    cmp = 0;
-                } else {
-                    cmp = da == null ? 1 : -1;
+                // Missing dates always sort to the end, regardless of sort direction.
+                if (da == null || db == null) {
+                    if (da == null && db == null) break;
+                    return da == null ? 1 : -1;
                 }
+                cmp = da - db;
                 break;
             }
             default:
@@ -2668,14 +2698,12 @@ ${rows}
         if (column === "dateAdded") {
             const da = this.parseDateAddedMs(a.littlePrinceItem["date-added"]);
             const db = this.parseDateAddedMs(b.littlePrinceItem["date-added"]);
-            let cmp = 0;
-            if (da != null && db != null) {
-                cmp = da - db;
-            } else if (da == null && db == null) {
-                cmp = 0;
-            } else {
-                cmp = da == null ? 1 : -1;
+            // Missing dates always sort to the end, regardless of sort direction.
+            if (da == null || db == null) {
+                if (da == null && db == null) return tieTitle();
+                return da == null ? 1 : -1;
             }
+            let cmp = da - db;
             if (cmp === 0) {
                 cmp = tieTitle();
             }
