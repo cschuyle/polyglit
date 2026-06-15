@@ -3006,7 +3006,10 @@ ${rows}
                 case 'tags':
                     return createRow("Tags", this.constructTagsBlurb(troveItem.littlePrinceItem.tags))
                 case 'acquisition-blurb':
-                    return createRow("Acquired", this.constructAquisitionBlurb(troveItem.littlePrinceItem))
+                    return createRow(
+                        this.editionOwnedDefaultTrue(troveItem.littlePrinceItem) ? "Acquired" : "Added",
+                        this.constructAquisitionBlurb(troveItem.littlePrinceItem),
+                    )
                 case 'comments':
                     return createRow(null, troveItem.littlePrinceItem.comments)
                 case 'wanted-message':
@@ -3075,7 +3078,10 @@ ${rows}
                 case 'tags':
                     return createRow("Tags", this.constructTagsBlurb(troveItem.littlePrinceItem.tags))
                 case 'acquisition-blurb':
-                    return createRow("Acquired", this.constructAquisitionBlurb(troveItem.littlePrinceItem))
+                    return createRow(
+                        this.editionOwnedDefaultTrue(troveItem.littlePrinceItem) ? "Acquired" : "Added",
+                        this.constructAquisitionBlurb(troveItem.littlePrinceItem),
+                    )
                 case 'comments':
                     return createRow(null, troveItem.littlePrinceItem.comments)
                 case 'wanted-message':
