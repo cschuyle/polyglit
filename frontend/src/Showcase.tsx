@@ -687,7 +687,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 aria-pressed={this.state.onlyShowSelected}
                 title={this.state.onlyShowSelected ? "Show all titles" : "Show only selected titles"}
             >
-                Only Show Selected
+                Only Selected
             </button>
         );
     }
@@ -1399,9 +1399,10 @@ ${rows}
         );
         return (
             <div style={{display: "flex", flexDirection: "row", alignItems: "center", gap: "6px"}}>
+                <span>Show:</span>
                 {showOwnedWanted && toggle(FocusState.WANTED, "Wanted", "Show editions that I'm looking for")}
                 {showDuplicates && toggle(FocusState.DUPLICATES, "Dups", "Show editions of which I have extras to trade or sell")}
-                {showOwnedWanted && toggle(FocusState.ALL, "All", "Show all editions — the ones I own as well as the ones I'm looking for")}
+                {showOwnedWanted && toggle(FocusState.ALL, "All", "Show all editions, regardless of whether I own them or am looking for them")}
             </div>
         );
     }
