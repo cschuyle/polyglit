@@ -30,6 +30,7 @@ import RadioButtonUnchecked from "@material-ui/icons/RadioButtonUnchecked";
 import {groupByEnabled, sortNavEnabled} from "./featureFlags";
 import {displayForIso15924Scripts, LangIsoMaps, LangPair, nameFor15924, nameFor6391, nameFor6393} from "./langIsoLookup";
 import {ensurePolyglitDataPreloaded, getCachedLangIsoMaps, getCachedTrove} from "./polyglitJsonCache";
+import {bustImageUrl} from "./troveUrls";
 
 const GROUP_BY_ENABLED = groupByEnabled();
 const SORT_NAV_ENABLED = sortNavEnabled();
@@ -735,7 +736,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             .map((item) => {
                 const lp = item.littlePrinceItem;
                 const thumb = hasValue(lp.smallImageUrl)
-                    ? `<img class="thumb" src="${esc(lp.smallImageUrl)}" alt="${esc(lp.title)}" />`
+                    ? `<img class="thumb" src="${esc(bustImageUrl(lp.smallImageUrl))}" alt="${esc(lp.title)}" />`
                     : "";
                 const dataCells = visibleColumns.map((col) => `<td>${esc(col.value(lp))}</td>`).join("");
                 return `<tr><td class="thumb-cell">${thumb}</td>${dataCells}</tr>`;
@@ -2429,7 +2430,7 @@ ${rows}
                         type="button"
                         className="showcase-lightbox-trigger"
                         onClick={() => this.openLightbox(
-                            troveItem.littlePrinceItem.largeImageUrl,
+                            bustImageUrl(troveItem.littlePrinceItem.largeImageUrl),
                             troveItem.littlePrinceItem.title,
                             this.lightboxLinksForTroveItem(troveItem),
                             troveItem,
@@ -2438,7 +2439,7 @@ ${rows}
                     >
                         <div style={{position: "relative"}}>
                             <img width="150" height={"100%"}
-                                 src={troveItem.littlePrinceItem.smallImageUrl}
+                                 src={bustImageUrl(troveItem.littlePrinceItem.smallImageUrl)}
                                 // title={troveItem.littlePrinceItem.title}
                                  alt={troveItem.littlePrinceItem.title}
                             />
@@ -2825,7 +2826,7 @@ ${rows}
                                                             type="button"
                                                             className="showcase-lightbox-trigger"
                                                             onClick={() => this.openLightbox(
-                                                                lp.largeImageUrl,
+                                                                bustImageUrl(lp.largeImageUrl),
                                                                 lp.title,
                                                                 this.lightboxLinksForTroveItem(troveItem),
                                                                 troveItem,
@@ -2837,7 +2838,7 @@ ${rows}
                                                             <img
                                                                 width="80"
                                                                 height="100%"
-                                                                src={lp.smallImageUrl}
+                                                                src={bustImageUrl(lp.smallImageUrl)}
                                                                 alt={lp.title}
                                                                 style={{display: "block"}}
                                                             />
@@ -3222,7 +3223,7 @@ ${rows}
             type="button"
             className="showcase-lightbox-trigger"
             onClick={() => this.openLightbox(
-                troveItem.littlePrinceItem.largeImageUrl,
+                bustImageUrl(troveItem.littlePrinceItem.largeImageUrl),
                 troveItem.littlePrinceItem.title,
                 this.lightboxLinksForTroveItem(troveItem),
                 troveItem,
@@ -3291,7 +3292,7 @@ ${rows}
                 type="button"
                 className="showcase-lightbox-trigger"
                 onClick={() => this.openLightbox(
-                    file,
+                    bustImageUrl(file),
                     "Large image",
                     troveItem != null ? this.lightboxLinksForTroveItem(troveItem) : [],
                     troveItem ?? null,

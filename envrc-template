@@ -16,6 +16,9 @@
 # Show trove selector tabs in the header (requires REACT_APP_TROVE_DATA to list multiple troves)
 #export REACT_APP_MULTI_TROVES_FLAG=true
 
+# Manual cache-buster for S3 images; bump when you publish new images. Trove JSON is always busted automatically.
+#export REACT_APP_IMAGE_CACHE_BUSTER=2026-06-15
+
 # Trove data JSON array. Each entry: {"troveId":"","shortName":"","h1":"","h2":"","h3":""}
 #export REACT_APP_TROVE_DATA='
 # [

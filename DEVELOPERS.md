@@ -128,3 +128,20 @@ Controls whether trove-selector tabs appear in the header. Defaults to `false`.
 
 - Must be `true` for the tabs to render.
 - Also requires `REACT_APP_TROVE_DATA` to contain more than one entry — both conditions must be met.
+
+### `REACT_APP_IMAGE_CACHE_BUSTER`
+
+Manual cache-buster for S3 **images** (cover thumbnails and large images).
+
+- When set to a non-empty value, it is appended to image URLs as `?v=<value>` (or `&v=<value>` if the URL already has a query string), forcing clients past previously cached images.
+- When unset or empty, image URLs are left untouched and images cache normally — which is the desired behavior most of the time, since images rarely change.
+- Bump this value (for example to a new date like `2026-06-15` or an incrementing number) whenever you publish new or updated images to S3.
+
+Note: this var does **not** affect the trove **JSON** data. That data is always cache-busted automatically on every page load (via an internal `Date.now()` value in `frontend/src/troveUrls.ts`), so data changes show up immediately without touching this var.
+
+For **`npm run deploy`**, set this in **`frontend/.env.deploy`** (see the Deploying section above).
+
+```bash
+# force clients to re-fetch images after publishing new covers to S3
+REACT_APP_IMAGE_CACHE_BUSTER=2026-06-15 npm run start
+```
