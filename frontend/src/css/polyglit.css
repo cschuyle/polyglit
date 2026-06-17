@@ -594,6 +594,28 @@ div.thumbnail{
     margin: 0 0 0 0;
     padding: 0 0 0 0;
 }
+.thumb-image-wrap{
+    overflow: hidden;
+}
+.wanted-sash{
+    position: absolute;
+    top: 14px;
+    right: -32px;
+    width: 130px;
+    transform: rotate(45deg);
+    background: rgba(240, 101, 82, 0.59);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 3px 0;
+    padding-left: 40px;
+    pointer-events: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+    z-index: 1;
+}
 .thumbnail .caption{
     width: 150px;
     max-width: 100%;

@@ -2437,12 +2437,15 @@ ${rows}
                         )}
                         aria-label={`Open large image for ${troveItem.littlePrinceItem.title}`}
                     >
-                        <div style={{position: "relative"}}>
+                        <div className="thumb-image-wrap" style={{position: "relative"}}>
                             <img width="150" height={"100%"}
                                  src={bustImageUrl(troveItem.littlePrinceItem.smallImageUrl)}
                                 // title={troveItem.littlePrinceItem.title}
                                  alt={troveItem.littlePrinceItem.title}
                             />
+                            {this.state.focusState === FocusState.ALL
+                                && !this.editionOwnedDefaultTrue(troveItem.littlePrinceItem)
+                                && <span className="wanted-sash" aria-hidden="true">Wanted</span>}
                         </div>
                     </button>
                 </div>
