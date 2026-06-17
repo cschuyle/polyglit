@@ -616,6 +616,13 @@ div.thumbnail{
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
     z-index: 1;
 }
+.wanted-sash.trade-sash{
+    background: rgba(56, 161, 76, 0.59);
+}
+.wanted-sash.conflict-sash{
+    background: #000000;
+    color: #ffe000;
+}
 .thumbnail .caption{
     width: 150px;
     max-width: 100%;

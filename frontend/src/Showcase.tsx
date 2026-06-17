@@ -2403,6 +2403,30 @@ ${rows}
         );
     }
 
+    /**
+     * Corner sash shown only in the Show: All view. "Wanted" (not owned) and
+     * "To Trade" (a duplicate) are mutually exclusive for valid data; if an item
+     * is somehow both, the data is invalid and we flag it with a "???" sash.
+     */
+    private renderFocusSash(troveItem: TroveItem) {
+        if (this.state.focusState !== FocusState.ALL) {
+            return null;
+        }
+        const lp = troveItem.littlePrinceItem;
+        const wanted = !this.editionOwnedDefaultTrue(lp);
+        const toTrade = (lp.quantity ?? 1) > 1;
+        if (wanted && toTrade) {
+            return <span className="wanted-sash conflict-sash" aria-hidden="true">???</span>;
+        }
+        if (wanted) {
+            return <span className="wanted-sash" aria-hidden="true">Wanted</span>;
+        }
+        if (toTrade) {
+            return <span className="wanted-sash trade-sash" aria-hidden="true">To Trade</span>;
+        }
+        return null;
+    }
+
     private renderTroveItem(troveItem: TroveItem, reactListKey: string) {
         const hoverLocked = this.state.tooltipHoverLockedImageKey === reactListKey;
         return (
@@ -2443,9 +2467,7 @@ ${rows}
                                 // title={troveItem.littlePrinceItem.title}
                                  alt={troveItem.littlePrinceItem.title}
                             />
-                            {this.state.focusState === FocusState.ALL
-                                && !this.editionOwnedDefaultTrue(troveItem.littlePrinceItem)
-                                && <span className="wanted-sash" aria-hidden="true">Wanted</span>}
+                            {this.renderFocusSash(troveItem)}
                         </div>
                     </button>
                 </div>
