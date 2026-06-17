@@ -599,8 +599,8 @@ div.thumbnail{
 }
 .wanted-sash{
     position: absolute;
-    top: 14px;
-    right: -32px;
+    top: 6px;
+    right: -38px;
     width: 130px;
     transform: rotate(45deg);
     background: rgba(240, 101, 82, 0.59);
@@ -611,7 +611,7 @@ div.thumbnail{
     text-transform: uppercase;
     text-align: center;
     padding: 3px 0;
-    padding-left: 40px;
+    padding-left: 48px;
     pointer-events: none;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
     z-index: 1;
