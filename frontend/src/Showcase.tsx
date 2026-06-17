@@ -1174,7 +1174,7 @@ ${rows}
             case FocusState.DUPLICATES:
                 return " that I can trade or sell";
             case FocusState.ALL:
-                return "";
+                return " - ones that I own, and ones that I am looking for";
             case FocusState.OWNED:
             default:
                 return " that I own";
