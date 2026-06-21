@@ -635,12 +635,15 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                                 flexWrap: "wrap",
                                 alignItems: "center",
                                 gap: "16px",
+                                width: "100%",
                             }}
                         >
                             {this.renderFocusStateSelect()}
+                            {this.renderShowToggleSeparator()}
                             {this.renderMultilingualFilterToggle()}
                             {this.renderOnlySelectedToggle()}
                             {this.renderSelectionStatus()}
+                            <div style={{marginLeft: "auto"}}>{this.renderExportButtons()}</div>
                         </div>
 
                         <div ref={this.searchResultsRef} className="search-results" style={{width: "100%"}}>
@@ -711,7 +714,6 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                             <section style={{margin: 0, flex: "0 1 auto", minWidth: 0}}>
                                 Showing {this.showingSummaryText()}
                             </section>
-                            {this.renderExportButtons()}
                             <div
                                 style={{
                                     display: "flex",
@@ -1666,7 +1668,7 @@ ${rows}
         const toggle = (target: FocusState, label: string, longLabel: string) => (
             <button
                 type="button"
-                className={`selection-filter-toggle${this.state.focusState === target ? " is-active" : ""}`}
+                className={`show-toggle-pill${this.state.focusState === target ? " is-active" : ""}`}
                 onClick={() => this.toggleFocusState(target)}
                 aria-pressed={this.state.focusState === target}
                 title={longLabel}
@@ -1684,6 +1686,16 @@ ${rows}
         );
     }
 
+    private renderShowToggleSeparator() {
+        const { showOwnedWanted, showDuplicates } = this.focusSelectOptions();
+        const hasFocusToggles = showOwnedWanted || showDuplicates;
+        const hasMultilingual = this.state.troveItems.some((i) => this.isMultilingualEdition(i));
+        if (!hasFocusToggles || !hasMultilingual) {
+            return null;
+        }
+        return <span className="show-toggle-separator" aria-hidden="true">·</span>;
+    }
+
     private renderMultilingualFilterToggle() {
         const hasMultilingual = this.state.troveItems.some(i => this.isMultilingualEdition(i));
         if (!hasMultilingual) return null;
@@ -1691,7 +1703,7 @@ ${rows}
         return (
             <button
                 type="button"
-                className={`selection-filter-toggle${active ? " is-active" : ""}`}
+                className={`show-toggle-pill${active ? " is-active" : ""}`}
                 onClick={() => this.onOnlyMultilingualEditionsChanged(!active)}
                 aria-pressed={active}
                 title={active ? "Show all editions" : "Show only multilingual editions"}

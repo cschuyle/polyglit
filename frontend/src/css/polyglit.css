@@ -375,6 +375,48 @@ html {
     cursor: default;
 }
 
+.show-toggle-pill {
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+    padding: 0 14px;
+    border: 1px solid rgba(0, 0, 0, 0.38);
+    border-radius: 9999px;
+    background: transparent;
+    font-size: 0.9rem;
+    line-height: 1;
+    cursor: pointer;
+    font-family: inherit;
+    color: inherit;
+}
+
+.show-toggle-pill:hover:not(:disabled) {
+    border-color: rgba(63, 81, 181, 0.55);
+    background: rgba(63, 81, 181, 0.06);
+}
+
+.show-toggle-pill.is-active {
+    border-color: #3f51b5;
+    background: transparent;
+    color: #3f51b5;
+    font-weight: 600;
+}
+
+.show-toggle-pill:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.show-toggle-separator {
+    display: inline-flex;
+    align-items: center;
+    align-self: center;
+    color: rgba(0, 0, 0, 0.38);
+    font-size: 1.25rem;
+    line-height: 1;
+    user-select: none;
+}
+
 .export-action-button {
     display: inline-flex;
     align-items: center;
