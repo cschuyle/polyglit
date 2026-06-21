@@ -28,6 +28,8 @@ import {
 import ViewList from "@material-ui/icons/ViewList";
 import ViewModule from "@material-ui/icons/ViewModule";
 import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
+import GetApp from "@material-ui/icons/GetApp";
+import OpenInNew from "@material-ui/icons/OpenInNew";
 import CheckCircle from "@material-ui/icons/CheckCircle";
 import RadioButtonUnchecked from "@material-ui/icons/RadioButtonUnchecked";
 import {groupByEnabled, sortNavEnabled} from "./featureFlags";
@@ -707,13 +709,9 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                             }}
                         >
                             <section style={{margin: 0, flex: "0 1 auto", minWidth: 0}}>
-                                Showing {
-                                    this.state.displayedTroveItems.length === this.state.FocusItemCount
-                                        ? `all ${this.state.FocusItemCount}`
-                                        : `${this.state.displayedTroveItems.length} of ${this.state.FocusItemCount}`
-                                } editions
-                                of {this.props.collectionTitle}{this.focusEditionsSuffix()}.
+                                Showing {this.showingSummaryText()}
                             </section>
+                            {this.renderExportButtons()}
                             <div
                                 style={{
                                     display: "flex",
@@ -784,16 +782,6 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                 >
                     ×
                 </button>
-                <button
-                    type="button"
-                    className="selection-popout-button"
-                    onClick={() => this.openSelectionInNewTab()}
-                    disabled={count === 0}
-                    aria-label="Open selected titles in a new tab"
-                    title="Open selected titles in a new tab"
-                >
-                    <img src={popoutFlat} alt="" width={16} height={16} aria-hidden />
-                </button>
             </section>
         );
     }
@@ -816,13 +804,41 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         );
     }
 
-    private selectedTroveItems(): TroveItem[] {
-        const selected = new Set(this.state.selectedKeys);
-        return this.state.troveItems.filter((item) => selected.has(this.selectionKey(item)));
+    private currentViewItemsInOrder(): TroveItem[] {
+        if (this.state.viewMode === ViewMode.LIST) {
+            return this.listViewSortedItems();
+        }
+        return this.sortItemsForGallery(this.state.displayedTroveItems);
     }
 
-    private openSelectionInNewTab() {
-        const items = this.selectedTroveItems();
+    private exportColumns(): ListColumnDef[] {
+        // List view obeys the user's column picker; gallery view uses the defaults.
+        const keys =
+            this.state.viewMode === ViewMode.LIST
+                ? this.state.visibleListColumns
+                : DEFAULT_LIST_COLUMN_KEYS;
+        return LIST_COLUMNS.filter((c) => keys.indexOf(c.key) !== -1);
+    }
+
+    /** The "Showing ..." results summary, without the leading "Showing " word. */
+    private showingSummaryText(): string {
+        const countPart =
+            this.state.displayedTroveItems.length === this.state.FocusItemCount
+                ? `all ${this.state.FocusItemCount}`
+                : `${this.state.displayedTroveItems.length} of ${this.state.FocusItemCount}`;
+        return `${countPart} editions of ${this.props.collectionTitle}${this.focusEditionsSuffix()}.`;
+    }
+
+    private exportFilenameBase(): string {
+        const slug = String(this.props.collectionTitle ?? "")
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-+|-+$/g, "");
+        return slug || "export";
+    }
+
+    private openCurrentViewInNewTab() {
+        const items = this.currentViewItemsInOrder();
         if (items.length === 0) {
             return;
         }
@@ -831,46 +847,71 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             return;
         }
         tab.document.open();
-        tab.document.write(this.selectionPageHtml(items));
+        tab.document.write(this.currentViewPageHtml(items, this.exportColumns()));
         tab.document.close();
     }
 
-    private selectionPageHtml(items: TroveItem[]): string {
+    private downloadCsv() {
+        const items = this.currentViewItemsInOrder();
+        if (items.length === 0) {
+            return;
+        }
+        const csv = this.buildCsv(items, this.exportColumns());
+        const blob = new Blob([csv], {type: "text/csv;charset=utf-8"});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${this.exportFilenameBase()}-export.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    private buildCsv(items: TroveItem[], columns: ListColumnDef[]): string {
+        const escapeCell = (value: string): string =>
+            /[",\r\n]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value;
+        const header = columns.map((col) => escapeCell(col.label)).join(",");
+        const rows = items.map((item) =>
+            columns.map((col) => escapeCell(this.listSortValue(item, col.key))).join(","),
+        );
+        return [header, ...rows].join("\r\n");
+    }
+
+    private currentViewPageHtml(items: TroveItem[], columns: ListColumnDef[]): string {
         const esc = (value: unknown): string =>
             String(value ?? "")
                 .replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")
                 .replace(/>/g, "&gt;")
                 .replace(/"/g, "&quot;");
-        const hasValue = (value: unknown): boolean => value != null && String(value).trim() !== "";
-        const columns: {header: string; value: (lp: TroveItemDetails) => unknown}[] = [
-            {header: "Title", value: (lp) => lp.title},
-            {header: "Translation title", value: (lp) => lp["translation-title"]},
-            {header: "Language", value: (lp) => lp.language},
-            {header: "ISBN", value: (lp) => lp.isbn13 ?? lp.isbn10},
-            {header: "lpid", value: (lp) => lp.lpid},
-            {header: "tintenfassid", value: (lp) => lp.tintenfassId},
-        ];
-        const visibleColumns = columns.filter((col) =>
-            items.some((item) => hasValue(col.value(item.littlePrinceItem))),
-        );
-        const headerCells = `<th></th>${visibleColumns.map((col) => `<th>${esc(col.header)}</th>`).join("")}`;
+        const headerCells = columns.map((col) => `<th>${esc(col.label)}</th>`).join("");
         const rows = items
             .map((item) => {
                 const lp = item.littlePrinceItem;
-                const thumb = hasValue(lp.smallImageUrl)
-                    ? `<img class="thumb" src="${esc(bustImageUrl(lp.smallImageUrl))}" alt="${esc(lp.title)}" />`
-                    : "";
-                const dataCells = visibleColumns.map((col) => `<td>${esc(col.value(lp))}</td>`).join("");
-                return `<tr><td class="thumb-cell">${thumb}</td>${dataCells}</tr>`;
+                const cells = columns
+                    .map((col) => {
+                        if (col.key === "thumbnail") {
+                            const thumb =
+                                lp.smallImageUrl != null && String(lp.smallImageUrl).trim() !== ""
+                                    ? `<img class="thumb" src="${esc(bustImageUrl(lp.smallImageUrl))}" alt="${esc(lp.title)}" />`
+                                    : "";
+                            return `<td class="thumb-cell">${thumb}</td>`;
+                        }
+                        return `<td>${esc(this.listSortValue(item, col.key))}</td>`;
+                    })
+                    .join("");
+                return `<tr>${cells}</tr>`;
             })
             .join("");
+        const summary = this.showingSummaryText().replace(/\.$/, "");
+        const title = summary.charAt(0).toUpperCase() + summary.slice(1);
         return `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Selected titles (${items.length})</title>
+<title>${esc(title)}</title>
 <style>
   body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; margin: 24px; color: #1a1a1a; }
   h1 { font-size: 1.25rem; margin: 0 0 16px; }
@@ -882,7 +923,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
 </style>
 </head>
 <body>
-<h1>Selected titles (${items.length})</h1>
+<h1>${esc(title)}</h1>
 <table>
 <thead>
 <tr>${headerCells}</tr>
@@ -893,6 +934,35 @@ ${rows}
 </table>
 </body>
 </html>`;
+    }
+
+    private renderExportButtons() {
+        const disabled = this.state.displayedTroveItems.length === 0;
+        const iconClass = "export-action-button__icon";
+        return (
+            <div style={{display: "flex", flexDirection: "row", alignItems: "center", gap: "8px"}}>
+                <button
+                    type="button"
+                    className="export-action-button"
+                    onClick={() => this.openCurrentViewInNewTab()}
+                    disabled={disabled}
+                    title="Open the current view in a new tab"
+                >
+                    Summary
+                    <OpenInNew className={iconClass} aria-hidden />
+                </button>
+                <button
+                    type="button"
+                    className="export-action-button"
+                    onClick={() => this.downloadCsv()}
+                    disabled={disabled}
+                    title="Download the current view as CSV"
+                >
+                    CSV
+                    <GetApp className={iconClass} aria-hidden />
+                </button>
+            </div>
+        );
     }
 
     private isFooterVisible(): boolean {
@@ -3163,7 +3233,7 @@ ${rows}
                 }
                 {troveItem.littlePrinceItem.lpid &&
                     <Grid item>
-                        {this.renderDocumentLinkForType("Little Prince Foundation link", lpfoundIcon, `https://www.petit-prince-collection.com/lang/show_livre.php?lang=en&id=${this.extractLpId(troveItem.littlePrinceItem.lpid)}`)}
+                        {this.renderDocumentLinkForType("Little Prince Foundation link", lpfoundIcon, this.lpFoundationUrl(troveItem.littlePrinceItem.lpid))}
                     </Grid>
                 }
                 {troveItem.littlePrinceItem.tintenfassId &&
@@ -3418,7 +3488,7 @@ ${rows}
         if (troveItem.littlePrinceItem.lpid) {
             links.push({
                 label: "Little Prince Foundation link",
-                url: `https://www.petit-prince-collection.com/lang/show_livre.php?lang=en&id=${this.extractLpId(troveItem.littlePrinceItem.lpid)}`,
+                url: this.lpFoundationUrl(troveItem.littlePrinceItem.lpid),
             });
         }
 
@@ -3463,6 +3533,19 @@ ${rows}
 
     private extractLpId(lpIdWithPP: string) {
         return lpIdWithPP.replace(/PP-/, '');
+    }
+
+    /**
+     * URL to the matching page on the Petit Prince Collection site. "SP-" ids are
+     * "books around The Little Prince" and live under show_livre_autour.php; all
+     * others use show_livre.php.
+     */
+    private lpFoundationUrl(lpid: string): string {
+        if (/^SP/i.test(lpid)) {
+            const id = lpid.replace(/^SP-?/i, '');
+            return `https://www.petit-prince-collection.com/lang/show_livre_autour.php?lang=en&id=${id}`;
+        }
+        return `https://www.petit-prince-collection.com/lang/show_livre.php?lang=en&id=${this.extractLpId(lpid)}`;
     }
 
     private isPresent(value: any): boolean {

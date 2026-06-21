@@ -375,6 +375,38 @@ html {
     cursor: default;
 }
 
+.export-action-button {
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+    padding: 0 10px;
+    border: 1px solid rgba(0, 0, 0, 0.23);
+    border-radius: 4px;
+    background: #ffffff;
+    font-size: 0.9rem;
+    line-height: 1;
+    cursor: pointer;
+    font-family: inherit;
+    color: inherit;
+}
+
+.export-action-button:hover:not(:disabled) {
+    background: rgba(63, 81, 181, 0.08);
+}
+
+.export-action-button:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.export-action-button img,
+.export-action-button__icon {
+    margin-left: 6px;
+    display: block;
+    font-size: 8px;
+    color: rgba(0, 0, 0, 0.55);
+}
+
 @media (max-width: 960px) {
     .showcase-lightbox__content {
         flex-direction: column;
