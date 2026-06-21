@@ -10,12 +10,14 @@ import pinnedIcon from "./images/pinned.png"
 import unpinnedIcon from "./images/unpinned.png"
 
 import {
+    Checkbox,
     CircularProgress,
     FormControl,
     FormControlLabel,
     Grid,
     IconButton,
     InputLabel,
+    ListItemText,
     MenuItem,
     Select,
     TextField,
@@ -84,6 +86,20 @@ type ListSortColumn =
     | "lang6391"
     | "langTag"
     | "lpid";
+
+/** Canonical list-view column order and labels; also the source of truth for the column picker. */
+const LIST_COLUMNS: { key: ListSortColumn; label: string }[] = [
+    {key: "thumbnail", label: "Thumbnail"},
+    {key: "title", label: "Title"},
+    {key: "year", label: "Year"},
+    {key: "dateAdded", label: "Date added"},
+    {key: "languageString", label: "Language Description"},
+    {key: "lang6393", label: "lang"},
+    {key: "lang6391", label: "lang2"},
+    {key: "langTag", label: "langTag"},
+    {key: "lpid", label: "lpid"},
+];
+const LIST_COLUMN_KEYS: ListSortColumn[] = LIST_COLUMNS.map((c) => c.key);
 
 export interface TroveItemDetails {
     "acquired-from"?: string,
@@ -196,6 +212,8 @@ interface ShowcaseState {
     selectedKeys: string[],
     /** When true, results are restricted to selected titles (composed with all other filters). */
     onlyShowSelected: boolean,
+    /** Which list-view columns are visible (canonical order from LIST_COLUMNS). Persisted to localStorage. */
+    visibleListColumns: ListSortColumn[],
 }
 
 export interface ShowcaseProps {
@@ -236,6 +254,7 @@ const SmallTooltip = withStyles({
 const SCROLL_CATCH_UP_SHOW_DELAY_MS = 1500;
 const SCROLL_CATCH_UP_SETTLE_DEBOUNCE_MS = 320;
 const SELECTED_KEYS_STORAGE_KEY = "polyglit:selectedKeys";
+const LIST_COLUMNS_STORAGE_KEY = "polyglit:listColumns";
 
 
 class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
@@ -287,6 +306,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             lightboxImage: null,
             selectedKeys: [],
             onlyShowSelected: false,
+            visibleListColumns: [...LIST_COLUMN_KEYS],
         }
     }
 
@@ -297,6 +317,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
         window.addEventListener("keydown", this.onWindowKeyDown);
         this.updateResultsScrollTopButtonVisibility();
         this.loadPersistedSelectedKeys();
+        this.loadPersistedListColumns();
         this.loadTrove(this.props.troveUrl);
     }
 
@@ -313,6 +334,39 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             }
         } catch {
             // Ignore unavailable/corrupt storage (e.g. private mode).
+        }
+    }
+
+    private loadPersistedListColumns() {
+        try {
+            const raw = localStorage.getItem(LIST_COLUMNS_STORAGE_KEY);
+            if (raw == null) {
+                return;
+            }
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) {
+                // Keep canonical order and drop any unknown/removed keys.
+                const cols = LIST_COLUMN_KEYS.filter((k) => parsed.includes(k));
+                if (cols.length > 0) {
+                    this.setState({visibleListColumns: cols});
+                }
+            }
+        } catch {
+            // Ignore unavailable/corrupt storage (e.g. private mode).
+        }
+    }
+
+    /** Updates visible columns (canonical order), refusing to leave zero columns, and persists. */
+    private setVisibleListColumns(cols: ListSortColumn[]) {
+        const ordered = LIST_COLUMN_KEYS.filter((k) => cols.includes(k));
+        if (ordered.length === 0) {
+            return;
+        }
+        this.setState({visibleListColumns: ordered});
+        try {
+            localStorage.setItem(LIST_COLUMNS_STORAGE_KEY, JSON.stringify(ordered));
+        } catch {
+            // Ignore unavailable storage.
         }
     }
 
@@ -605,6 +659,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
                             >
                                 {GROUP_BY_ENABLED && this.renderGroupBySelect()}
                                 {this.state.viewMode === ViewMode.GALLERY && this.renderGallerySortSelect()}
+                                {this.state.viewMode === ViewMode.LIST && this.renderListColumnPicker()}
                                 {this.renderViewModeToggle()}
                                 {this.state.viewMode === ViewMode.GALLERY && this.renderGroupNavToggle()}
                             </div>
@@ -1236,6 +1291,36 @@ ${rows}
                     {hasYearData && <MenuItem value="yearDesc">Year ↓</MenuItem>}
                     {hasDateAddedData && <MenuItem value="dateAddedAsc">Date added ↑</MenuItem>}
                     {hasDateAddedData && <MenuItem value="dateAddedDesc">Date added ↓</MenuItem>}
+                </Select>
+            </FormControl>
+        );
+    }
+
+    private renderListColumnPicker() {
+        const selected = this.state.visibleListColumns;
+        return (
+            <FormControl variant="outlined" style={{minWidth: 200, margin: 0}}>
+                <InputLabel id="showcase-list-columns-label">Columns</InputLabel>
+                <Select
+                    labelId="showcase-list-columns-label"
+                    multiple
+                    value={selected}
+                    onChange={(e) => this.setVisibleListColumns(e.target.value as ListSortColumn[])}
+                    label="Columns"
+                    renderValue={(value) => {
+                        const arr = value as ListSortColumn[];
+                        if (arr.length === LIST_COLUMNS.length) {
+                            return "All columns";
+                        }
+                        return `${arr.length} of ${LIST_COLUMNS.length} columns`;
+                    }}
+                >
+                    {LIST_COLUMNS.map((col) => (
+                        <MenuItem key={col.key} value={col.key}>
+                            <Checkbox checked={selected.indexOf(col.key) !== -1} />
+                            <ListItemText primary={col.label} />
+                        </MenuItem>
+                    ))}
                 </Select>
             </FormControl>
         );
@@ -2770,6 +2855,92 @@ ${rows}
         );
     }
 
+    /** Renders one list-view <td> for the given column. */
+    private renderListCell(
+        troveItem: TroveItem,
+        column: ListSortColumn,
+        cellStyle: React.CSSProperties,
+        rowKey: string,
+        hoverLocked: boolean,
+    ): React.ReactNode {
+        const lp = troveItem.littlePrinceItem;
+        switch (column) {
+            case "thumbnail":
+                return (
+                    <td key={column} style={cellStyle}>
+                        <BigWhiteTooltip
+                            key={`${rowKey}::tooltip-${this.state.tooltipDismissNonce}`}
+                            title={this.troveItemTooltipContents(troveItem)}
+                            disableHoverListener={
+                                !this.state.tooltipsEnabled ||
+                                this.state.resultsScrollTopButtonPointerNear ||
+                                hoverLocked
+                            }
+                            disableFocusListener={!this.state.tooltipsEnabled}
+                            disableTouchListener={!this.state.tooltipsEnabled}
+                            arrow
+                            interactive
+                            placement="right-start"
+                            enterDelay={this.state.tooltipDelayMs}
+                            enterNextDelay={this.state.tooltipDelayMs}
+                            TransitionProps={{timeout: this.tooltipTransitionTimeout()}}
+                        >
+                            <div className="selection-overlay-anchor">
+                                {this.renderSelectionToggle(troveItem)}
+                                <button
+                                    type="button"
+                                    className="showcase-lightbox-trigger"
+                                    onClick={() => this.openLightbox(
+                                        bustImageUrl(lp.largeImageUrl),
+                                        lp.title,
+                                        this.lightboxLinksForTroveItem(troveItem),
+                                        troveItem,
+                                    )}
+                                    aria-label={`Open large image for ${lp.title}`}
+                                    onMouseEnter={() => this.onImageTooltipMouseEnter(rowKey)}
+                                    onMouseLeave={() => this.onImageTooltipMouseLeave(rowKey)}
+                                >
+                                    <img
+                                        width="80"
+                                        height="100%"
+                                        src={bustImageUrl(lp.smallImageUrl)}
+                                        alt={lp.title}
+                                        style={{display: "block"}}
+                                    />
+                                </button>
+                            </div>
+                        </BigWhiteTooltip>
+                    </td>
+                );
+            case "title":
+                return <td key={column} style={cellStyle}>{lp.title}</td>;
+            case "year":
+                return <td key={column} style={cellStyle}>{lp.year ?? ""}</td>;
+            case "dateAdded":
+                return <td key={column} style={cellStyle}>{lp["date-added"] ?? ""}</td>;
+            case "languageString":
+                return <td key={column} style={cellStyle}>{this.constructLanguage(troveItem)}</td>;
+            case "lang6393":
+                return <td key={column} style={cellStyle}>{this.listViewLangNames6393(troveItem)}</td>;
+            case "lang6391":
+                return <td key={column} style={cellStyle}>{this.listViewLangNames6391(troveItem)}</td>;
+            case "langTag": {
+                const langTagsText = this.listViewLangTags(troveItem);
+                return (
+                    <td key={column} style={cellStyle}>
+                        {langTagsText.trim() !== "" ? (
+                            <code style={{fontSize: "0.9em", whiteSpace: "pre-wrap"}}>{langTagsText}</code>
+                        ) : null}
+                    </td>
+                );
+            }
+            case "lpid":
+                return <td key={column} style={cellStyle}>{lp.lpid ?? ""}</td>;
+            default:
+                return null;
+        }
+    }
+
     private renderListView() {
         const tableStyle: React.CSSProperties = {
             width: "100%",
@@ -2788,21 +2959,14 @@ ${rows}
             color: "#000",
         };
         const grouped = this.groupItemsForView(this.listViewSortedItems());
-        const listColumnCount = 9;
+        const visibleCols = LIST_COLUMNS.filter((c) => this.state.visibleListColumns.indexOf(c.key) !== -1);
+        const listColumnCount = visibleCols.length;
         return (
             <div style={{overflowX: "auto", width: "100%"}}>
                 <table style={tableStyle}>
                     <thead>
                         <tr>
-                            {this.renderListSortHeader(thStyle, "thumbnail", "Thumbnail")}
-                            {this.renderListSortHeader(thStyle, "title", "Title")}
-                            {this.renderListSortHeader(thStyle, "year", "Year")}
-                            {this.renderListSortHeader(thStyle, "dateAdded", "Date added")}
-                            {this.renderListSortHeader(thStyle, "languageString", "Language Description")}
-                            {this.renderListSortHeader(thStyle, "lang6393", "lang")}
-                            {this.renderListSortHeader(thStyle, "lang6391", "lang2")}
-                            {this.renderListSortHeader(thStyle, "langTag", "langTag")}
-                            {this.renderListSortHeader(thStyle, "lpid", "lpid")}
+                            {visibleCols.map((col) => this.renderListSortHeader(thStyle, col.key, col.label))}
                         </tr>
                     </thead>
                     <tbody>
@@ -2820,69 +2984,15 @@ ${rows}
                                 )}
                                 {group.items.map((troveItem, index) => {
                                     const lp = troveItem.littlePrinceItem;
-                                    const langTagsText = this.listViewLangTags(troveItem);
                                     const rowKey =
                                         troveItem.polyglitStableRowKey ??
                                         `${lp.lpid ?? "noid"}-${lp.smallImageUrl}-${lp.title}-${index}`;
                                     const hoverLocked = this.state.tooltipHoverLockedImageKey === rowKey;
                                     return (
                                         <tr key={rowKey}>
-                                            <td style={cellStyle}>
-                                                <BigWhiteTooltip
-                                                    key={`${rowKey}::tooltip-${this.state.tooltipDismissNonce}`}
-                                                    title={this.troveItemTooltipContents(troveItem)}
-                                                    disableHoverListener={
-                                                        !this.state.tooltipsEnabled ||
-                                                        this.state.resultsScrollTopButtonPointerNear ||
-                                                        hoverLocked
-                                                    }
-                                                    disableFocusListener={!this.state.tooltipsEnabled}
-                                                    disableTouchListener={!this.state.tooltipsEnabled}
-                                                    arrow
-                                                    interactive
-                                                    placement="right-start"
-                                                    enterDelay={this.state.tooltipDelayMs}
-                                                    enterNextDelay={this.state.tooltipDelayMs}
-                                                    TransitionProps={{timeout: this.tooltipTransitionTimeout()}}
-                                                >
-                                                    <div className="selection-overlay-anchor">
-                                                        {this.renderSelectionToggle(troveItem)}
-                                                        <button
-                                                            type="button"
-                                                            className="showcase-lightbox-trigger"
-                                                            onClick={() => this.openLightbox(
-                                                                bustImageUrl(lp.largeImageUrl),
-                                                                lp.title,
-                                                                this.lightboxLinksForTroveItem(troveItem),
-                                                                troveItem,
-                                                            )}
-                                                            aria-label={`Open large image for ${lp.title}`}
-                                                            onMouseEnter={() => this.onImageTooltipMouseEnter(rowKey)}
-                                                            onMouseLeave={() => this.onImageTooltipMouseLeave(rowKey)}
-                                                        >
-                                                            <img
-                                                                width="80"
-                                                                height="100%"
-                                                                src={bustImageUrl(lp.smallImageUrl)}
-                                                                alt={lp.title}
-                                                                style={{display: "block"}}
-                                                            />
-                                                        </button>
-                                                    </div>
-                                                </BigWhiteTooltip>
-                                            </td>
-                                            <td style={cellStyle}>{lp.title}</td>
-                                            <td style={cellStyle}>{lp.year ?? ""}</td>
-                                            <td style={cellStyle}>{lp["date-added"] ?? ""}</td>
-                                            <td style={cellStyle}>{this.constructLanguage(troveItem)}</td>
-                                            <td style={cellStyle}>{this.listViewLangNames6393(troveItem)}</td>
-                                            <td style={cellStyle}>{this.listViewLangNames6391(troveItem)}</td>
-                                            <td style={cellStyle}>
-                                                {langTagsText.trim() !== "" ? (
-                                                    <code style={{fontSize: "0.9em", whiteSpace: "pre-wrap"}}>{langTagsText}</code>
-                                                ) : null}
-                                            </td>
-                                            <td style={cellStyle}>{lp.lpid ?? ""}</td>
+                                            {visibleCols.map((col) =>
+                                                this.renderListCell(troveItem, col.key, cellStyle, rowKey, hoverLocked),
+                                            )}
                                         </tr>
                                     );
                                 })}
