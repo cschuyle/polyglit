@@ -10,6 +10,7 @@ import pinnedIcon from "./images/pinned.png"
 import unpinnedIcon from "./images/unpinned.png"
 
 import {
+    Button,
     Checkbox,
     CircularProgress,
     FormControl,
@@ -82,24 +83,91 @@ type ListSortColumn =
     | "year"
     | "dateAdded"
     | "languageString"
+    | "language"
     | "lang6393"
     | "lang6391"
     | "langTag"
-    | "lpid";
+    | "lpid"
+    | "author"
+    | "translator"
+    | "illustrator"
+    | "narrator"
+    | "translationTitle"
+    | "translationTitleTransliterated"
+    | "publisher"
+    | "publisherSeries"
+    | "publicationLocation"
+    | "publicationCountry"
+    | "format"
+    | "isbn13"
+    | "isbn10"
+    | "asin"
+    | "script"
+    | "scriptFamily"
+    | "spokenIn"
+    | "owned"
+    | "quantity"
+    | "acquiredFrom"
+    | "tintenfassId"
+    | "searchWords";
+
+type ListColumnDef = {
+    key: ListSortColumn;
+    label: string;
+    /**
+     * Plain-text accessor used both for the cell content and sorting. Omitted for
+     * columns rendered specially (thumbnail and the generated language/lang columns).
+     */
+    value?: (lp: TroveItemDetails) => string;
+};
 
 /** Canonical list-view column order and labels; also the source of truth for the column picker. */
-const LIST_COLUMNS: { key: ListSortColumn; label: string }[] = [
+const LIST_COLUMNS: ListColumnDef[] = [
     {key: "thumbnail", label: "Thumbnail"},
-    {key: "title", label: "Title"},
-    {key: "year", label: "Year"},
-    {key: "dateAdded", label: "Date added"},
+    {key: "title", label: "Title", value: (lp) => lp.title ?? ""},
+    {key: "year", label: "Year", value: (lp) => lp.year ?? ""},
+    {key: "dateAdded", label: "Date added", value: (lp) => lp["date-added"] ?? ""},
     {key: "languageString", label: "Language Description"},
+    {key: "language", label: "Language", value: (lp) => lp.language ?? ""},
     {key: "lang6393", label: "lang"},
     {key: "lang6391", label: "lang2"},
     {key: "langTag", label: "langTag"},
-    {key: "lpid", label: "lpid"},
+    {key: "lpid", label: "lpid", value: (lp) => lp.lpid ?? ""},
+    {key: "author", label: "Author", value: (lp) => lp.author ?? ""},
+    {key: "translator", label: "Translated by", value: (lp) => lp.translator ?? ""},
+    {key: "illustrator", label: "Illustrated by", value: (lp) => lp.illustrator ?? ""},
+    {key: "narrator", label: "Narrated by", value: (lp) => lp.narrator ?? ""},
+    {key: "translationTitle", label: "Title in translation", value: (lp) => lp["translation-title"] ?? ""},
+    {key: "translationTitleTransliterated", label: "Title transliterated", value: (lp) => lp["translation-title-transliterated"] ?? ""},
+    {key: "publisher", label: "Publisher", value: (lp) => lp.publisher ?? ""},
+    {key: "publisherSeries", label: "Publisher series", value: (lp) => lp["publisher-series"] ?? ""},
+    {key: "publicationLocation", label: "Publication location", value: (lp) => lp["publication-location"] ?? ""},
+    {key: "publicationCountry", label: "Publication country", value: (lp) => lp["publication-country"] ?? ""},
+    {key: "format", label: "Format", value: (lp) => lp.format ?? ""},
+    {key: "isbn13", label: "ISBN-13", value: (lp) => lp.isbn13 ?? ""},
+    {key: "isbn10", label: "ISBN-10", value: (lp) => lp.isbn10 ?? ""},
+    {key: "asin", label: "ASIN", value: (lp) => lp.asin ?? ""},
+    {key: "script", label: "Script", value: (lp) => lp.script ?? ""},
+    {key: "scriptFamily", label: "Script family", value: (lp) => lp["script-family"] ?? ""},
+    {key: "spokenIn", label: "Spoken in", value: (lp) => lp["language-spoken-in"] ?? ""},
+    {key: "owned", label: "Owned", value: (lp) => lp.owned ?? ""},
+    {key: "quantity", label: "Quantity", value: (lp) => (lp.quantity != null ? String(lp.quantity) : "")},
+    {key: "acquiredFrom", label: "Acquired from", value: (lp) => lp["acquired-from"] ?? ""},
+    {key: "tintenfassId", label: "Tintenfass ID", value: (lp) => lp.tintenfassId ?? ""},
+    {key: "searchWords", label: "Search words", value: (lp) => lp["search-words"] ?? ""},
 ];
 const LIST_COLUMN_KEYS: ListSortColumn[] = LIST_COLUMNS.map((c) => c.key);
+/** Columns shown by default; the rest are opt-in via the column picker. */
+const DEFAULT_LIST_COLUMN_KEYS: ListSortColumn[] = [
+    "thumbnail", "title", "languageString", "year", "isbn13",
+];
+const LIST_COLUMN_BY_KEY: Record<ListSortColumn, ListColumnDef> = LIST_COLUMNS.reduce(
+    (acc, c) => {
+        acc[c.key] = c;
+        return acc;
+    },
+    {} as Record<ListSortColumn, ListColumnDef>,
+);
 
 export interface TroveItemDetails {
     "acquired-from"?: string,
@@ -254,7 +322,7 @@ const SmallTooltip = withStyles({
 const SCROLL_CATCH_UP_SHOW_DELAY_MS = 1500;
 const SCROLL_CATCH_UP_SETTLE_DEBOUNCE_MS = 320;
 const SELECTED_KEYS_STORAGE_KEY = "polyglit:selectedKeys";
-const LIST_COLUMNS_STORAGE_KEY = "polyglit:listColumns";
+const LIST_COLUMNS_STORAGE_KEY = "polyglit:listColumns:v2";
 
 
 class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
@@ -306,7 +374,7 @@ class Showcase extends React.Component<ShowcaseProps, ShowcaseState> {
             lightboxImage: null,
             selectedKeys: [],
             onlyShowSelected: false,
-            visibleListColumns: [...LIST_COLUMN_KEYS],
+            visibleListColumns: [...DEFAULT_LIST_COLUMN_KEYS],
         }
     }
 
@@ -1296,33 +1364,56 @@ ${rows}
         );
     }
 
+    private isDefaultListColumns(): boolean {
+        const selected = this.state.visibleListColumns;
+        return (
+            selected.length === DEFAULT_LIST_COLUMN_KEYS.length &&
+            DEFAULT_LIST_COLUMN_KEYS.every((k) => selected.indexOf(k) !== -1)
+        );
+    }
+
+    private resetListColumnsToDefault() {
+        this.setVisibleListColumns([...DEFAULT_LIST_COLUMN_KEYS]);
+    }
+
     private renderListColumnPicker() {
         const selected = this.state.visibleListColumns;
         return (
-            <FormControl variant="outlined" style={{minWidth: 200, margin: 0}}>
-                <InputLabel id="showcase-list-columns-label">Columns</InputLabel>
-                <Select
-                    labelId="showcase-list-columns-label"
-                    multiple
-                    value={selected}
-                    onChange={(e) => this.setVisibleListColumns(e.target.value as ListSortColumn[])}
-                    label="Columns"
-                    renderValue={(value) => {
-                        const arr = value as ListSortColumn[];
-                        if (arr.length === LIST_COLUMNS.length) {
-                            return "All columns";
-                        }
-                        return `${arr.length} of ${LIST_COLUMNS.length} columns`;
-                    }}
+            <div style={{display: "flex", flexDirection: "row", alignItems: "center", gap: "8px"}}>
+                <FormControl variant="outlined" style={{minWidth: 200, margin: 0}}>
+                    <InputLabel id="showcase-list-columns-label">Columns</InputLabel>
+                    <Select
+                        labelId="showcase-list-columns-label"
+                        multiple
+                        value={selected}
+                        onChange={(e) => this.setVisibleListColumns(e.target.value as ListSortColumn[])}
+                        label="Columns"
+                        renderValue={(value) => {
+                            const arr = value as ListSortColumn[];
+                            if (arr.length === LIST_COLUMNS.length) {
+                                return "All columns";
+                            }
+                            return `${arr.length} of ${LIST_COLUMNS.length} columns`;
+                        }}
+                    >
+                        {LIST_COLUMNS.map((col) => (
+                            <MenuItem key={col.key} value={col.key}>
+                                <Checkbox checked={selected.indexOf(col.key) !== -1} />
+                                <ListItemText primary={col.label} />
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+                <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={() => this.resetListColumnsToDefault()}
+                    disabled={this.isDefaultListColumns()}
+                    title="Reset columns to the default set"
                 >
-                    {LIST_COLUMNS.map((col) => (
-                        <MenuItem key={col.key} value={col.key}>
-                            <Checkbox checked={selected.indexOf(col.key) !== -1} />
-                            <ListItemText primary={col.label} />
-                        </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
+                    Reset
+                </Button>
+            </div>
         );
     }
 
@@ -2763,12 +2854,6 @@ ${rows}
         switch (column) {
             case "thumbnail":
                 return lp.smallImageUrl ?? "";
-            case "title":
-                return lp.title ?? "";
-            case "year":
-                return lp.year ?? "";
-            case "dateAdded":
-                return lp["date-added"] ?? "";
             case "languageString":
                 return this.constructLanguage(troveItem) ?? "";
             case "lang6393":
@@ -2777,10 +2862,10 @@ ${rows}
                 return this.listViewLangNames6391(troveItem);
             case "langTag":
                 return this.listViewLangTags(troveItem);
-            case "lpid":
-                return lp.lpid ?? "";
-            default:
-                return "";
+            default: {
+                const def = LIST_COLUMN_BY_KEY[column];
+                return def?.value ? def.value(lp) : "";
+            }
         }
     }
 
@@ -2912,12 +2997,6 @@ ${rows}
                         </BigWhiteTooltip>
                     </td>
                 );
-            case "title":
-                return <td key={column} style={cellStyle}>{lp.title}</td>;
-            case "year":
-                return <td key={column} style={cellStyle}>{lp.year ?? ""}</td>;
-            case "dateAdded":
-                return <td key={column} style={cellStyle}>{lp["date-added"] ?? ""}</td>;
             case "languageString":
                 return <td key={column} style={cellStyle}>{this.constructLanguage(troveItem)}</td>;
             case "lang6393":
@@ -2934,10 +3013,10 @@ ${rows}
                     </td>
                 );
             }
-            case "lpid":
-                return <td key={column} style={cellStyle}>{lp.lpid ?? ""}</td>;
-            default:
-                return null;
+            default: {
+                const def = LIST_COLUMN_BY_KEY[column];
+                return <td key={column} style={cellStyle}>{def?.value ? def.value(lp) : ""}</td>;
+            }
         }
     }
 
