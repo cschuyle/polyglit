@@ -1004,6 +1004,35 @@ ${rows}
                             </label>
                         )}
                     </div>
+                    <span className="showcase-tooltip-footer__related-links">
+                        <span className="showcase-tooltip-footer__related-links-label">Related Links:</span>
+                        <a
+                            href="https://petit-prince-collection.com/lang/intro.php?lang=en"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="showcase-tooltip-footer__link"
+                        >
+                            PP Home
+                        </a>
+                        <span className="showcase-tooltip-footer__related-links-separator" aria-hidden="true">·</span>
+                        <a
+                            href="https://petit-prince-collection.com/lang/doubles_autres.php?lang=en"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="showcase-tooltip-footer__link"
+                        >
+                            PP Dups
+                        </a>
+                        <span className="showcase-tooltip-footer__related-links-separator" aria-hidden="true">·</span>
+                        <a
+                            href="https://editiontintenfass.de/en/catalog#Thema=LPP"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="showcase-tooltip-footer__link"
+                        >
+                            Edition Tintenfaß
+                        </a>
+                    </span>
                     {this.renderResultsScrollTopButton(true)}
                     <button
                         type="button"

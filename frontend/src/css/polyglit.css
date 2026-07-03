@@ -112,6 +112,39 @@ html {
     outline: none;
 }
 
+.showcase-tooltip-footer__related-links {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35em;
+    color: #f4f4f4;
+    font-size: 0.88rem;
+}
+
+.showcase-tooltip-footer__related-links-label {
+    font-weight: 600;
+}
+
+.showcase-tooltip-footer__related-links-separator {
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 1.1rem;
+    line-height: 1;
+    user-select: none;
+}
+
+.showcase-tooltip-footer__link {
+    color: #f4f4f4;
+    font-size: 0.88rem;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.showcase-tooltip-footer__link:hover,
+.showcase-tooltip-footer__link:focus-visible {
+    color: #ffffff;
+    outline: none;
+}
+
 .showcase-tooltip-delay-label {
     display: flex;
     align-items: center;
