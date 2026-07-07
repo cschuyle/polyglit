@@ -14,13 +14,15 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
+    "generate-about": "node scripts/generate-about.mjs",
+    "prestart": "npm run generate-about",
     "start": "vite",
     "build": "vite build",
     "build:deploy": "env-cmd -f .env.deploy -- vite build",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "predeploy": "npm run build:deploy && cp dist/index.html dist/404.html",
+    "predeploy": "npm run generate-about && npm run build:deploy && cp dist/index.html dist/404.html",
     "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
@@ -35,6 +37,7 @@
     "env-cmd": "^10.1.0",
     "gh-pages": "^6.3.0",
     "jsdom": "^25.0.1",
+    "marked": "^15.0.7",
     "sirv": "^3.0.1",
     "typescript": "^4.9.5",
     "vite": "^5.4.11",

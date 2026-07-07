@@ -126,6 +126,14 @@ function AppShell() {
     return (
         <>
             <div id="header_wrap" className="outer">
+                <a
+                    id="about_link"
+                    href={`${import.meta.env.BASE_URL}about.html`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    About
+                </a>
                 <header className="inner">
                     {showRootTabs && (
                         <RootTroveTabs

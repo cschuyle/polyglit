@@ -214,7 +214,11 @@ Full-Width Styles
 
 #forkme_banner { display: block; position: absolute; top: 0; right: 10px; z-index: 10; padding: 10px 50px 10px 10px; color: #fff; background: url("../images/blacktocat.png") #0090ff no-repeat 95% 50%; font-weight: 700; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); border-bottom-left-radius: 2px; border-bottom-right-radius: 2px; }
 
-#header_wrap { background: #212121; background: -moz-linear-gradient(top, #373737, #212121); background: -webkit-linear-gradient(top, #373737, #212121); background: -ms-linear-gradient(top, #373737, #212121); background: -o-linear-gradient(top, #373737, #212121); background: linear-gradient(to top, #373737, #212121); }
+#header_wrap { position: relative; background: #212121; background: -moz-linear-gradient(top, #373737, #212121); background: -webkit-linear-gradient(top, #373737, #212121); background: -ms-linear-gradient(top, #373737, #212121); background: -o-linear-gradient(top, #373737, #212121); background: linear-gradient(to top, #373737, #212121); }
+
+#about_link { position: absolute; top: 12px; right: 16px; z-index: 10; color: #fff; font-size: 0.95rem; font-weight: 600; text-decoration: none; text-shadow: #111 0 0 6px; }
+
+#about_link:hover, #about_link:focus { color: #fff; text-decoration: underline; }
 
 #header_wrap .inner { padding: 20px 10px 14px 10px; }
 
