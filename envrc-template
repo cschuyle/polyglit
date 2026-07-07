@@ -23,10 +23,23 @@
 #export REACT_APP_TROVE_DATA='
 # [
 #     {
+#         "troveId": "little-prince",
+#         "shortName": "The Little Prince",
+#         "h1": "Le Petit Prince",
+#         "h2": "or, *The Little Prince*, by Antoine de St.- Exupéry",
+#         "h3": "... in Lots of Languages"
+#     },
+#     {
 #         "troveId": "hobbit",
 #         "shortName": "The Hobbit",
 #         "h1": "The Hobbit",
 #         "h2": "or, *There and Back Again*, by J.R.R. Tolkien",
 #         "h3": "... in Lots of Languages"
+#     },
+#     {
+#         "troveId": "books",
+#         "shortName": "Books",
+#         "h1": "A sundry collection of books in many languages,",
+#         "h2": "or translated from one"
 #     }
 # ]'
