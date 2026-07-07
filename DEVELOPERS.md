@@ -25,7 +25,7 @@ The production bundle is built with **`env-cmd` and `frontend/.env.deploy`**, no
 npm run build:deploy
 ```
 
-Plain `npm run build` still uses only `.env.production` (if present) and your environment, as usual for Create React App.
+Plain `npm run build` uses `.env.production` (if present) and your shell environment, as with Vite.
 
 ### Custom Domain and Github Pages configuration
 

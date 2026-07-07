@@ -162,7 +162,7 @@ if (ROOT_TROVE_DATA.length === 0) {
 } else {
     ReactDOM.render(
         <React.StrictMode>
-            <Router basename={process.env.PUBLIC_URL}>
+            <Router basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
                 <AppShell />
             </Router>
         </React.StrictMode>,

@@ -3,19 +3,19 @@ function envFlagTrue(value: string | undefined): boolean {
 }
 
 export function fixturesEnabled(): boolean {
-  return envFlagTrue(process.env.REACT_APP_USE_FIXTURES_FLAG);
+  return envFlagTrue(import.meta.env.REACT_APP_USE_FIXTURES_FLAG);
 }
 
 export function groupByEnabled(): boolean {
-  return envFlagTrue(process.env.REACT_APP_GROUP_BY_FLAG);
+  return envFlagTrue(import.meta.env.REACT_APP_GROUP_BY_FLAG);
 }
 
 export function sortNavEnabled(): boolean {
-  return envFlagTrue(process.env.REACT_APP_SORT_NAV_FLAG);
+  return envFlagTrue(import.meta.env.REACT_APP_SORT_NAV_FLAG);
 }
 
 export function multiTrovesEnabled(): boolean {
-  return envFlagTrue(process.env.REACT_APP_MULTI_TROVES_FLAG);
+  return envFlagTrue(import.meta.env.REACT_APP_MULTI_TROVES_FLAG);
 }
 
 export type TroveData = {
@@ -32,7 +32,7 @@ export type TroveData = {
  * Returns [] if unset, empty, or malformed.
  */
 export function configuredTroveData(): TroveData[] {
-  const raw = process.env.REACT_APP_TROVE_DATA ?? '';
+  const raw = import.meta.env.REACT_APP_TROVE_DATA ?? '';
   if (!raw.trim()) {
     console.error('[polyglit] REACT_APP_TROVE_DATA is not set or empty. No troves will load.');
     return [];
