@@ -22,7 +22,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "predeploy": "npm run generate-about && npm run build:deploy && cp dist/index.html dist/404.html",
+    "predeploy": "node scripts/ensure-clean-git.mjs && npm run generate-about && npm run build:deploy && cp dist/index.html dist/404.html",
     "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
