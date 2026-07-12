@@ -100,6 +100,7 @@ type ListSortColumn =
     | "publisherSeries"
     | "publicationLocation"
     | "publicationCountry"
+    | "publicationInfo"
     | "format"
     | "isbn13"
     | "isbn10"
@@ -145,6 +146,7 @@ const LIST_COLUMNS: ListColumnDef[] = [
     {key: "publisherSeries", label: "Publisher series", value: (lp) => lp["publisher-series"] ?? ""},
     {key: "publicationLocation", label: "Publication location", value: (lp) => lp["publication-location"] ?? ""},
     {key: "publicationCountry", label: "Publication country", value: (lp) => lp["publication-country"] ?? ""},
+    {key: "publicationInfo", label: "Publication info", value: (lp) => [lp.publisher, lp["publication-location"], lp["publication-country"], lp["publication-date"]].filter(Boolean).join(", ")},
     {key: "format", label: "Format", value: (lp) => lp.format ?? ""},
     {key: "isbn13", label: "ISBN-13", value: (lp) => lp.isbn13 ?? ""},
     {key: "isbn10", label: "ISBN-10", value: (lp) => lp.isbn10 ?? ""},
@@ -177,6 +179,7 @@ export interface TroveItemDetails {
     "date-added"?: string,
     "language-spoken-in"?: string,
     "publication-country"?: string,
+    "publication-date"?: string,
     "publication-location"?: string,
     "script"?: string,
     /** ISO 15924 script subtags (e.g. Cyrl, Latn). */
