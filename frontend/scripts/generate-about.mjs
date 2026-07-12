@@ -59,26 +59,33 @@ function escapeHtml(text) {
     .replace(/"/g, '&quot;');
 }
 
-/** Pull the leading Copyright line out of the body for the page footer. */
+/** Pull the leading Copyright and license lines out of the body for the page footer. */
 function peelCopyright(body) {
   const lines = body.split('\n');
   let i = 0;
   while (i < lines.length && lines[i].trim() === '') i += 1;
+  let copyright = '';
+  let license = '';
   if (lines[i]?.trim().toLowerCase().startsWith('copyright')) {
-    const copyright = lines[i].trim();
+    copyright = lines[i].trim();
     i += 1;
     while (i < lines.length && lines[i].trim() === '') i += 1;
-    return {copyright, body: lines.slice(i).join('\n')};
+    if (lines[i]?.trim().toLowerCase().startsWith('licensed')) {
+      license = lines[i].trim();
+      i += 1;
+    }
+    while (i < lines.length && lines[i].trim() === '') i += 1;
   }
-  return {copyright: '', body};
+  return {copyright, license, body: lines.slice(i).join('\n')};
 }
 
 const readmePath = path.join(repoRoot, 'README.md');
 const readme = fs.readFileSync(readmePath, 'utf8');
 const {title, tagline, headerNote, body: rawBody} = splitReadme(readme);
-const {copyright, body} = peelCopyright(rawBody);
+const {copyright, license, body} = peelCopyright(rawBody);
 const version = deployVersion();
 const bodyHtml = marked.parse(body);
+const licenseHtml = license ? marked.parseInline(license) : '';
 
 const html = `<!DOCTYPE html>
 <html lang="en">
@@ -235,6 +242,7 @@ const html = `<!DOCTYPE html>
 ${bodyHtml}
       <div class="footer-meta">
         ${copyright ? `<p>${escapeHtml(copyright)}</p>` : ''}
+        ${license ? `<p>${licenseHtml}</p>` : ''}
         <p>Version: ${escapeHtml(version)}</p>
       </div>
     </main>
